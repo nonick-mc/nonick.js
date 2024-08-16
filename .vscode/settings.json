@@ -17,4 +17,11 @@
   "files.watcherExclude": {
     "**/.next/*/**": true
   },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+    "classNames"
+  ]
 }
