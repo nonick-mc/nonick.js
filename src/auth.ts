@@ -1,13 +1,24 @@
 import NextAuth, { type DefaultSession } from 'next-auth';
 import discord from 'next-auth/providers/discord';
 import 'next-auth/jwt';
+import { NextResponse } from 'next/server';
 
 // #region Config
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     discord({ authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+guilds' }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
+    authorized: ({ auth, request }) => {
+      if (auth?.user && request.nextUrl.pathname === '/login') {
+        const callbackUrl = request.nextUrl.searchParams.get('callbackUrl');
+        return NextResponse.redirect(new URL(callbackUrl || '/', request.nextUrl.origin));
+      }
+      return !!auth?.user;
+    },
     jwt: ({ token, account, trigger }) => {
       if (trigger === 'signIn') {
         if (account?.access_token) token.access_token = account.access_token;
