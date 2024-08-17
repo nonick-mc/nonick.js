@@ -1,4 +1,6 @@
 import './globals.css';
+import { CheckSession } from '@/components/check-session';
+import { ConsoleWarning } from '@/components/console-warn';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import { Provider } from './provider';
@@ -20,7 +22,11 @@ export default function RootLayout({
   return (
     <html lang='ja' suppressHydrationWarning>
       <body className={notoSansJP.className}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <main>{children}</main>
+          <ConsoleWarning />
+          <CheckSession />
+        </Provider>
       </body>
     </html>
   );

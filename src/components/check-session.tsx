@@ -1,7 +1,9 @@
-import { signOut, useSession } from 'next-auth/react';
-import { type ReactNode, useEffect } from 'react';
+'use client';
 
-export function CheckSessionProvider({ children }: { children: ReactNode }) {
+import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+
+export function CheckSession() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -11,5 +13,5 @@ export function CheckSessionProvider({ children }: { children: ReactNode }) {
     }
   }, [session?.error, status]);
 
-  return <>{children}</>;
+  return null;
 }
