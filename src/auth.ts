@@ -14,8 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     authorized: ({ auth, request }) => {
       if (auth?.user && request.nextUrl.pathname === '/login') {
-        const callbackUrl = request.nextUrl.searchParams.get('callbackUrl');
-        return NextResponse.redirect(new URL(callbackUrl || '/', request.nextUrl.origin));
+        return NextResponse.redirect(new URL('/', request.nextUrl.origin));
       }
       return !!auth?.user;
     },
