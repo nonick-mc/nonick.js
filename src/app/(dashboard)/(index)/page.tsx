@@ -1,19 +1,18 @@
 import { auth } from '@/auth';
-import { wait } from '@/lib/utils';
-import { Button } from '@nextui-org/button';
-import Link from 'next/link';
+import { getMutualManagedGuilds } from '@/lib/discord';
+import { GuildCard } from './guild-card';
 
 export default async function Home() {
   const session = await auth();
-  await wait(5000);
+  if (!session) return null;
 
-  return <Link href='/dashboard'>dashboard</Link>;
+  const guilds = await getMutualManagedGuilds(session.user.accessToken);
+
+  return (
+    <div className='grid grid-cols-12 gap-6'>
+      {guilds.map((guild) => (
+        <GuildCard key={guild.id} guild={guild} />
+      ))}
+    </div>
+  );
 }
-
-// return (
-//   <div className='grid grid-cols-12 gap-6'>
-//     {filteredGuilds.map((guild) => (
-//       <GuildCard key={guild.id} guild={guild} />
-//     ))}
-//   </div>
-// );
