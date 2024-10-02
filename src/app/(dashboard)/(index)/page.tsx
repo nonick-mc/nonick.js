@@ -1,6 +1,11 @@
 import { auth } from '@/auth';
 import { getMutualManagedGuilds } from '@/lib/discord';
+import type { Metadata } from 'next';
 import { GuildCard } from './guild-card';
+
+export const metadata: Metadata = {
+  title: 'サーバー選択',
+};
 
 export default async function Home() {
   const session = await auth();
