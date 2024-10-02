@@ -128,6 +128,9 @@ export function SidebarNavigation() {
       disallowEmptySelection
       selectionMode='single'
       defaultSelectedKeys={[currentSegment ?? 'none-segment']}
+      disabledKeys={config.flatMap((v) =>
+        v.items.filter((v) => v.isDisabled).map((v) => v.segment ?? 'none-segment'),
+      )}
       hideSelectedIcon
     >
       {(item) => (

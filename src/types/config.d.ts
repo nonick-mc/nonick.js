@@ -15,4 +15,6 @@ export type NavigationItemConfig = {
   segment: string | null;
   /** Chipコンポーネントに表示する文字列 */
   chipLabel?: string;
+  /** このアイテムを選択不可にする */
+  isDisabled?: boolean;
 };

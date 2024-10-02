@@ -14,6 +14,7 @@ const DashboardConfig: DashboardConfigType = {
           label: '監査ログ',
           icon: 'solar:history-bold',
           segment: 'audit-log',
+          isDisabled: true,
         },
       ],
     },
