@@ -14,6 +14,7 @@
     "@nextui-org/button": "^2.0.38",
     "@nextui-org/card": "^2.0.34",
     "@nextui-org/chip": "^2.0.33",
+    "@nextui-org/code": "^2.0.33",
     "@nextui-org/divider": "^2.0.32",
     "@nextui-org/dropdown": "^2.1.31",
     "@nextui-org/link": "^2.0.35",
@@ -23,10 +24,12 @@
     "@nextui-org/scroll-shadow": "^2.1.20",
     "@nextui-org/select": "^2.2.7",
     "@nextui-org/skeleton": "^2.0.32",
+    "@nextui-org/snippet": "^2.0.43",
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/theme": "^2.2.9",
     "@nextui-org/user": "^2.0.34",
     "chalk": "^5.3.0",
+    "discord-snowflake": "^2.0.0",
     "framer-motion": "^11.3.21",
     "mongoose": "^8.6.4",
     "next": "14.2.14",
@@ -47,5 +50,10 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@react-aria/utils": "^3.25.2"
+    }
   }
 }
