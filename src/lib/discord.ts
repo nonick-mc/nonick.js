@@ -1,6 +1,7 @@
 import 'server-only';
 import chalk from 'chalk';
 import {
+  type APIGuild,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
   type RESTRateLimit,
@@ -31,6 +32,19 @@ export async function getMutualGuilds(accessToken: string) {
   }).then((guilds) => guilds.map((guild) => guild.guildId));
 
   return userGuilds.filter((guild) => mutualGuildIds.includes(guild.id));
+}
+
+/** Discordサーバーを取得 */
+export async function getGuild(guildId: string, withCounts = false) {
+  const res = await fetchWithDiscordRateLimit(
+    `${Discord.Endpoints.API}/guilds/${guildId}?with_counts=${withCounts}`,
+    {
+      headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
+    },
+  );
+
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json<APIGuild>();
 }
 
 /** ユーザーが`MANAGED_GUILD`権限を所持しており、Botとユーザーが参加しているDiscordサーバーを取得 */
