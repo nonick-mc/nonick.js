@@ -1,7 +1,8 @@
 import NextAuth, { type DefaultSession } from 'next-auth';
 import discord from 'next-auth/providers/discord';
 import 'next-auth/jwt';
-import { NextResponse } from 'next/server';
+import { NextResponse, URLPattern } from 'next/server';
+import { Snowflake } from './lib/database/zod/util';
 
 // #region Config
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -16,6 +17,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (auth?.user && request.nextUrl.pathname === '/login') {
         return NextResponse.redirect(new URL('/', request.nextUrl.origin));
       }
+
+      if (auth?.user && request.nextUrl.pathname.startsWith('/guilds')) {
+        const match = new URLPattern({ pathname: '/guilds/:guildId/:segment*' }).exec(
+          request.nextUrl,
+        );
+        const guildId = match?.pathname.groups.guildId;
+
+        if (!Snowflake.safeParse(guildId).success) {
+          return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+      }
+
       return !!auth?.user;
     },
     jwt: ({ token, account, trigger }) => {
