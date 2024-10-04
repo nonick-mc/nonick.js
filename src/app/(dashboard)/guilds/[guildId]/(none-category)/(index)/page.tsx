@@ -1,7 +1,6 @@
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Code } from '@nextui-org/code';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { hasAccessPermission } from '../../middlewares';
 import { GuildInfoCard } from './guild-card';
