@@ -2,6 +2,8 @@ import 'server-only';
 import chalk from 'chalk';
 import {
   type APIGuild,
+  type APIGuildMember,
+  type APIRole,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
   type RESTRateLimit,
@@ -10,6 +12,31 @@ import { Discord } from './constants';
 import { Guild } from './database/models';
 import { dbConnect } from './mongoose';
 import { wait } from './utils';
+
+/** Discordサーバーのロールを取得 */
+export async function getRoles(guildId: string) {
+  const res = await fetchWithDiscordRateLimit(`${Discord.Endpoints.API}/guilds/${guildId}/roles`, {
+    headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json<APIRole[]>();
+}
+
+/** Discordサーバーに参加しているメンバーを取得 */
+export async function getGuildMember(guildId: string, userId: string) {
+  const res = await fetchWithDiscordRateLimit(
+    `${Discord.Endpoints.API}/guilds/${guildId}/members/${userId}`,
+    {
+      headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
+      cache: 'no-store',
+    },
+  );
+
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json<APIGuildMember>();
+}
 
 /** ユーザーが参加しているDiscordサーバーを取得 */
 export async function getUserGuilds(accessToken: string) {
@@ -55,6 +82,7 @@ export async function getMutualManagedGuilds(accessToken: string) {
     hasPermission(guild.permissions, PermissionFlagsBits.ManageGuild),
   );
 }
+
 /** `fetch()` レート制限によりリクエストが拒否された場合、`retry_after`秒待機した後に再度リクエストを行う。 */
 export async function fetchWithDiscordRateLimit(
   input: URL | RequestInfo,
