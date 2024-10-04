@@ -56,7 +56,7 @@ export function SidebarModal({ ...props }: SidebarContextType) {
           },
         }}
       >
-        <ModalContent className='w-auto h-dvh rounded-l-none m-0 px-3 gap-3'>
+        <ModalContent className='w-auto h-dvh rounded-l-none m-0 px-4 gap-3'>
           {(onClose) => (
             <SidebarContext.Provider value={{ ...props, onClose }}>
               <div className='h-16 px-1 flex items-center justify-start'>
@@ -127,7 +127,7 @@ export function SidebarNavigation() {
       aria-label='ナビゲーションメニュー'
       disallowEmptySelection
       selectionMode='single'
-      defaultSelectedKeys={[currentSegment ?? 'none-segment']}
+      selectedKeys={[currentSegment ?? 'none-segment']}
       disabledKeys={config.flatMap((v) =>
         v.items.filter((v) => v.isDisabled).map((v) => v.segment ?? 'none-segment'),
       )}
@@ -147,7 +147,7 @@ export function SidebarNavigation() {
                 onClick={onClose}
                 key={item.segment ?? 'none-segment'}
                 href={`/guilds/${guildId}/${item.segment ?? ''}`}
-                className='px-3 py-2 mb-1 data-[selected=true]:bg-default/40'
+                className='px-3 py-3 mb-1 lg:py-2 data-[selected=true]:bg-default/40'
                 startContent={<IconifyIcon icon={item.icon} className='text-[20px]' />}
                 endContent={item.chipLabel && <Chip size='sm'>{item.chipLabel}</Chip>}
               >
