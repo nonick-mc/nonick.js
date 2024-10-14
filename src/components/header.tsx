@@ -12,9 +12,7 @@ const HeaderTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => {
-  return (
-    <h1 ref={ref} className={cn('max-sm:text-2xl text-3xl font-black', className)} {...props} />
-  );
+  return <h1 ref={ref} className={cn('text-3xl font-black', className)} {...props} />;
 });
 HeaderTitle.displayName = 'HeaderTitle';
 

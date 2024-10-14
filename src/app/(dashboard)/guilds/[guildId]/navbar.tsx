@@ -7,7 +7,7 @@ import { SidebarModal } from './sidebar';
 
 export function Navbar({ guild }: { guild: APIGuild }) {
   return (
-    <NextUINavbar maxWidth='xl' position='static'>
+    <NextUINavbar maxWidth='xl'>
       <SidebarModal guild={guild} />
       <NavbarBrand as={Link} href='/'>
         <Logo height={18} />

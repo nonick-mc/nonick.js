@@ -1,4 +1,6 @@
 import 'server-only';
+import { auth } from '@/auth';
+import type { GuildChannelWithoutThread } from '@/types/discord';
 import chalk from 'chalk';
 import {
   type APIGuild,
@@ -12,6 +14,20 @@ import { Discord } from './constants';
 import { Guild } from './database/models';
 import { dbConnect } from './mongoose';
 import { wait } from './utils';
+
+/** Discordサーバーのチャンネルを取得 */
+export async function getChannels(guildId: string) {
+  const res = await fetchWithDiscordRateLimit(
+    `${Discord.Endpoints.API}/guilds/${guildId}/channels`,
+    {
+      headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
+      cache: 'no-store',
+    },
+  );
+
+  if (!res.ok) throw new Error(res.statusText);
+  return await res.json<GuildChannelWithoutThread[]>();
+}
 
 /** Discordサーバーのロールを取得 */
 export async function getRoles(guildId: string) {
@@ -83,6 +99,31 @@ export async function getMutualManagedGuilds(accessToken: string) {
   );
 }
 
+/** ダッシュボードのアクセス権限を持っているか確認 */
+export async function hasAccessDashboardPermission(guildId: string) {
+  try {
+    await dbConnect();
+
+    const session = await auth();
+    const guild = await getGuild(guildId).catch();
+    if (!session || !guild) return false;
+
+    const [roles, member] = await Promise.all([
+      getRoles(guildId),
+      getGuildMember(guildId, session.user.id),
+    ]);
+
+    const isGuildOwner = guild.owner_id === session.user.id;
+    const hasAdminRole = roles
+      .filter((role) => member.roles.includes(role.id))
+      .some((role) => hasPermission(role.permissions, PermissionFlagsBits.ManageGuild));
+
+    return isGuildOwner || hasAdminRole;
+  } catch (e) {
+    return false;
+  }
+}
+
 /** `fetch()` レート制限によりリクエストが拒否された場合、`retry_after`秒待機した後に再度リクエストを行う。 */
 export async function fetchWithDiscordRateLimit(
   input: URL | RequestInfo,
@@ -101,7 +142,7 @@ export async function fetchWithDiscordRateLimit(
     if (process.env.NODE_ENV === 'development') {
       console.log(
         [
-          chalk.yellow.bold('[429]'),
+          chalk.yellow(chalk.bold('[429]')),
           chalk.white(`${retryAfter}秒後に再試行します...`),
           chalk.dim(`(${input.toString()})`),
         ].join(' '),

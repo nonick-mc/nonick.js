@@ -1,6 +1,7 @@
 import './globals.css';
 import { CheckSession } from '@/components/check-session';
 import { ConsoleWarning } from '@/components/console-warn';
+import { Toaster } from '@/components/ui/sonner';
 import MetadataConfig from '@/config/metadata';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body className={notoSansJP.className}>
         <Provider>
           <main>{children}</main>
+          <Toaster />
           <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
           <ConsoleWarning />
           <CheckSession />
