@@ -5,10 +5,10 @@ import { FormActionButtons, FormCard } from '@/components/dashboard/form-compone
 import { RoleSelect } from '@/components/dashboard/role-select';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { ReportConfig } from '@/lib/database/zod';
-import type { GuildChannelWithoutThread } from '@/types/discord';
+import type { getChannels, getRoles } from '@/lib/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
-import { type APIRole, ChannelType } from 'discord-api-types/v10';
+import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
@@ -21,8 +21,8 @@ type InputConfig = z.input<typeof ReportConfig>;
 type OutputConfig = z.output<typeof ReportConfig>;
 
 type Props = {
-  channels: GuildChannelWithoutThread[];
-  roles: APIRole[];
+  channels: Awaited<ReturnType<typeof getChannels>>;
+  roles: Awaited<ReturnType<typeof getRoles>>;
   config: OutputConfig | null;
 };
 
@@ -36,7 +36,7 @@ const PropsContext = createContext<Omit<Props, 'config'>>({
 export function ConfigForm({ config, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
-  const form = useForm<InputConfig>({
+  const form = useForm<InputConfig, unknown, OutputConfig>({
     resolver: zodResolver(ReportConfig),
     defaultValues: config ?? {
       channel: '',

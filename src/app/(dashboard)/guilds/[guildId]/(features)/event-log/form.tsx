@@ -4,7 +4,7 @@ import { ChannelSelect } from '@/components/dashboard/channel-select';
 import { FormActionButtons, FormCard } from '@/components/dashboard/form-components';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { EventLogConfig } from '@/lib/database/zod';
-import type { GuildChannelWithoutThread } from '@/types/discord';
+import type { getChannels } from '@/lib/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
 import { ChannelType } from 'discord-api-types/v10';
@@ -20,7 +20,7 @@ type InputConfig = z.input<typeof EventLogConfig>;
 type OutputConfig = z.output<typeof EventLogConfig>;
 
 type Props = {
-  channels: GuildChannelWithoutThread[];
+  channels: Awaited<ReturnType<typeof getChannels>>;
   config: OutputConfig | null;
 };
 
@@ -33,7 +33,7 @@ const PropsContext = createContext<Omit<Props, 'config'>>({
 export function ConfigForm({ config, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
-  const form = useForm<InputConfig>({
+  const form = useForm<InputConfig, unknown, OutputConfig>({
     resolver: zodResolver(EventLogConfig),
     defaultValues: config ?? {
       timeout: { enabled: false, channel: null },
