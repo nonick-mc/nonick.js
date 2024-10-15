@@ -13,9 +13,11 @@ export const metadata: Metadata = {
 export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
   if (!(await hasAccessDashboardPermission(guildId))) redirect('/');
 
-  const channels = await getChannels(guildId);
-  const roles = await getRoles(guildId);
-  const config = await model.findOne({ guildId });
+  const [channels, roles, config] = await Promise.all([
+    getChannels(guildId),
+    getRoles(guildId),
+    model.findOne({ guildId }),
+  ]);
 
   return (
     <>
