@@ -35,49 +35,6 @@ type ChannelSelectProps = {
 } & Omit<SelectProps, 'items' | 'children' | 'isMultiline'>;
 
 /**
- * チャンネルを配置順に並べ替える
- */
-const sortChannels = (channels: APIGuildChannel<GuildChannelType>[]) => {
-  const categories = channels.filter((channel) => channel.type === ChannelType.GuildCategory);
-  const otherChannels = channels.filter((channel) => channel.type !== ChannelType.GuildCategory);
-
-  categories.sort((a, b) => a.position - b.position);
-
-  const sortedChannels: APIGuildChannel<GuildChannelType>[] = [];
-
-  for (const category of categories) {
-    sortedChannels.push(category);
-
-    const childChannels = otherChannels.filter((channel) => channel.parent_id === category.id);
-    const voiceChannels = childChannels.filter((channel) =>
-      [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(channel.type),
-    );
-    const textChannels = childChannels.filter(
-      (channel) => !voiceChannels.some((v) => v.id === channel.id),
-    );
-
-    voiceChannels.sort((a, b) => a.position - b.position);
-    textChannels.sort((a, b) => a.position - b.position);
-
-    sortedChannels.push(...textChannels, ...voiceChannels);
-  }
-
-  const rootChannels = otherChannels.filter((channel) => !channel.parent_id);
-  const rootVoiceChannels = rootChannels.filter((channel) =>
-    [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(channel.type),
-  );
-  const rootTextChannels = rootChannels.filter(
-    (channel) => !rootVoiceChannels.some((v) => v.id === channel.id),
-  );
-
-  rootVoiceChannels.sort((a, b) => a.position - b.position);
-  rootTextChannels.sort((a, b) => a.position - b.position);
-
-  sortedChannels.unshift(...rootTextChannels, ...rootVoiceChannels);
-  return sortedChannels;
-};
-
-/**
  * サーバーのチャンネルを選択するコンポーネント
  * @see https://nextui.org/docs/components/select
  */
@@ -95,7 +52,7 @@ const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
     },
     ref,
   ) => {
-    const sortedChannel = sortChannels(channels)
+    const filteredChannels = channels
       .filter((channel) => (types?.include ? types.include.includes(channel.type) : true))
       .filter((channel) => (types?.exclude ? !types.exclude.includes(channel.type) : true));
 
@@ -118,13 +75,13 @@ const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
     return (
       <Select
         ref={ref}
-        items={sortedChannel}
+        items={filteredChannels}
         variant={variant}
         placeholder={placeholder}
         renderValue={renderValue}
         selectionMode={selectionMode}
         isMultiline={selectionMode === 'multiple'}
-        disabledKeys={sortedChannel.filter((ch) => disabledKeyFilter(ch)).map((ch) => ch.id)}
+        disabledKeys={filteredChannels.filter((ch) => disabledKeyFilter(ch)).map((ch) => ch.id)}
         listboxProps={{ variant: 'flat' }}
         classNames={{
           ...classNames,
