@@ -11,18 +11,19 @@ import { Switch } from '@nextui-org/switch';
 import { type APIRole, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
-import { useForm, useFormContext, useWatch } from 'react-hook-form';
+import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 import { updateConfig } from './action';
 
 // #region Types, Context
-type Config = z.input<typeof ReportConfig>;
+type InputConfig = z.input<typeof ReportConfig>;
+type OutputConfig = z.output<typeof ReportConfig>;
 
 type Props = {
   channels: GuildChannelWithoutThread[];
   roles: APIRole[];
-  config: Config | null;
+  config: OutputConfig | null;
 };
 
 const PropsContext = createContext<Omit<Props, 'config'>>({
@@ -35,7 +36,7 @@ const PropsContext = createContext<Omit<Props, 'config'>>({
 export function ConfigForm({ config, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
-  const form = useForm<Config>({
+  const form = useForm<InputConfig>({
     resolver: zodResolver(ReportConfig),
     defaultValues: config ?? {
       channel: '',
@@ -48,7 +49,7 @@ export function ConfigForm({ config, ...props }: Props) {
     },
   });
 
-  async function onSubmit(values: Config) {
+  const onSubmit: SubmitHandler<OutputConfig> = async (values) => {
     const res = await updateConfig({ guildId, ...values });
 
     if (res?.data?.success) {
@@ -57,7 +58,7 @@ export function ConfigForm({ config, ...props }: Props) {
     } else {
       toast.error('設定の保存に失敗しました。');
     }
-  }
+  };
 
   return (
     <PropsContext.Provider value={props}>
@@ -75,7 +76,7 @@ export function ConfigForm({ config, ...props }: Props) {
 
 function EnableConfigForm() {
   const { channels } = useContext(PropsContext);
-  const form = useFormContext<Config>();
+  const form = useFormContext<InputConfig>();
 
   return (
     <FormCard>
@@ -106,7 +107,7 @@ function EnableConfigForm() {
 }
 
 function GeneralConfigForm() {
-  const form = useFormContext<Config>();
+  const form = useFormContext<InputConfig>();
 
   return (
     <FormCard title='基本設定'>
@@ -146,10 +147,10 @@ function GeneralConfigForm() {
 
 function NotificationConfigForm() {
   const { guildId } = useParams<{ guildId: string }>();
-  const form = useFormContext<Config>();
+  const form = useFormContext<InputConfig>();
   const { roles } = useContext(PropsContext);
 
-  const disabled = !useWatch<Config>({ name: 'mention.enabled' });
+  const disabled = !useWatch<InputConfig>({ name: 'mention.enabled' });
 
   return (
     <FormCard title='通知設定'>

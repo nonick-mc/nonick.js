@@ -3,25 +3,25 @@
 import { ChannelSelect } from '@/components/dashboard/channel-select';
 import { FormActionButtons, FormCard } from '@/components/dashboard/form-components';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { EventLogConfig as model } from '@/lib/database/models';
-import { EventLogConfig as schema } from '@/lib/database/zod';
+import { EventLogConfig } from '@/lib/database/zod';
 import type { GuildChannelWithoutThread } from '@/types/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
-import { useForm, useFormContext, useWatch } from 'react-hook-form';
+import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 import { updateConfig } from './action';
 
 // #region Types, Context
-type Config = z.input<typeof schema>;
+type InputConfig = z.input<typeof EventLogConfig>;
+type OutputConfig = z.output<typeof EventLogConfig>;
 
 type Props = {
   channels: GuildChannelWithoutThread[];
-  config: Config | null;
+  config: OutputConfig | null;
 };
 
 const PropsContext = createContext<Omit<Props, 'config'>>({
@@ -33,8 +33,8 @@ const PropsContext = createContext<Omit<Props, 'config'>>({
 export function ConfigForm({ config, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
-  const form = useForm<Config>({
-    resolver: zodResolver(schema),
+  const form = useForm<InputConfig>({
+    resolver: zodResolver(EventLogConfig),
     defaultValues: config ?? {
       timeout: { enabled: false, channel: null },
       kick: { enabled: false, channel: null },
@@ -45,7 +45,7 @@ export function ConfigForm({ config, ...props }: Props) {
     },
   });
 
-  async function onSubmit(values: Config) {
+  const onSubmit: SubmitHandler<OutputConfig> = async (values) => {
     const res = await updateConfig({ guildId, ...values });
 
     if (res?.data?.success) {
@@ -54,7 +54,7 @@ export function ConfigForm({ config, ...props }: Props) {
     } else {
       toast.error('設定の保存に失敗しました。');
     }
-  }
+  };
 
   return (
     <PropsContext.Provider value={props}>
@@ -109,14 +109,14 @@ function LogConfigForm({
   labelTitle,
   labelDescription,
 }: {
-  name: keyof Omit<Config, 'guildId'>;
+  name: keyof Omit<InputConfig, 'guildId'>;
   cardTitle: string;
   labelTitle: string;
   labelDescription: string;
 }) {
   const { channels } = useContext(PropsContext);
-  const form = useFormContext<Config>();
-  const disabled = !useWatch<Config>({ name: `${name}.enabled` });
+  const form = useFormContext<InputConfig>();
+  const disabled = !useWatch<InputConfig>({ name: `${name}.enabled` });
 
   return (
     <FormCard title={cardTitle}>
