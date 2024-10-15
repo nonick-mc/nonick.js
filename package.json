@@ -12,6 +12,7 @@
     "@hookform/devtools": "^4.3.1",
     "@hookform/resolvers": "^3.9.0",
     "@iconify-icon/react": "^2.1.0",
+    "@nextui-org/accordion": "^2.0.40",
     "@nextui-org/avatar": "^2.0.33",
     "@nextui-org/button": "^2.0.38",
     "@nextui-org/card": "^2.0.34",
