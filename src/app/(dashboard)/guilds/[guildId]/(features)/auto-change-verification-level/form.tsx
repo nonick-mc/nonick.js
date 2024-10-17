@@ -124,7 +124,8 @@ function CustomRadioClassName(color: Omit<GuildVerificationLevel, 'None'>) {
   return {
     base: cn(
       'inline-flex m-0 bg-default-100 hover:bg-default-100/80 items-center justify-between w-full max-w-none',
-      ' w-full cursor-pointer rounded-lg gap-2 px-4 py-3',
+      'w-full cursor-pointer rounded-lg gap-2 px-4 py-3 border-2 border-transparent',
+      'data-[selected=true]:border-primary',
     ),
     label: cn(
       { 'text-green-500': color === GuildVerificationLevel.Low },
