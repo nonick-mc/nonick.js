@@ -104,9 +104,9 @@ function GeneralConfigForm() {
                 ref={ref}
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 onBlur={onBlur}
+                items={channels}
                 selectedKeys={value.filter((key) => channels.some((c) => c.id === key))}
                 selectionMode='multiple'
-                channels={channels}
                 types={{ include: [ChannelType.GuildAnnouncement] }}
                 isInvalid={invalid}
                 isDisabled={disabled}

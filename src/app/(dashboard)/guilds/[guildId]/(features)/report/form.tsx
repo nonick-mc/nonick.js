@@ -91,8 +91,8 @@ function EnableConfigForm() {
                 ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}
+                items={channels}
                 selectedKeys={value ? [value] : []}
-                channels={channels}
                 types={{ include: [ChannelType.GuildText] }}
                 isInvalid={invalid}
                 isRequired
@@ -184,7 +184,7 @@ function NotificationConfigForm() {
                 ref={ref}
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 onBlur={onBlur}
-                roles={roles}
+                items={roles}
                 selectedKeys={value.filter((id) => roles.some((role) => role.id === id))}
                 selectionMode='multiple'
                 disabledKeyFilter={(role) => role.managed || role.id === guildId}

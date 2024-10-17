@@ -1,16 +1,18 @@
+'use client';
+
 import { truncateString } from '@/lib/utils';
 import { Chip } from '@nextui-org/chip';
-import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
-import { cn } from '@nextui-org/theme';
+import { SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import type { APIRole } from 'discord-api-types/v10';
 import React from 'react';
+import { CustomSelect } from './custom-select';
 
 type RoleSelectProps = {
   /** 選択リストに表示するロールの配列 */
-  roles: APIRole[];
+  items: APIRole[];
   /** 条件を満たすチャンネルの選択を無効にします。（`true`で無効）*/
   disabledKeyFilter?: (role: APIRole) => boolean;
-} & Omit<SelectProps, 'items' | 'children' | 'isMultiline'>;
+} & Omit<SelectProps, 'items' | 'children'>;
 
 /**
  * サーバーのロールを選択するコンポーネント
@@ -19,17 +21,15 @@ type RoleSelectProps = {
 const RoleSelect = React.forwardRef<HTMLSelectElement, RoleSelectProps>(
   (
     {
-      roles,
-      classNames,
-      selectionMode = 'single',
-      variant = 'bordered',
+      items,
+      selectionMode,
       placeholder = 'ロールを選択',
       disabledKeyFilter = () => false,
       ...props
     },
     ref,
   ) => {
-    const sortedRole = roles.sort((a, b) => b.position - a.position);
+    const sortedRole = items.sort((a, b) => b.position - a.position);
 
     function renderValue(items: SelectedItems<APIRole>) {
       return (
@@ -48,25 +48,13 @@ const RoleSelect = React.forwardRef<HTMLSelectElement, RoleSelectProps>(
     }
 
     return (
-      <Select
+      <CustomSelect
         ref={ref}
         items={sortedRole}
-        variant={variant}
+        selectionMode={selectionMode}
         placeholder={placeholder}
         renderValue={renderValue}
-        selectionMode={selectionMode}
-        isMultiline={selectionMode === 'multiple'}
         disabledKeys={sortedRole.filter((role) => disabledKeyFilter(role)).map((role) => role.id)}
-        listboxProps={{ variant: 'flat' }}
-        classNames={{
-          ...classNames,
-          base: cn(
-            { 'md:max-w-[320px]': selectionMode === 'single' },
-            { 'md:max-w-[400px]': selectionMode === 'multiple' },
-            classNames?.base,
-          ),
-          trigger: cn({ 'py-2': selectionMode === 'multiple' }, classNames?.trigger),
-        }}
         {...props}
       >
         {(role) => (
@@ -74,7 +62,7 @@ const RoleSelect = React.forwardRef<HTMLSelectElement, RoleSelectProps>(
             <SingleSelectItem role={role} />
           </SelectItem>
         )}
-      </Select>
+      </CustomSelect>
     );
   },
 );

@@ -274,9 +274,9 @@ function IgnoreConfigForm() {
                 ref={ref}
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 onBlur={onBlur}
+                items={channels}
                 selectedKeys={value.filter((id) => channels.some((channel) => channel.id === id))}
                 selectionMode='multiple'
-                channels={channels}
                 types={{ exclude: [ChannelType.GuildCategory] }}
                 isInvalid={invalid}
                 isDisabled={disabled}
@@ -296,9 +296,9 @@ function IgnoreConfigForm() {
                 ref={ref}
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 onBlur={onBlur}
+                items={roles}
                 selectedKeys={value.filter((id) => roles.some((role) => role.id === id))}
                 selectionMode='multiple'
-                roles={roles}
                 disabledKeyFilter={(role) => role.id === guildId}
                 isInvalid={invalid}
                 isDisabled={disabled}
@@ -357,7 +357,7 @@ function LogConfigForm() {
                 onChange={onChange}
                 onBlur={onBlur}
                 selectedKeys={value ? [value] : []}
-                channels={channels}
+                items={channels}
                 types={{ include: [ChannelType.GuildText] }}
                 isInvalid={invalid}
                 isDisabled={!enabled || !logEnabled}

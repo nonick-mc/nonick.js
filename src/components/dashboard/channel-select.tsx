@@ -1,10 +1,12 @@
+'use client';
+
 import { truncateString } from '@/lib/utils';
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import { Chip } from '@nextui-org/chip';
-import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
-import { cn } from '@nextui-org/theme';
+import { SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 import React from 'react';
+import { CustomSelect } from './custom-select';
 
 const ChannelTypeIcons = new Map<GuildChannelType, string>([
   [ChannelType.GuildAnnouncement, 'solar:mailbox-bold'],
@@ -21,8 +23,8 @@ const ChannelTypeIcons = new Map<GuildChannelType, string>([
 ]);
 
 type ChannelSelectProps = {
-  /** 選択リストに表示するチャンネルの配列（DM、DMグループチャンネルを除く）*/
-  channels: APIGuildChannel<GuildChannelType>[];
+  /** 選択リストに表示するチャンネルの配列 */
+  items: APIGuildChannel<GuildChannelType>[];
   /** 選択リストに表示するチャンネルの種類 */
   types?: {
     /** 表示するチャンネルの種類 */
@@ -32,27 +34,25 @@ type ChannelSelectProps = {
   };
   /** 条件を満たすチャンネルの選択を無効にします。（`true`で無効）*/
   disabledKeyFilter?: (channel: APIGuildChannel<GuildChannelType>) => boolean;
-} & Omit<SelectProps, 'items' | 'children' | 'isMultiline'>;
+} & Omit<SelectProps, 'children' | 'items'>;
 
 /**
  * サーバーのチャンネルを選択するコンポーネント
  * @see https://nextui.org/docs/components/select
  */
-const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
+export const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
   (
     {
       types,
-      channels,
-      classNames,
-      selectionMode = 'single',
-      variant = 'bordered',
+      items,
+      selectionMode,
       placeholder = 'チャンネルを選択',
       disabledKeyFilter = () => false,
       ...props
     },
     ref,
   ) => {
-    const filteredChannels = channels
+    const filteredChannels = items
       .filter((channel) => (types?.include ? types.include.includes(channel.type) : true))
       .filter((channel) => (types?.exclude ? !types.exclude.includes(channel.type) : true));
 
@@ -73,25 +73,13 @@ const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
     }
 
     return (
-      <Select
+      <CustomSelect
         ref={ref}
         items={filteredChannels}
-        variant={variant}
+        selectionMode={selectionMode}
         placeholder={placeholder}
         renderValue={renderValue}
-        selectionMode={selectionMode}
-        isMultiline={selectionMode === 'multiple'}
         disabledKeys={filteredChannels.filter((ch) => disabledKeyFilter(ch)).map((ch) => ch.id)}
-        listboxProps={{ variant: 'flat' }}
-        classNames={{
-          ...classNames,
-          base: cn(
-            { 'md:max-w-[320px]': selectionMode === 'single' },
-            { 'md:max-w-[400px]': selectionMode === 'multiple' },
-            classNames?.base,
-          ),
-          trigger: cn({ 'py-2': selectionMode === 'multiple' }, classNames?.trigger),
-        }}
         {...props}
       >
         {(channel) => (
@@ -99,7 +87,7 @@ const ChannelSelect = React.forwardRef<HTMLSelectElement, ChannelSelectProps>(
             <SingleSelectItem channel={channel} />
           </SelectItem>
         )}
-      </Select>
+      </CustomSelect>
     );
   },
 );
@@ -129,5 +117,3 @@ function SingleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelTy
 function MultipleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelType> }) {
   return <Chip radius='md'>{truncateString(channel.name, 16)}</Chip>;
 }
-
-export { ChannelSelect };

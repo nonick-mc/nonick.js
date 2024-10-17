@@ -143,8 +143,8 @@ function LogConfigForm({
                 ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}
+                items={channels}
                 selectedKeys={value ? [value] : []}
-                channels={channels}
                 types={{ include: [ChannelType.GuildText] }}
                 isInvalid={invalid}
                 isDisabled={disabled}
