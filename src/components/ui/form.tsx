@@ -85,7 +85,10 @@ const FormItem = React.forwardRef<
           { 'items-center justify-between': dir === 'row' },
           { 'flex-col': dir === 'col' },
           { 'max-md:items-center max-md:justify-between': mobileDir === 'row' },
-          { 'max-md:flex-col max-md:items-stretch max-md:justify-normal': mobileDir === 'col' },
+          {
+            'max-md:flex-col max-md:items-stretch max-md:justify-normal max-md:gap-4':
+              mobileDir === 'col',
+          },
           className,
         )}
         {...props}
