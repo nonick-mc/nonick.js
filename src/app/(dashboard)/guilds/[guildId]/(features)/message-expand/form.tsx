@@ -226,7 +226,6 @@ function IgnoreConfigForm() {
                 ref={ref}
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 onBlur={onBlur}
-                className='w-[320px]'
                 placeholder='プレフィックスを選択'
                 renderValue={(items) => (
                   <div className='flex flex-wrap items-center gap-1'>
@@ -264,7 +263,6 @@ function CustomCheckbox({ children, icon, ...props }: CustomCheckboxProps) {
         base: cn(
           'inline-flex m-0 bg-default-100 hover:bg-default-100/80 items-center justify-between w-full max-w-none',
           'w-full cursor-pointer rounded-lg gap-2 px-4 py-3 border-2 border-transparent',
-          'data-[selected=true]:border-primary',
         ),
         label: 'w-full',
       }}
