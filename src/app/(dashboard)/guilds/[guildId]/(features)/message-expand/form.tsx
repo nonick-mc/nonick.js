@@ -204,6 +204,7 @@ function IgnoreConfigForm() {
                 items={channels}
                 selectedKeys={value.filter((id) => channels.some((channel) => channel.id === id))}
                 selectionMode='multiple'
+                types={{ exclude: [ChannelType.GuildCategory] }}
                 isInvalid={invalid}
                 isDisabled={disabled}
               />
