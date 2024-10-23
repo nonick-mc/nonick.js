@@ -139,7 +139,6 @@ export function SidebarNavigation() {
           classNames={{ heading: 'text-sm' }}
           items={item.items}
           title={item.label}
-          showDivider={config[config.length - 1] !== item}
         >
           {(item) => {
             return (
