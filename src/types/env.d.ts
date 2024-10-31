@@ -1,11 +1,6 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     /**
-     * このWebアプリケーションのURL
-     */
-    readonly BASE_URL: string;
-
-    /**
      * データベースの接続URL
      */
     readonly DATABASE_URL: string;
