@@ -8,22 +8,12 @@
 ### Discordアプリケーションを作成する
 まず、[Discord開発者ポータル](https://discord.com/developers/applications)でWebダッシュボードに使うDiscordアプリケーションを作成する必要があります。アプリケーションを作成したら、「OAuth2」タブにアクセスし、`Redirects`に以下のURLを追加してください。
 
-* `http://localhost:5173/auth/callback`
-* `http://localhost:5173/invite/callback`
+* `http://localhost:3000/api/auth/callback/discord`
 
 ### 環境変数を設定する
-ルートディレクトリに`.env`ファイルを作成し、環境変数を設定します。
+アプリケーションを作成したら、ルートディレクトリに`.env.local`を作成し、同ディレクトリにある[`.env.sample`](/.env.sample)を基に環境変数を設定してください。
 
-|変数名|説明|
-|---|---|
-|`BASE_URL`|ダッシュボードのベースURL|
-|`DATABASE_URL`|MongoDBの接続に使用するURL|
-|`DATABASE_NAME`|MongoDBのコレクション名|
-|`AUTH_SECRET`|セッションに使用するシークレットキー|
-|`AUTH_DISCORD_ID`|DiscordBotのクライアントID|
-|`AUTH_DISCORD_SECRET`|DiscordOauth2のクライアントシークレット|
-|`DISCORD_TOKEN`|DiscordBotのトークン|
-
+### 開発サーバーを起動する
 設定が終わったら、以下のコマンドを使用して開発サーバーを起動します。
 
 ```sh
