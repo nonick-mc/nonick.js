@@ -6,28 +6,28 @@ export const Snowflake = z
 
 export namespace Embed {
   export const Thumbnail = z.object({
-    url: z.string().url(),
+    url: z.string().url().optional(),
     proxy_url: z.string().url().optional(),
     height: z.number().int().optional(),
     width: z.number().int().optional(),
   });
 
   export const Image = z.object({
-    url: z.string().url(),
+    url: z.string().url().optional(),
     proxy_url: z.string().url().optional(),
     height: z.number().int().optional(),
     width: z.number().int().optional(),
   });
 
   export const Author = z.object({
-    name: z.string().max(256, '256文字以下である必要があります。'),
+    name: z.string().max(256, '256文字以下である必要があります。').optional(),
     url: z.string().url().optional(),
     icon_url: z.string().url().optional(),
     proxy_icon_url: z.string().url().optional(),
   });
 
   export const Footer = z.object({
-    text: z.string().max(2048, '2048文字以下である必要があります。'),
+    text: z.string().max(2048, '2048文字以下である必要があります。').optional(),
     icon_url: z.string().url().optional(),
     proxy_icon_url: z.string().url().optional(),
   });
@@ -48,10 +48,10 @@ export namespace Embed {
         .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/, '無効な日付です。')
         .optional(),
       color: z.number().int().optional(),
-      footer: Footer.partial(),
-      image: Image.partial(),
-      thumbnail: Thumbnail.partial(),
-      author: Author.partial(),
+      footer: Footer.optional(),
+      image: Image.optional(),
+      thumbnail: Thumbnail.optional(),
+      author: Author.optional(),
       fields: z.array(Field).max(25, 'フィールドは25個以下である必要があります。').optional(),
     })
     .superRefine((v, ctx) => {
