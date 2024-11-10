@@ -60,7 +60,7 @@ export async function GuildInfoCard({ guildId }: { guildId: string }) {
         <StatsCard
           className='max-sm:col-span-1 max-md:col-span-2'
           label='サーバー作成日'
-          value={`${createAt.getFullYear()}年${createAt.getMonth()}月${createAt.getDate()}日`}
+          value={`${createAt.getFullYear()}年${createAt.getMonth() + 1}月${createAt.getDate()}日`}
           icon='solar:calendar-mark-bold'
         />
       </div>
