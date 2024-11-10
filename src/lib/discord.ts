@@ -121,7 +121,11 @@ export async function hasAccessDashboardPermission(guildId: string) {
     const isGuildOwner = guild.owner_id === session.user.id;
     const hasAdminRole = roles
       .filter((role) => member.roles.includes(role.id))
-      .some((role) => hasPermission(role.permissions, PermissionFlagsBits.ManageGuild));
+      .some(
+        (role) =>
+          hasPermission(role.permissions, PermissionFlagsBits.ManageGuild) ||
+          hasPermission(role.permissions, PermissionFlagsBits.Administrator),
+      );
 
     return isGuildOwner || hasAdminRole;
   } catch (e) {
