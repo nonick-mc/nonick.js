@@ -50,21 +50,11 @@ export default function Page({
         </form>
         <p className='text-sm leading-none text-default-500'>
           ログインすることで、NoNICK.jsの
-          <Link
-            size='sm'
-            href='https://docs.nonick-js.com/important/teams-of-service/'
-            isExternal
-            showAnchorIcon
-          >
+          <Link size='sm' href='https://nonick-js.com/tos' isExternal showAnchorIcon>
             利用規約
           </Link>
           および
-          <Link
-            size='sm'
-            href='https://docs.nonick-js.com/important/privacy-policy'
-            isExternal
-            showAnchorIcon
-          >
+          <Link size='sm' href='https://nonick-js.com/privacy-policy' isExternal showAnchorIcon>
             プライバシーポリシー
           </Link>
           に同意したとみなされます。
