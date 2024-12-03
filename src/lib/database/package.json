@@ -7,7 +7,7 @@
   "license": "ISC",
   "dependencies": {
     "discord-api-types": "0.37.35",
-    "mongoose": "^8.0.3",
+    "mongoose": "^8.8.3",
     "zod": "^3.22.4"
   }
 }
