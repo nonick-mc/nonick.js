@@ -2,6 +2,7 @@
   "name": "my-nextjs-boilerplate",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@latest",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -68,4 +69,5 @@
       "@react-aria/utils": "^3.25.2"
     }
   }
+  
 }
