@@ -4,4 +4,4 @@
 nixPkgs = ["bun", "git"]
 
 [phases.install]
-cmds = ["bun install", "git submodule update --init"]
+cmds = ["git submodule update --init", "bun install"]
