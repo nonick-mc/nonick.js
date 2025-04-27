@@ -36,6 +36,13 @@
       "when": 1745688069015,
       "tag": "0004_fancy_hiroim",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1745758926552,
+      "tag": "0005_minor_power_pack",
+      "breakpoints": true
     }
   ]
 }
