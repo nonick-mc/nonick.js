@@ -1,4 +1,7 @@
 ﻿providers = ["node"]
 
+[phases.setup]
+nixPkgs = ["bun", "git"]
+
 [phases.install]
-cmds = ["npm install -g corepack", "corepack enable", "corepack prepare pnpm@10.5.0 --activate", "pnpm install"]
+cmds = ["bun install", "git submodule update --init"]
