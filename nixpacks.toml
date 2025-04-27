@@ -1,7 +1,7 @@
 ﻿providers = ["node"]
 
 [phases.setup]
-nixPkgs = ["bun", "git"]
+nixPkgs = ["nodejs_22", "pnpm-10_x", "git"]
 
 [phases.install]
-cmds = ["git submodule update --init", "bun install"]
+cmds = ["git submodule update --init", "pnpm install"]
