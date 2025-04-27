@@ -1,0 +1,7 @@
+﻿providers = ["node"]
+
+[phases.setup]
+nixPkgs = ["bun", "git"]
+
+[phases.install]
+cmds = ["bun install", "git submodule update --init"]

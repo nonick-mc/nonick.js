@@ -1,29 +1,23 @@
-import './globals.css';
-import { CheckSession } from '@/components/check-session';
-import { ConsoleWarning } from '@/components/console-warn';
-import { Toaster } from '@/components/ui/sonner';
-import MetadataConfig from '@/config/metadata';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
-import NextTopLoader from 'nextjs-toploader';
+import './globals.css';
 import { Provider } from './provider';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
+  variable: '--font-noto-sans',
 });
 
 export const metadata: Metadata = {
   title: {
-    default: MetadataConfig.name,
-    template: `%s - ${MetadataConfig.name}`,
+    default: 'NoNICK.js Dashboard',
+    template: '%s - NoNICK.js Dashboard',
   },
-  description: MetadataConfig.description,
-  openGraph: {
-    title: MetadataConfig.name,
-    description: MetadataConfig.description,
-    locale: 'ja_JP',
-    type: 'website',
-  },
+  description: 'あなたのDiscordサーバーをもっと便利に。',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0073f5',
 };
 
 export default function RootLayout({
@@ -33,13 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ja' suppressHydrationWarning>
-      <body className={notoSansJP.className}>
+      <body className={`${notoSansJP.className} antialiased`}>
         <Provider>
           <main>{children}</main>
-          <Toaster />
-          <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
-          <ConsoleWarning />
-          <CheckSession />
         </Provider>
       </body>
     </html>

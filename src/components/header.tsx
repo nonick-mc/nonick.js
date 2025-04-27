@@ -1,27 +1,44 @@
-import { cn } from '@nextui-org/theme';
-import React from 'react';
+import { cn } from '@heroui/theme';
+import type React from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
-const Header = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    return <div className={cn('flex flex-col gap-1', className)} {...props} />;
-  },
-);
-Header.displayName = 'Header';
+export type HeaderProps = {
+  title?: ReactNode;
+  titleClass?: string;
+  description?: ReactNode;
+  descriptionClass?: string;
+} & HTMLAttributes<HTMLDivElement>;
 
-const HeaderTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
-  return <h1 ref={ref} className={cn('text-3xl font-black', className)} {...props} />;
-});
-HeaderTitle.displayName = 'HeaderTitle';
-
-const HeaderDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
-  return <h2 ref={ref} className={cn('max-sm:text-sm text-default-500', className)} {...props} />;
-});
-HeaderDescription.displayName = 'HeaderDescription';
-
-export { Header, HeaderTitle, HeaderDescription };
+export function Header({
+  className,
+  title,
+  titleClass,
+  description,
+  descriptionClass,
+  ...props
+}: HeaderProps) {
+  return (
+    <div className={cn('w-full flex flex-col gap-1', className)} {...props}>
+      {title && (
+        <h1
+          className={cn(
+            'text-2xl sm:text-3xl font-extrabold sm:font-black max-sm:text-center',
+            titleClass,
+          )}
+        >
+          {title}
+        </h1>
+      )}
+      {description && (
+        <p
+          className={cn(
+            'text-small sm:text-medium text-default-500 leading-tight max-sm:text-center',
+            descriptionClass,
+          )}
+        >
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}

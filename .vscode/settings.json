@@ -22,6 +22,7 @@
     "className",
     "ngClass",
     "class:list",
-    "classNames"
+    "classNames",
+    "itemClasses"
   ]
 }
