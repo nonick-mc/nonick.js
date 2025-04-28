@@ -5,6 +5,7 @@ import type {
   RESTPostOAuth2AccessTokenResult,
 } from 'discord-api-types/v10';
 import NextAuth, { type DefaultSession } from 'next-auth';
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
 import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import { NextResponse, URLPattern } from 'next/server';

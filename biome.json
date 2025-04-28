@@ -10,7 +10,12 @@
     "enabled": true,
     "ignore": [".next", "node_modules"],
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": {
+          "level": "warn"
+        }
+      }
     }
   },
   "formatter": {
