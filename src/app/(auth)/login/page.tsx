@@ -37,7 +37,7 @@ export default function Page() {
           </Suspense>
           <Button
             as={Link}
-            href='https://docs.nonick-js.com/nonick-js/how-to-login'
+            href='https://docs.nonick-js.com/tutorial/how-to-setting/'
             variant='flat'
             fullWidth
             disableRipple

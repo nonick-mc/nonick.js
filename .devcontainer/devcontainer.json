@@ -14,7 +14,7 @@
   // "forwardPorts": [5432],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "bun install && git submodule update --init",
+  "postCreateCommand": "pnpm install && git submodule update --init",
 
   // Configure tool-specific properties.
   "customizations": {
