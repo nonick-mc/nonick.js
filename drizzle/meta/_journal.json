@@ -43,6 +43,13 @@
       "when": 1745758926552,
       "tag": "0005_minor_power_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1745804171947,
+      "tag": "0006_outgoing_alice",
+      "breakpoints": true
     }
   ]
 }
