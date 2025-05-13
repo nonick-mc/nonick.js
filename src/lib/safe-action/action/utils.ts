@@ -1,13 +1,13 @@
 ﻿import 'server-only';
 
-import type { targetNameEnumSchema } from '@/lib/database/src/schema/audit-log';
+import type { auditLog } from '@/lib/database/src/schema/audit-log';
 import { db } from '@/lib/drizzle';
 import { eq } from 'drizzle-orm';
 import type { PgColumn, PgTable } from 'drizzle-orm/pg-core';
 import type { ZodSchema, z } from 'zod';
 
 export type AuditLogMetadata = {
-  targetName: z.infer<typeof targetNameEnumSchema>;
+  targetName: (typeof auditLog.$inferSelect)['targetName'];
 };
 
 export type GuildDatabaseAdapter<FormSchema extends ZodSchema, DbSchema extends ZodSchema> = {

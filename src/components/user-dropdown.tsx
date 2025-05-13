@@ -53,6 +53,7 @@ export function UserDropdown({ sessionPromise }: { sessionPromise: Promise<Sessi
           </DropdownItem>
           <DropdownItem
             key='docs'
+            as={'a'}
             href={Links.Docs}
             endContent={
               <Icon icon='solar:notebook-minimalistic-bold' className='text-default-500 text-xl' />
@@ -62,6 +63,7 @@ export function UserDropdown({ sessionPromise }: { sessionPromise: Promise<Sessi
           </DropdownItem>
           <DropdownItem
             key='support'
+            as={'a'}
             href={Links.Discord}
             endContent={<Icon icon='ic:baseline-discord' className='text-default-500 text-xl' />}
           >

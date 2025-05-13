@@ -8,6 +8,7 @@ import NextAuth, { type DefaultSession } from 'next-auth';
 // biome-ignore lint/correctness/noUnusedImports: <explanation>
 import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
+import { revalidateTag } from 'next/cache';
 import { NextResponse, URLPattern } from 'next/server';
 import { snowflake } from './database/src/utils/zod/discord';
 import { discordFetch } from './discord/fetcher';
@@ -104,6 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: async ({ token, account, user }) => {
       // ログイン時にDiscordの認証情報をjwtトークンに追加する
       if (account && user) {
+        revalidateTag(`user-${account.providerAccountId}`);
         token.userId = account.providerAccountId;
         token.username = user.username;
         token.discriminator = user.discriminator;
