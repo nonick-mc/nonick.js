@@ -5,6 +5,7 @@ import {
   type APIGuildChannel,
   type APIGuildMember,
   type APIRole,
+  type APIUser,
   type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
@@ -97,6 +98,18 @@ export function getChannels(guildId: string) {
  */
 export function getRoles(guildId: string) {
   return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, {
+    throw: true,
+  });
+}
+
+/**
+ * Discordユーザーを取得
+ * @param userId ユーザーID
+ * @see https://discord.com/developers/docs/resources/user#get-user
+ */
+export function getUser(userId: string) {
+  return discordBotUserFetch<APIUser, false>(`/users/${userId}`, {
+    next: { tags: [`user-${userId}`] },
     throw: true,
   });
 }

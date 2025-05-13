@@ -19,7 +19,7 @@ export const sectionItems: SidebarItem<{ guildId: string }>[] = [
         title: '監査ログ',
         endContent: (
           <Chip size='sm' color='primary' variant='flat'>
-            Coming soon
+            Beta
           </Chip>
         ),
       },
