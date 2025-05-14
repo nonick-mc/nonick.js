@@ -29,7 +29,9 @@ export const targetNameEnum = pgEnum('target_name', targetName);
 
 export const auditLog = pgTable('audit_log', {
   id: uuid('id').primaryKey().defaultRandom(),
-  guildId: text('guild_id').references(() => guild.id, { onDelete: 'cascade' }),
+  guildId: text('guild_id')
+    .references(() => guild.id, { onDelete: 'cascade' })
+    .notNull(),
   authorId: text('author_id').notNull(),
   targetName: targetNameEnum('target_name').notNull(),
   actionType: actionTypeEnum('action_type').notNull(),
