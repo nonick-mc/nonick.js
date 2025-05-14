@@ -4,27 +4,30 @@ import { FormCard } from '@/components/form';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
 import { FormDevTool } from '@/components/react-hook-form/devtool';
+import { ForumTagsSelect } from '@/components/react-hook-form/forum-tag-select';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { reportSettingSchema } from '@/lib/database/src/schema/setting';
+import type { z } from '@/lib/database/src/lib/i18n';
 import { filterValidIds } from '@/lib/discord/utils';
-import { Alert, addToast } from '@heroui/react';
+import { Alert, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   type APIGuildChannel,
+  type APIGuildForumChannel,
+  type APIGuildForumTag,
   type APIRole,
   ChannelType,
   type GuildChannelType,
 } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
-import type { z } from 'zod';
 import { updateReportSettingAction } from './action';
+import { reportSettingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof reportSettingSchema.form>;
-type OutputSetting = z.output<typeof reportSettingSchema.form>;
+type InputSetting = z.input<typeof reportSettingFormSchema>;
+type OutputSetting = z.output<typeof reportSettingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -41,14 +44,21 @@ export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(reportSettingSchema.form),
-    defaultValues: {
-      channel: setting?.channel ?? '',
-      showProgressButton: setting?.showProgressButton ?? true,
-      includeModerator: setting?.includeModerator ?? false,
-      enableMention: setting?.enableMention ?? false,
-      mentionRoles: filterValidIds(setting?.mentionRoles, props.roles),
-    },
+    resolver: zodResolver(reportSettingFormSchema),
+    defaultValues: setting
+      ? {
+          ...setting,
+          mentionRoles: filterValidIds(setting?.mentionRoles, props.roles),
+        }
+      : {
+          channel: '',
+          forumCompletedTag: null,
+          forumIgnoredTag: null,
+          includeModerator: false,
+          showModerateLog: true,
+          enableMention: false,
+          mentionRoles: [],
+        },
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
@@ -85,19 +95,67 @@ export function SettingForm({ setting, ...props }: Props) {
 
 function EnableSetting() {
   const { channels } = useContext(PropsContext);
-  const { control } = useFormContext<InputSetting>();
+  const {
+    control,
+    setValue,
+    formState: { isDirty },
+  } = useFormContext<InputSetting>();
+
+  const channelId = useWatch<InputSetting>({ name: 'channel' }) as string;
+  const [isForumChannel, setIsForumChannel] = useState(false);
+  const [forumTags, setForumTags] = useState<APIGuildForumTag[]>([]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    const channel = channels.find((c) => c.id === channelId);
+    const isForum = channel?.type === ChannelType.GuildForum;
+
+    setIsForumChannel(isForum);
+    setForumTags(
+      channel?.type === ChannelType.GuildForum
+        ? (channel as APIGuildForumChannel).available_tags
+        : [],
+    );
+
+    if (isDirty) {
+      setValue('forumIgnoredTag', null);
+      setValue('forumCompletedTag', null);
+    }
+  }, [channelId]);
 
   return (
-    <FormCard>
+    <FormCard title='チャンネル設定'>
       <ChannelSelect
         control={control}
         name='channel'
         channels={channels}
-        channelTypeFilter={{ include: [ChannelType.GuildText] }}
+        channelTypeFilter={{ include: [ChannelType.GuildText, ChannelType.GuildForum] }}
         label='通報を表示するチャンネル'
         disallowEmptySelection
         isRequired
       />
+      <div
+        className={cn('flex max-sm:flex-col w-full max-sm:gap-8 gap-4', {
+          hidden: !(isForumChannel && channelId),
+        })}
+      >
+        <ForumTagsSelect
+          control={control}
+          name='forumCompletedTag'
+          tags={forumTags}
+          label='「対応済み」ボタンを押した時に付与するタグ'
+          className='flex-1'
+          isDisabled={!(isForumChannel && channelId)}
+        />
+        <ForumTagsSelect
+          control={control}
+          name='forumIgnoredTag'
+          tags={forumTags}
+          label='「無視」ボタンを押した時に付与するタグ'
+          className='flex-1'
+          isDisabled={!(isForumChannel && channelId)}
+        />
+      </div>
     </FormCard>
   );
 }
@@ -115,9 +173,9 @@ function GeneralSetting() {
       />
       <ControlledSwitch
         control={control}
-        name='showProgressButton'
-        label='進捗ボタンを表示する'
-        description='送られた通報に「対処済み」「無視」などの、通報のステータスを管理できるボタンを表示します。'
+        name='showModerateLog'
+        label='モデレートログを表示する'
+        description='有効にすると、報告されたメッセージやユーザーに関連するモデレートを行った際、スレッドにログが送信されるようになります。'
       />
     </FormCard>
   );

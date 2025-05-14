@@ -1,12 +1,14 @@
 ﻿'use server';
 
-import { reportSetting, reportSettingSchema } from '@/lib/database/src/schema/setting';
+import { createInsertSchema } from '@/lib/database/src/lib/drizzle';
+import { reportSetting } from '@/lib/database/src/schema/setting';
 import { updateGuildSetting } from '@/lib/safe-action/action/update-guild-setting';
 import { createGuildDatabaseAdapter } from '@/lib/safe-action/action/utils';
 import { guildActionClient } from '@/lib/safe-action/client';
+import { reportSettingFormSchema } from './schema';
 
 export const updateReportSettingAction = guildActionClient
-  .schema(async (prevSchema) => prevSchema.and(reportSettingSchema.form))
+  .schema(async (prevSchema) => prevSchema.and(reportSettingFormSchema))
   .action(async ({ parsedInput: { guildId, ...input }, ctx }) => {
     await updateGuildSetting(
       guildId,
@@ -16,8 +18,8 @@ export const updateReportSettingAction = guildActionClient
         metadata: { targetName: 'report' },
         table: reportSetting,
         guildIdColumn: reportSetting.guildId,
-        dbSchema: reportSettingSchema.db,
-        formSchema: reportSettingSchema.form,
+        dbSchema: createInsertSchema(reportSetting),
+        formSchema: reportSettingFormSchema,
       }),
     );
     return { success: true };
