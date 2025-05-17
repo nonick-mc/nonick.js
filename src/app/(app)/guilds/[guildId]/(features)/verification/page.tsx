@@ -1,5 +1,6 @@
 ﻿import { Header } from '@/components/header';
 import { getRoles, getUserHighestRole } from '@/lib/discord/api';
+import { sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import { Alert } from '@heroui/alert';
@@ -36,7 +37,7 @@ export default async function ({ params }: SettingPageProps) {
         />
       )}
       <SettingForm
-        roles={roles}
+        roles={sortRoles(roles)}
         highestRolePosition={highestRole.position}
         setting={verificationSettingFormSchema.safeParse(setting).data ?? null}
       />
