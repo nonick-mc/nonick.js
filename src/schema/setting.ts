@@ -1,5 +1,5 @@
 ﻿import { ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
-import { boolean, integer, jsonb, pgSchema, text } from 'drizzle-orm/pg-core';
+import { boolean, integer, jsonb, pgEnum, pgSchema, text } from 'drizzle-orm/pg-core';
 import { createInsertSchema } from '../lib/drizzle';
 import { z } from '../lib/i18n';
 import { timestamps } from '../utils/drizzle';
@@ -387,4 +387,16 @@ export const autoModSettingSchema = {
       }
     }),
 };
+// #endregion
+
+// #region Verification
+export const captchaTypeEnum = pgEnum('captcha_type', ['button', 'image', 'web']);
+
+export const verificationSetting = settingSchema.table('verification', {
+  guildId,
+  enabled: boolean('enabled').notNull(),
+  role: text('role'),
+  captchaType: captchaTypeEnum('captcha_type').notNull(),
+  ...timestamps,
+});
 // #endregion
