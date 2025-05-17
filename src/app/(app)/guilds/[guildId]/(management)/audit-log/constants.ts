@@ -19,4 +19,5 @@ export const targetNameTexts: Record<AuditLogTargetName, string> = {
   auto_create_thread: '自動スレッド作成',
   auto_mod: 'AutoMod Plus',
   guild: 'サーバー',
+  verification: 'メンバー認証',
 };

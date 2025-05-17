@@ -19,3 +19,14 @@ export const guildActionClient = createSafeActionClient({
   .use(logMiddleware)
   .use(authMiddleware)
   .use(guildPermissionMiddleware);
+
+export const userActionClient = createSafeActionClient({
+  handleServerError: (e) => {
+    console.error(pc.red('Server Action Error:'), e.message);
+    if (e instanceof ActionClientError) return e.message;
+    return DEFAULT_SERVER_ERROR_MESSAGE;
+  },
+})
+  .schema(z.object({ guildId: snowflake }))
+  .use(logMiddleware)
+  .use(authMiddleware);

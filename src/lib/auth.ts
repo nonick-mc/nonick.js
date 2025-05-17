@@ -100,6 +100,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
+      if (request.nextUrl.pathname.startsWith('/verify/guilds')) {
+        const urlPattern = new URLPattern({ pathname: '/verify/guilds/:guildId' });
+        const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+
+        if (!snowflake.safeParse(guildId).success) {
+          return NextResponse.redirect(new URL('/', baseUrl));
+        }
+      }
+
       return !!auth;
     },
     jwt: async ({ token, account, user }) => {

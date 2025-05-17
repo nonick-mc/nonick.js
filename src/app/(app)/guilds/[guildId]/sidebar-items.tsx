@@ -83,6 +83,17 @@ export const sectionItems: SidebarItem<{ guildId: string }>[] = [
         icon: 'solar:sledgehammer-outline',
         title: 'AutoMod Plus',
       },
+      {
+        key: 'verification',
+        href: (param) => `/guilds/${param.guildId}/verification`,
+        icon: 'solar:code-scan-outline',
+        title: 'メンバー認証',
+        endContent: (
+          <Chip size='sm' color='primary' variant='flat'>
+            New
+          </Chip>
+        ),
+      },
     ],
   },
 ];

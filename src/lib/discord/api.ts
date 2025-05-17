@@ -67,6 +67,15 @@ export async function getMutualManagedGuilds(withCounts = false) {
 }
 
 /**
+ * ログイン中のユーザーが特定のサーバーに参加しているか確認
+ * @param guildId サーバーID
+ */
+export async function isUserJoinedGuild(guildId: string) {
+  const userGuilds = await getUserGuilds();
+  return userGuilds.some((guild) => guild.id === guildId);
+}
+
+/**
  * Discordサーバーを取得
  * @param guildId サーバーID
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになります
@@ -122,6 +131,32 @@ export function getUser(userId: string) {
  */
 export function getGuildMember(guildId: string, userId: string) {
   return discordBotUserFetch<APIGuildMember, false>(`/guilds/${guildId}/members/${userId}`, {
+    throw: true,
+  });
+}
+
+export async function getUserHighestRole(guildId: string, userId: string) {
+  const res = await Promise.all([getRoles(guildId), getGuildMember(guildId, userId)]).catch(
+    () => {},
+  );
+  if (!res) throw new TypeError('failed to get roles and guildmember');
+  const [roles, member] = res;
+
+  const memberRoles = roles.filter((role) => member.roles.includes(role.id));
+  return memberRoles.sort((a, b) => b.position - a.position)[0];
+}
+
+/**
+ * メンバーにロールを追加
+ * @param guildId サーバーID
+ * @param roleId ロールID
+ * @param userId ユーザーID
+ * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
+ */
+export function addGuildMemberRole(guildId: string, roleId: string, userId: string) {
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  return discordBotUserFetch<{}, false>(`/guilds/${guildId}/members/${userId}/roles/${roleId}`, {
+    method: 'PUT',
     throw: true,
   });
 }

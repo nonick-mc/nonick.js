@@ -7,5 +7,7 @@
     readonly AUTH_DISCORD_SECRET: string;
     readonly DISCORD_INVITE_PERMISSION: string;
     readonly DISCORD_TOKEN: string;
+    readonly NEXT_PUBLIC_TURNSTILE_SITE_KEY: string;
+    readonly TURNSTILE_SECRETKEY: string;
   }
 }
