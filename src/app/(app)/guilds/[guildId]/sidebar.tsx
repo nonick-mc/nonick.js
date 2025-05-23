@@ -28,7 +28,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
           <Logo height={16} />
         </Link>
       </div>
-      <ScrollShadow className='h-full px-6 hover-scrollbar'>
+      <ScrollShadow className='h-full pl-6 pr-2 hover-scrollbar'>
         <ErrorBoundary
           fallback={
             <SidebarGuildButtonTooltip>

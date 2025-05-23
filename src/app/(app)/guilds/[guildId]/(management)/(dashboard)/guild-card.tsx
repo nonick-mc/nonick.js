@@ -1,20 +1,12 @@
-﻿import { Icon } from '@/components/icon';
-import { getGuild } from '@/lib/discord/api';
-import { DiscordEndPoints } from '@/lib/discord/constants';
+﻿import { DiscordEndPoints } from '@/lib/discord/constants';
 import { Avatar } from '@heroui/avatar';
-import { Card, type CardProps } from '@heroui/card';
-import { Divider } from '@heroui/divider';
+import { Card } from '@heroui/card';
 import { Snippet } from '@heroui/snippet';
-import { cn } from '@heroui/theme';
 import { type APIGuild, GuildFeature } from 'discord-api-types/v10';
-import { type Snowflake, getDate } from 'discord-snowflake';
 import { createElement } from 'react';
 import { PartneredBadge, VerifiedBadge } from './badge';
 
-export async function GuildStatsCard({ guildId }: { guildId: string }) {
-  const guild = await getGuild(guildId, true);
-
-  const createAt = getDate(guild.id as Snowflake);
+export async function GuildCard({ guild }: { guild: APIGuild }) {
   const badge = getGuildBadge(guild);
 
   return (
@@ -47,39 +39,6 @@ export async function GuildStatsCard({ guildId }: { guildId: string }) {
           {guild.id}
         </Snippet>
       </div>
-      <Divider className='my-2' />
-      <div className='grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-4'>
-        <StatsCard
-          label='メンバー数'
-          value={(guild.approximate_member_count || 0).toLocaleString()}
-          icon='solar:users-group-rounded-bold'
-        />
-        <StatsCard
-          label='サーバーブースト数'
-          value={(guild.premium_subscription_count || 0).toLocaleString()}
-          icon='solar:stars-minimalistic-bold'
-        />
-        <StatsCard
-          className='max-sm:col-span-1 max-md:col-span-2'
-          label='サーバー作成日'
-          value={`${createAt.getFullYear()}年${createAt.getMonth() + 1}月${createAt.getDate()}日`}
-          icon='solar:calendar-mark-bold'
-        />
-      </div>
-    </Card>
-  );
-}
-
-type StatsCardProps = { label: string; icon: string; value: string } & CardProps;
-
-export function StatsCard({ label, icon, value, className, ...props }: StatsCardProps) {
-  return (
-    <Card className={cn('flex flex-col gap-2 p-6 bg-content2 shadow-none', className)} {...props}>
-      <div className='flex items-center justify-between select-none text-default-500'>
-        <p className='text-sm'>{label}</p>
-        <Icon icon={icon} className='text-2xl' />
-      </div>
-      <p className='text-2xl font-black'>{value}</p>
     </Card>
   );
 }

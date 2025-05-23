@@ -1,6 +1,4 @@
 ﻿'use client';
-
-import { Links } from '@/lib/constants';
 import {
   Avatar,
   Dropdown,
@@ -50,24 +48,6 @@ export function UserDropdown({ sessionPromise }: { sessionPromise: Promise<Sessi
             endContent={<Icon icon='solar:server-bold' className='text-default-500 text-xl' />}
           >
             サーバー選択
-          </DropdownItem>
-          <DropdownItem
-            key='docs'
-            as={'a'}
-            href={Links.Docs}
-            endContent={
-              <Icon icon='solar:notebook-minimalistic-bold' className='text-default-500 text-xl' />
-            }
-          >
-            ドキュメント
-          </DropdownItem>
-          <DropdownItem
-            key='support'
-            as={'a'}
-            href={Links.Discord}
-            endContent={<Icon icon='ic:baseline-discord' className='text-default-500 text-xl' />}
-          >
-            サポートサーバー
           </DropdownItem>
         </DropdownSection>
         <DropdownSection>
