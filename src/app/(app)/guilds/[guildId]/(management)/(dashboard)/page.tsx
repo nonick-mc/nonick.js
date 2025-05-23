@@ -17,7 +17,7 @@ export default async function Page({ params }: SettingPageProps) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
-  const guild = await getGuild(guildId);
+  const guild = await getGuild(guildId, true);
   const createAt = getDate(guild.id as Snowflake);
 
   return (
