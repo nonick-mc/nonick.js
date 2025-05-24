@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { getGuild } from '@/lib/discord/api';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { ReactNode } from 'react';
+import { Breadcrumbs } from './breadcrumbs';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
 
@@ -22,7 +23,10 @@ export default async function Layout({
         <Sidebar guildPromise={guildPromise} />
         <div className='flex-1 flex flex-col h-dvh overflow-y-scroll'>
           <Navbar sessionPromise={sessionPromise} />
-          <div className='max-w-[1100px] mx-auto w-full px-6 sm:px-8'>{children}</div>
+          <div className='max-w-[1100px] mx-auto w-full px-6 sm:px-8 flex flex-col gap-8'>
+            <Breadcrumbs />
+            {children}
+          </div>
         </div>
       </div>
     </SidebarProvider>
