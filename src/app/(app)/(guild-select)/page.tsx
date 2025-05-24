@@ -1,3 +1,4 @@
+import { FadeInUp } from '@/components/animation';
 import { Icon } from '@/components/icon';
 import { auth } from '@/lib/auth';
 import { getMutualManagedGuilds, inviteUrl } from '@/lib/discord/api';
@@ -19,7 +20,7 @@ export default async function Page() {
 
   if (!guilds.length) {
     return (
-      <div className='grid grid-cols-12 gap-6'>
+      <FadeInUp className='grid grid-cols-12 gap-6'>
         <Card
           as={Link}
           className='col-span-12 sm:col-span-6 lg:col-span-3 h-40 flex items-center justify-center gap-4 rounded-medium border-dashed border-content3 border-2 hover:opacity-100 active:opacity-100'
@@ -31,15 +32,15 @@ export default async function Page() {
           </div>
           <p className='text-default-500'>サーバーを追加</p>
         </Card>
-      </div>
+      </FadeInUp>
     );
   }
 
   return (
-    <div className='grid grid-cols-12 gap-6'>
+    <FadeInUp className='grid grid-cols-12 gap-6'>
       {guilds.map((guild) => (
         <GuildCard key={guild.id} guild={guild} />
       ))}
-    </div>
+    </FadeInUp>
   );
 }
