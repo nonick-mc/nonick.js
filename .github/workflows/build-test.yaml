@@ -1,4 +1,4 @@
-name: Next.js Build Test with Bun
+name: Next.js Build Test with Pnpm
 
 on:
   push:
