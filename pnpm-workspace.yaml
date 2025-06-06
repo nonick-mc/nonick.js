@@ -1,6 +1,5 @@
-ignoredBuiltDependencies:
+onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@heroui/shared-utils'
-onlyBuiltDependencies:
   - esbuild
   - sharp
