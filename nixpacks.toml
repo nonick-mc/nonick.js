@@ -4,4 +4,4 @@
 nixPkgs = ["...", "git"]
 
 [phases.install]
-cmds = ["git submodule update --init", "npm install -g corepack", "corepack enable", "corepack prepare pnpm@10.8.0 --activate", "pnpm install"]
+cmds = ["git submodule update --init", "npm install -g corepack", "corepack enable", "corepack prepare pnpm@10.10.0 --activate", "pnpm install"]
