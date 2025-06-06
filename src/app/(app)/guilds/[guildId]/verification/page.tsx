@@ -7,7 +7,7 @@ import { Alert } from '@heroui/alert';
 import type { Metadata } from 'next';
 import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
-import { verificationSettingFormSchema } from './schema';
+import { settingFormSchema } from './schema';
 
 export const metadata: Metadata = {
   title: 'メンバー認証',
@@ -38,7 +38,7 @@ export default async function ({ params }: SettingPageProps) {
       <SettingForm
         roles={sortRoles(roles)}
         highestRolePosition={highestRole.position}
-        setting={verificationSettingFormSchema.safeParse(setting).data ?? null}
+        setting={settingFormSchema.safeParse(setting).data ?? null}
       />
     </FadeInUp>
   );

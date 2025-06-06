@@ -7,26 +7,17 @@ import { verifyTurnstileToken } from '@/lib/turnstile';
 import { captchaFormSchema } from './schema';
 
 export const verifyAction = userActionClient
-  .schema(async (prevSchema) => prevSchema.and(captchaFormSchema))
-  .action(async ({ parsedInput: { guildId, turnstileToken }, ctx }) => {
-    try {
-      const guild = await getGuild(guildId);
-      const setting = await db.query.verificationSetting.findFirst({
-        where: (setting, { eq }) => eq(setting.guildId, guild.id),
-      });
+  .inputSchema(captchaFormSchema)
+  .action(async ({ parsedInput: { turnstileToken }, bindArgsParsedInputs, ctx }) => {
+    const guild = await getGuild(bindArgsParsedInputs[0]);
+    const setting = await db.query.verificationSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guild.id),
+    });
 
-      if (!setting?.enabled || !setting.role || setting.captchaType !== 'web')
-        throw new Error('Unavailable Verification');
-      if (!(await isUserJoinedGuild(guild.id))) throw new Error('User Not Joined Guild');
+    if (!setting?.enabled || !setting.role || setting.captchaType !== 'web')
+      throw new Error('Unavailable Verification');
+    if (!(await isUserJoinedGuild(guild.id))) throw new Error('User Not Joined Guild');
 
-      await verifyTurnstileToken(turnstileToken);
-      await addGuildMemberRole(guild.id, setting.role, ctx.session?.user.id as string);
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.error(e);
-        return {
-          error: e.message,
-        };
-      }
-    }
+    await verifyTurnstileToken(turnstileToken);
+    addGuildMemberRole(guild.id, setting.role, ctx.session?.user.id as string);
   });

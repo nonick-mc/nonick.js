@@ -8,7 +8,6 @@ import { ForumTagsSelect } from '@/components/react-hook-form/forum-tag-select';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import type { z } from '@/lib/database/src/lib/i18n';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,11 +22,12 @@ import {
 import { useParams } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
-import { updateReportSettingAction } from './action';
-import { reportSettingFormSchema } from './schema';
+import type { z } from 'zod';
+import { updateSettingAction } from './action';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof reportSettingFormSchema>;
-type OutputSetting = z.output<typeof reportSettingFormSchema>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -42,9 +42,10 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(reportSettingFormSchema),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: setting
       ? {
           ...setting,
@@ -62,10 +63,8 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateReportSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindUpdateSettingAction(values);
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',

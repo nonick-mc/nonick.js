@@ -10,8 +10,8 @@ import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import { revalidateTag } from 'next/cache';
 import { NextResponse, URLPattern } from 'next/server';
-import { snowflake } from './database/src/utils/zod/discord';
 import { discordFetch } from './discord/fetcher';
+import { snowflake } from './zod/discord';
 
 type SessionError = 'RefreshTokenError' | 'AccessTokenError';
 

@@ -63,8 +63,8 @@ importers:
         specifier: ^5.0.0-beta.25
         version: 5.0.0-beta.27(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       next-safe-action:
-        specifier: ^7.10.5
-        version: 7.10.7(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3)
+        specifier: ^8.0.1
+        version: 8.0.1(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -2639,26 +2639,13 @@ packages:
       nodemailer:
         optional: true
 
-  next-safe-action@7.10.7:
-    resolution: {integrity: sha512-CbWitme0wOsbNc7r7iQafvg1w641PFOMmElHde5ss1BQwK/fUKV2D9xRpXciWFo5obqR12lpyS3FTFFBh95FqQ==}
+  next-safe-action@8.0.1:
+    resolution: {integrity: sha512-g829o3slM1mZ5z6hsgIwcV2ndXY4zT90WSO1tr7lGfiAun+Qz3jGVd81/R3czZXMLkpcM6jcKY9uvG+Z2DsUOA==}
     engines: {node: '>=18.17'}
     peerDependencies:
-      '@sinclair/typebox': '>= 0.33.3'
-      next: '>= 14.0.0 || >= 14.0.1-canary.0'
+      next: '>= 14.0.0'
       react: '>= 18.2.0'
       react-dom: '>= 18.2.0'
-      valibot: '>= 0.36.0'
-      yup: '>= 1.0.0'
-      zod: '>= 3.0.0'
-    peerDependenciesMeta:
-      '@sinclair/typebox':
-        optional: true
-      valibot:
-        optional: true
-      yup:
-        optional: true
-      zod:
-        optional: true
 
   next-themes@0.4.6:
     resolution: {integrity: sha512-pZvgD5L0IEvX5/9GWyHMf3m8BKiVQwsCMHfoFosXtXBMnaS0ZnIJ9ST4b4NqLVKDEm8QBxoNNGNaBv2JNF6XNA==}
@@ -6429,7 +6416,7 @@ snapshots:
       next: 15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
 
-  next-safe-action@7.10.7(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3):
+  next-safe-action@8.0.1(next@15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       next: 15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0

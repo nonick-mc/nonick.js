@@ -14,11 +14,11 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateVerificationSettingAction } from './action';
-import { verificationSettingFormSchema } from './schema';
+import { updateSettingAction } from './action';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof verificationSettingFormSchema>;
-type OutputSetting = z.output<typeof verificationSettingFormSchema>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   roles: APIRole[];
@@ -33,9 +33,10 @@ const PropsContext = createContext<Omit<Props, 'setting' | 'highestRole'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(verificationSettingFormSchema),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: !!setting?.enabled,
       role: setting?.role ?? null,
@@ -44,10 +45,8 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateVerificationSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindAction(values);
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',

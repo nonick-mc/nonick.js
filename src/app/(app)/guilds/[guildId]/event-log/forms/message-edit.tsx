@@ -5,7 +5,6 @@ import { ChannelSelect } from '@/components/react-hook-form/channel-select';
 import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { msgEditLogSettingSchema } from '@/lib/database/src/schema/setting';
 import { addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
@@ -13,11 +12,12 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateMsgEditLogSettingAction } from '../actions';
+import { updateSettingAction } from '../actions/message-edit';
 import { PropsContext } from '../form-container';
+import { settingFormSchema } from '../schemas/message-edit';
 
-type InputSetting = z.input<typeof msgEditLogSettingSchema.form>;
-type OutputSetting = z.output<typeof msgEditLogSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   setting: OutputSetting | null;
@@ -26,9 +26,10 @@ type Props = {
 
 export function MsgEditLogSettingForm({ setting, onFormChange }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(msgEditLogSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       channel: setting?.channel ?? null,
@@ -40,10 +41,8 @@ export function MsgEditLogSettingForm({ setting, onFormChange }: Props) {
   }, [form.formState.isDirty, onFormChange]);
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateMsgEditLogSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindAction(values);
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',

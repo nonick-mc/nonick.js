@@ -8,7 +8,6 @@ import { ControlledCheckboxGroup } from '@/components/react-hook-form/ui/checkbo
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSelect } from '@/components/react-hook-form/ui/select';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { ignorePrefixes, msgExpandSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Chip, SelectItem, addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,11 +16,12 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateMsgExpandSettingAction } from './action';
+import { updateSettingAction } from './action';
 import { CustomCheckbox } from './custom-checkbox';
+import { ignorePrefixes, settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof msgExpandSettingSchema.form>;
-type OutputSetting = z.output<typeof msgExpandSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -34,9 +34,10 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(msgExpandSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       allowExternalGuild: setting?.allowExternalGuild ?? false,
@@ -47,10 +48,8 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateMsgExpandSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindUpdateSettingAction(values);
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',

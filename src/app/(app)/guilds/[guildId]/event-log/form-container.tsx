@@ -2,14 +2,6 @@
 
 import { Icon } from '@/components/icon';
 import {
-  banLogSettingSchema,
-  kickLogSettingSchema,
-  msgDeleteLogSettingSchema,
-  msgEditLogSettingSchema,
-  timeoutLogSettingSchema,
-  voiceLogSettingSchema,
-} from '@/lib/database/src/schema/setting';
-import {
   Accordion,
   AccordionItem,
   Button,
@@ -30,6 +22,12 @@ import { MsgEditLogSettingForm } from './forms/message-edit';
 import { TimeoutLogSettingForm } from './forms/timeout';
 import { VoiceLogSettingForm } from './forms/voice';
 import type { getLogSettings } from './lib';
+import { settingFormSchema as banLogSettingSchema } from './schemas/ban';
+import { settingFormSchema as kickLogSettingSchema } from './schemas/kick';
+import { settingFormSchema as msgDeleteLogSettingSchema } from './schemas/message-delete';
+import { settingFormSchema as msgEditLogSettingSchema } from './schemas/message-edit';
+import { settingFormSchema as timeoutLogSettingSchema } from './schemas/timeout';
+import { settingFormSchema as voiceLogSettingSchema } from './schemas/voice';
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -101,7 +99,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:clock-circle-bold' />}
         >
           <TimeoutLogSettingForm
-            setting={timeoutLogSettingSchema.form.safeParse(settings.timeout).data ?? null}
+            setting={timeoutLogSettingSchema.safeParse(settings.timeout).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>
@@ -111,7 +109,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:sledgehammer-bold' />}
         >
           <KickLogSettingForm
-            setting={kickLogSettingSchema.form.safeParse(settings.kick).data ?? null}
+            setting={kickLogSettingSchema.safeParse(settings.kick).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>
@@ -121,7 +119,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:sledgehammer-bold' />}
         >
           <BanLogSettingForm
-            setting={banLogSettingSchema.form.safeParse(settings.ban).data ?? null}
+            setting={banLogSettingSchema.safeParse(settings.ban).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>
@@ -131,7 +129,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:volume-loud-bold' />}
         >
           <VoiceLogSettingForm
-            setting={voiceLogSettingSchema.form.safeParse(settings.voice).data ?? null}
+            setting={voiceLogSettingSchema.safeParse(settings.voice).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>
@@ -141,7 +139,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:chat-round-line-bold' />}
         >
           <MsgEditLogSettingForm
-            setting={msgEditLogSettingSchema.form.safeParse(settings.msgEdit).data ?? null}
+            setting={msgEditLogSettingSchema.safeParse(settings.msgEdit).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>
@@ -151,7 +149,7 @@ export function FormContainer({ settings, ...props }: Props) {
           startContent={<AccordionItemIcon icon='solar:chat-round-line-bold' />}
         >
           <MsgDeleteLogSettingForm
-            setting={msgDeleteLogSettingSchema.form.safeParse(settings.msgDelete).data ?? null}
+            setting={msgDeleteLogSettingSchema.safeParse(settings.msgDelete).data ?? null}
             onFormChange={handleFormChange}
           />
         </AccordionItem>

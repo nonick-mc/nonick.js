@@ -4,9 +4,9 @@ import type { Session } from 'next-auth';
 import { createMiddleware } from 'next-safe-action';
 import pc from 'picocolors';
 import { auth } from '../auth';
-import { snowflake } from '../database/src/utils/zod/discord';
 import { hasDashboardAccessPermission } from '../permission';
 import rateLimit from '../rate-limit';
+import { snowflake } from '../zod/discord';
 import { ActionClientError } from './client';
 
 const limiter = rateLimit({
@@ -44,13 +44,11 @@ export const authMiddleware = createMiddleware<{ ctx: { session?: Session | null
 
 export const guildPermissionMiddleware = createMiddleware<{
   ctx: { session: Session | null };
-}>().define(async ({ next, ctx, clientInput }) => {
-  const { guildId } = clientInput as { guildId: string };
+}>().define(async ({ next, ctx, bindArgsClientInputs }) => {
+  const [guildId] = bindArgsClientInputs;
+  if (!snowflake.safeParse(guildId).success) throw new ActionClientError('Invalid Guild ID');
 
-  const parsedGuildid = snowflake.safeParse(guildId).data;
-  if (!parsedGuildid) throw new ActionClientError('Invalid Guild ID');
-
-  const hasPermission = await hasDashboardAccessPermission(guildId, ctx.session);
+  const hasPermission = await hasDashboardAccessPermission(guildId as string, ctx.session);
   if (!hasPermission) throw new ActionClientError('Missing Permission');
 
   return next({ ctx });

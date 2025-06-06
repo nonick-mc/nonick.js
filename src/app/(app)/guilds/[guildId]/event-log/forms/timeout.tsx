@@ -5,7 +5,6 @@ import { ChannelSelect } from '@/components/react-hook-form/channel-select';
 import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { timeoutLogSettingSchema } from '@/lib/database/src/schema/setting';
 import { addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
@@ -13,11 +12,12 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateTimeoutLogSettingAction } from '../actions';
+import { updateSettingAction } from '../actions/timeout';
 import { PropsContext } from '../form-container';
+import { settingFormSchema } from '../schemas/timeout';
 
-type InputSetting = z.input<typeof timeoutLogSettingSchema.form>;
-type OutputSetting = z.output<typeof timeoutLogSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   setting: OutputSetting | null;
@@ -26,9 +26,10 @@ type Props = {
 
 export function TimeoutLogSettingForm({ setting, onFormChange }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(timeoutLogSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       channel: setting?.channel ?? null,
@@ -40,10 +41,8 @@ export function TimeoutLogSettingForm({ setting, onFormChange }: Props) {
   }, [form.formState.isDirty, onFormChange]);
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateTimeoutLogSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindAction(values);
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',
