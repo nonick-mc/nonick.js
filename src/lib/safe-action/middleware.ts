@@ -7,7 +7,7 @@ import { auth } from '../auth';
 import { hasDashboardAccessPermission } from '../permission';
 import rateLimit from '../rate-limit';
 import { snowflake } from '../zod/discord';
-import { ActionClientError } from './client';
+import { ActionClientError } from './error';
 
 const limiter = rateLimit({
   interval: 10 * 1000, // 10秒

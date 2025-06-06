@@ -4,9 +4,8 @@ import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-
 import pc from 'picocolors';
 import type { ZodString } from 'zod';
 import { snowflake } from '../zod/discord';
+import { ActionClientError } from './error';
 import { authMiddleware, guildPermissionMiddleware, logMiddleware } from './middleware';
-
-export class ActionClientError extends Error {}
 
 export const guildActionClient = createSafeActionClient({
   handleServerError: (e) => {
