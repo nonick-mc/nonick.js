@@ -1,0 +1,23 @@
+﻿name: リファクタリング
+description: コードのリファクタリングにするissueを作成します
+assignees:
+  - nonick-mc
+labels:
+  - refactor
+body:
+  - type: checkboxes
+    attributes:
+      label: 影響するプロダクト
+      description: リファクタリングによって変更を加える必要のあるプロダクトはどれですか？
+      options:
+        - label: bot
+          required: false
+        - label: dashboard
+          required: false
+        - label: docs
+          required: false
+  - type: textarea
+    attributes:
+      label: リファクタリングに関する説明
+    validations:
+      required: true
