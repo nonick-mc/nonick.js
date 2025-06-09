@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .hover-scrollbar::-webkit-scrollbar {
+    @apply w-4;
+  }
+  .hover-scrollbar:hover::-webkit-scrollbar {
+    @apply w-4;
+  }
+  .hover-scrollbar:hover::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-divider;
+  }
+  .hover-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+    @apply rounded-md bg-default-300;
+  }
+  .hover-scrollbar:hover::-webkit-scrollbar-thumb {
+    @apply border-x-5 border-solid border-transparent bg-clip-padding;
+  }
+}
