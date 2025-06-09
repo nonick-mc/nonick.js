@@ -1,5 +1,5 @@
+import { Duration } from '@/modules/format';
 import { ChatInput } from '@akki256/discord-interaction';
-import { Duration } from '@modules/format';
 import {
   ApplicationCommandOptionType,
   Colors,
@@ -48,9 +48,7 @@ export default new ChatInput(
               reason: `招待の一時停止 - ${interaction.user.tag}`,
             }
           : {
-              features: guildFeatures.filter(
-                (v) => v !== GuildFeature.InvitesDisabled,
-              ),
+              features: guildFeatures.filter((v) => v !== GuildFeature.InvitesDisabled),
               reason: `招待の有効化 - ${interaction.user.tag}`,
             },
       )
@@ -59,9 +57,7 @@ export default new ChatInput(
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${inlineCode('✅')} サーバー招待を${
-                  pause ? '一時停止' : '有効に'
-                }しました`,
+                `${inlineCode('✅')} サーバー招待を${pause ? '一時停止' : '有効に'}しました`,
               )
               .setColor(Colors.Green),
           ],
@@ -73,10 +69,9 @@ export default new ChatInput(
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                [
-                  `${inlineCode('❌')} 招待一時停止状態の変更に失敗しました`,
-                  codeBlock(err),
-                ].join('\n'),
+                [`${inlineCode('❌')} 招待一時停止状態の変更に失敗しました`, codeBlock(err)].join(
+                  '\n',
+                ),
               )
               .setColor(Colors.Red),
           ],

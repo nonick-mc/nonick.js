@@ -1,7 +1,7 @@
-import { guild } from '@database/src/schema/guild';
-import type { autoChangeVerifyLevelSetting } from '@database/src/schema/setting';
-import { CronBuilder } from '@modules/cron';
-import { db } from '@modules/drizzle';
+import { CronBuilder } from '@/modules/cron';
+import { db } from '@/modules/drizzle';
+import { guild } from '@repo/database';
+import type { autoChangeVerifyLevelSetting } from '@repo/database';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -17,10 +17,7 @@ import { client } from '../index';
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
-const levels: Record<
-  GuildVerificationLevel,
-  { name: string; description: string }
-> = {
+const levels: Record<GuildVerificationLevel, { name: string; description: string }> = {
   [GuildVerificationLevel.None]: {
     name: '設定無し',
     description: '無制限',
@@ -35,8 +32,7 @@ const levels: Record<
   },
   [GuildVerificationLevel.High]: {
     name: '高',
-    description:
-      'このサーバーのメンバーとなってから10分以上経過したメンバーのみ',
+    description: 'このサーバーのメンバーとなってから10分以上経過したメンバーのみ',
   },
   [GuildVerificationLevel.VeryHigh]: {
     name: '最高',
@@ -52,14 +48,11 @@ export default new CronBuilder({ minute: 0 }, () => {
 
 async function start(hour: number) {
   const settings = await db.query.autoChangeVerifyLevelSetting.findMany({
-    where: (setting, { and, eq }) =>
-      and(eq(setting.enabled, true), eq(setting.startHour, hour)),
+    where: (setting, { and, eq }) => and(eq(setting.enabled, true), eq(setting.startHour, hour)),
   });
 
   for (const setting of settings) {
-    const apiGuild = await client.guilds
-      .fetch(setting.guildId)
-      .catch(() => null);
+    const apiGuild = await client.guilds.fetch(setting.guildId).catch(() => null);
     if (!apiGuild) return;
 
     const dbGuild = await db.query.guild.findFirst({
@@ -83,14 +76,11 @@ async function start(hour: number) {
 
 async function end(hour: number) {
   const settings = await db.query.autoChangeVerifyLevelSetting.findMany({
-    where: (setting, { and, eq }) =>
-      and(eq(setting.enabled, true), eq(setting.endHour, hour)),
+    where: (setting, { and, eq }) => and(eq(setting.enabled, true), eq(setting.endHour, hour)),
   });
 
   for (const setting of settings) {
-    const apiGuild = await client.guilds
-      .fetch(setting.guildId)
-      .catch(() => null);
+    const apiGuild = await client.guilds.fetch(setting.guildId).catch(() => null);
     if (!apiGuild) return;
 
     const dbGuild = await db.query.guild.findFirst({
@@ -102,12 +92,7 @@ async function end(hour: number) {
     apiGuild
       .setVerificationLevel(dbGuild.beforeVerifyLevel)
       .then(() =>
-        sendLog(
-          apiGuild,
-          setting,
-          dbGuild.beforeVerifyLevel as GuildVerificationLevel,
-          '終了',
-        ),
+        sendLog(apiGuild, setting, dbGuild.beforeVerifyLevel as GuildVerificationLevel, '終了'),
       )
       .catch(console.error);
   }

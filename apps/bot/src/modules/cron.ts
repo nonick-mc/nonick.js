@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { range } from '@modules/util';
+import { range } from '@/modules/util';
 import { type ScheduleOptions, getTasks, schedule, validate } from 'node-cron';
 
 export class Cron {
@@ -30,13 +30,11 @@ export class Cron {
     options?: ScheduleOptions,
   ) {
     if (typeof cronExpression === 'string') {
-      if (!validate(cronExpression))
-        throw new TypeError('Incorrect value for cronExpression');
+      if (!validate(cronExpression)) throw new TypeError('Incorrect value for cronExpression');
       schedule(cronExpression, func, { ...Cron.instance.options, ...options });
     } else {
       const parsed = Cron.parseExpressions(cronExpression);
-      if (!validate(parsed))
-        throw new TypeError('Incorrect value for cronExpression');
+      if (!validate(parsed)) throw new TypeError('Incorrect value for cronExpression');
       schedule(parsed, func, { ...Cron.instance.options, ...options });
     }
   }
@@ -45,10 +43,7 @@ export class Cron {
     return getTasks();
   }
 
-  static async registerFiles(
-    basePath: string,
-    predicate?: (value: fs.Dirent) => boolean,
-  ) {
+  static async registerFiles(basePath: string, predicate?: (value: fs.Dirent) => boolean) {
     for (const filePath of Cron.getAllPath(basePath, predicate)) {
       const { default: fileData } = await import(filePath);
       if (!fileData) continue;
@@ -95,10 +90,7 @@ export class Cron {
     return parsed.join(' ');
   }
 
-  private static parseExpression(
-    exp: Cron.ScheduleFunc,
-    vaildTimes: number[],
-  ): string {
+  private static parseExpression(exp: Cron.ScheduleFunc, vaildTimes: number[]): string {
     if (typeof exp === 'string') return exp;
     if (typeof exp === 'number') return exp.toString();
     if (Array.isArray(exp)) return exp.join(',');
@@ -116,15 +108,8 @@ export class CronBuilder {
 
 export namespace Cron {
   export type Schedule = Partial<
-    Record<
-      'second' | 'minute' | 'hour' | 'date' | 'month' | 'day',
-      ScheduleFunc
-    >
+    Record<'second' | 'minute' | 'hour' | 'date' | 'month' | 'day', ScheduleFunc>
   >;
 
-  export type ScheduleFunc =
-    | string
-    | number
-    | number[]
-    | ((time: number) => boolean);
+  export type ScheduleFunc = string | number | number[] | ((time: number) => boolean);
 }

@@ -1,4 +1,4 @@
-import { DiscordEventBuilder } from '@modules/events';
+import { DiscordEventBuilder } from '@/modules/events';
 import { ActivityType, type Client, Events } from 'discord.js';
 
 const onGuildCreate = new DiscordEventBuilder({

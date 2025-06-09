@@ -1,5 +1,5 @@
+import { dashboard } from '@/constants/links';
 import { ChatInput } from '@akki256/discord-interaction';
-import { dashboard } from '@const/links';
 import {
   ActionRowBuilder,
   ButtonBuilder,

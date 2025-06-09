@@ -1,29 +1,11 @@
 {
-  "name": "nonick.js-bot",
+  "name": "bot",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "dev": "nodemon --inspect src/index.ts",
+    "dev": "tsx watch src",
     "start": "node dist/index.js",
-    "build": "tsc -p . && pnpm run copy-assets",
-    "prepare": "ts-patch install",
-    "copy-assets": "shx cp -r src/fonts dist/fonts",
-    "studio": "drizzle-kit studio --port=4984"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@swc/core": "^1.7.42",
-    "@swc/helpers": "^0.5.13",
-    "@types/adm-zip": "^0.5.6",
-    "@types/node": "^22.8.6",
-    "@types/node-cron": "^3.0.11",
-    "nodemon": "^3.1.7",
-    "shx": "^0.3.4",
-    "ts-node": "^10.9.2",
-    "ts-patch": "^3.2.1",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.5.4",
-    "typescript-transform-paths": "^3.5.1"
+    "build": "tspc -p . && pnpm run copy-assets",
+    "copy-assets": "shx cp -r src/fonts dist/fonts"
   },
   "dependencies": {
     "@akki256/discord-interaction": "^3.1.1",
@@ -31,14 +13,24 @@
     "adm-zip": "^0.5.16",
     "axios": "^1.8.2",
     "dayjs": "^1.11.13",
-    "discord-api-types": "0.37.83",
+    "discord-api-types": "catalog:",
     "discord.js": "^14.19.3",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.31.0",
-    "drizzle-orm": "^0.43.1",
-    "i18next": "^25.0.1",
+    "drizzle-orm": "catalog:",
     "node-cron": "^3.0.3",
-    "pg": "^8.15.6",
-    "ts-node-dev": "^2.0.0"
+    "pg": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@repo/database": "workspace:*",
+    "@types/adm-zip": "^0.5.6",
+    "@types/node": "^22.8.6",
+    "@types/node-cron": "^3.0.11",
+    "shx": "^0.3.4",
+    "ts-patch": "^3.3.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.5.4",
+    "typescript-transform-paths": "^3.5.5"
   }
 }

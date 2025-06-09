@@ -1,15 +1,9 @@
-import { red } from '@const/emojis';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { textField, userField } from '@modules/fields';
-import { formatEmoji, getSendableChannel } from '@modules/util';
-import {
-  AuditLogEvent,
-  Colors,
-  EmbedBuilder,
-  Events,
-  type GuildAuditLogsEntry,
-} from 'discord.js';
+import { red } from '@/constants/emojis';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { textField, userField } from '@/modules/fields';
+import { formatEmoji, getSendableChannel } from '@/modules/util';
+import { AuditLogEvent, Colors, EmbedBuilder, Events, type GuildAuditLogsEntry } from 'discord.js';
 import { sendLogToRelatedReport } from './_function';
 
 export default new DiscordEventBuilder({
@@ -33,17 +27,13 @@ export default new DiscordEventBuilder({
             name: fetchedExecutor.username,
             iconURL: fetchedExecutor.displayAvatarURL(),
           })
-          .setDescription(
-            `${formatEmoji(red.hammer)} ${fetchedTarget}をキックしました`,
-          )
+          .setDescription(`${formatEmoji(red.hammer)} ${fetchedTarget}をキックしました`)
           .setTimestamp(),
       ],
     });
 
     if (!(setting?.enabled && setting.channel)) return;
-    const channel = await getSendableChannel(guild, setting.channel).catch(
-      () => null,
-    );
+    const channel = await getSendableChannel(guild, setting.channel).catch(() => null);
     if (!channel) return;
 
     channel.send({

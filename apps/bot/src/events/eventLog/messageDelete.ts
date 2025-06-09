@@ -1,26 +1,13 @@
-import { red } from '@const/emojis';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { channelField, scheduleField, userField } from '@modules/fields';
-import {
-  createAttachment,
-  formatEmoji,
-  getSendableChannel,
-} from '@modules/util';
-import {
-  AuditLogEvent,
-  Collection,
-  Colors,
-  EmbedBuilder,
-  Events,
-} from 'discord.js';
+import { red } from '@/constants/emojis';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { channelField, scheduleField, userField } from '@/modules/fields';
+import { createAttachment, formatEmoji, getSendableChannel } from '@/modules/util';
+import { AuditLogEvent, Collection, Colors, EmbedBuilder, Events } from 'discord.js';
 import type { GuildAuditLogsEntry, Message } from 'discord.js';
 import { sendLogToRelatedReport } from './_function';
 
-const lastLogs = new Collection<
-  string,
-  GuildAuditLogsEntry<AuditLogEvent.MessageDelete>
->();
+const lastLogs = new Collection<string, GuildAuditLogsEntry<AuditLogEvent.MessageDelete>>();
 
 export default new DiscordEventBuilder({
   type: Events.MessageDelete,
@@ -45,9 +32,7 @@ export default new DiscordEventBuilder({
               name: executor.username,
               iconURL: executor.displayAvatarURL(),
             })
-            .setDescription(
-              `${formatEmoji(red.binTrash)} メッセージを削除しました`,
-            )
+            .setDescription(`${formatEmoji(red.binTrash)} メッセージを削除しました`)
             .setTimestamp(),
         ],
       });
@@ -82,10 +67,7 @@ export default new DiscordEventBuilder({
     const attachment = await createAttachment(message.attachments);
 
     if (!(setting?.enabled && setting.channel)) return;
-    const channel = await getSendableChannel(
-      message.guild,
-      setting.channel,
-    ).catch(() => null);
+    const channel = await getSendableChannel(message.guild, setting.channel).catch(() => null);
 
     if (!channel) return;
     if (attachment) channel.send({ embeds: [embed], files: [attachment] });
@@ -102,16 +84,11 @@ async function getAuditLog(message: Message<true>) {
     })
     .then((v) =>
       v.entries.find(
-        (e) =>
-          e.target?.equals(message.author) &&
-          e.extra.channel.id === message.channel.id,
+        (e) => e.target?.equals(message.author) && e.extra.channel.id === message.channel.id,
       ),
     );
   const lastLog = lastLogs.get(message.guild.id);
-  if (
-    entry &&
-    !(lastLog?.id === entry.id && lastLog.extra.count >= entry.extra.count)
-  ) {
+  if (entry && !(lastLog?.id === entry.id && lastLog.extra.count >= entry.extra.count)) {
     lastLogs.set(message.guild.id, entry);
     return entry;
   }

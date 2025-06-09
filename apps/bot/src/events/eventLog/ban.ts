@@ -1,8 +1,8 @@
-import { blurple, red } from '@const/emojis';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { textField, userField } from '@modules/fields';
-import { formatEmoji, getSendableChannel } from '@modules/util';
+import { blurple, red } from '@/constants/emojis';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { textField, userField } from '@/modules/fields';
+import { formatEmoji, getSendableChannel } from '@/modules/util';
 import {
   AuditLogEvent,
   Colors,
@@ -13,10 +13,7 @@ import {
 } from 'discord.js';
 import { sendLogToRelatedReport } from './_function';
 
-const state = [
-  AuditLogEvent.MemberBanAdd,
-  AuditLogEvent.MemberBanRemove,
-] as const;
+const state = [AuditLogEvent.MemberBanAdd, AuditLogEvent.MemberBanRemove] as const;
 
 export default new DiscordEventBuilder({
   type: Events.GuildAuditLogEntryCreate,
@@ -49,9 +46,7 @@ export default new DiscordEventBuilder({
     });
 
     if (!(setting?.enabled && setting.channel)) return;
-    const channel = await getSendableChannel(guild, setting.channel).catch(
-      () => null,
-    );
+    const channel = await getSendableChannel(guild, setting.channel).catch(() => null);
     if (!channel) return;
 
     channel.send({

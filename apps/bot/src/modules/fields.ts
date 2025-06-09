@@ -1,4 +1,4 @@
-import { type EmojiColors, type Emojis, getColorEmoji } from '@const/emojis';
+import { type EmojiColors, type Emojis, getColorEmoji } from '@/constants/emojis';
 import { bold, escapeMarkdown, inlineCode, time } from 'discord.js';
 import type {
   Channel,
@@ -55,10 +55,7 @@ interface CountFieldOption<T extends Emojis> {
   label: string;
 }
 
-export function userField(
-  user: User,
-  options?: Partial<UserFieldOption>,
-): string;
+export function userField(user: User, options?: Partial<UserFieldOption>): string;
 export function userField<T extends Emojis>(
   user: User,
   options: UserFieldWithEmojiOption<T>,
@@ -83,10 +80,7 @@ export function userField<T extends Emojis>(
   )} ${user.toString()} [${inlineCode(user.tag)}]`;
 }
 
-export function nicknameField(
-  member: GuildMember,
-  options?: Partial<NicknameOption>,
-) {
+export function nicknameField(member: GuildMember, options?: Partial<NicknameOption>) {
   const option: NicknameOption = {
     label: 'ユーザー',
     color: 'white',
@@ -103,15 +97,10 @@ export function textField(text: string, options?: Partial<TextFieldOption>) {
     color: 'gray',
     ...options,
   };
-  return `${formatEmoji(getColorEmoji('text', option.color))} ${bold(
-    `${option.label}:`,
-  )} ${text}`;
+  return `${formatEmoji(getColorEmoji('text', option.color))} ${bold(`${option.label}:`)} ${text}`;
 }
 
-export function scheduleField(
-  date: Date | number,
-  options?: Partial<ScheduleFieldOption>,
-) {
+export function scheduleField(date: Date | number, options?: Partial<ScheduleFieldOption>) {
   const d = typeof date === 'number' ? new Date(date) : date;
   const option: ScheduleFieldOption = {
     label: '時間',
@@ -124,10 +113,7 @@ export function scheduleField(
 }
 
 export function channelField(
-  channel: Exclude<
-    Channel,
-    DMChannel | PartialDMChannel | PartialGroupDMChannel
-  >,
+  channel: Exclude<Channel, DMChannel | PartialDMChannel | PartialGroupDMChannel>,
   options?: Partial<ChannelFieldOption>,
 ) {
   const option: ChannelFieldOption = {
@@ -151,10 +137,7 @@ export function idField(id: string, options?: Partial<IdFieldOption>) {
   )} ${inlineCode(id)}`;
 }
 
-export function permissionField(
-  permissions: string[],
-  options?: PermissionFieldOption,
-) {
+export function permissionField(permissions: string[], options?: PermissionFieldOption) {
   const option: PermissionFieldOption = {
     label: '権限がありません',
     ...options,
@@ -164,10 +147,7 @@ export function permissionField(
   }`;
 }
 
-export function countField<T extends Emojis>(
-  count: number,
-  options: CountFieldOption<T>,
-) {
+export function countField<T extends Emojis>(count: number, options: CountFieldOption<T>) {
   return `${formatEmoji(
     getColorEmoji(options.emoji, options.color) as string,
   )} ${options.label}: ${inlineCode(count.toString())}`;

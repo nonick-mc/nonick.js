@@ -1,5 +1,4 @@
-import { ChatInput, UserContext } from '@akki256/discord-interaction';
-import { userFlag } from '@const/emojis';
+import { userFlag } from '@/constants/emojis';
 import {
   countField,
   idField,
@@ -7,8 +6,9 @@ import {
   permissionField,
   scheduleField,
   userField,
-} from '@modules/fields';
-import { formatEmoji, permToText } from '@modules/util';
+} from '@/modules/fields';
+import { formatEmoji, permToText } from '@/modules/util';
+import { ChatInput, UserContext } from '@akki256/discord-interaction';
 import {
   ApplicationCommandOptionType,
   Colors,
@@ -64,12 +64,7 @@ const command = new ChatInput(
 
     if (subCommand === 'user')
       return interaction.reply({
-        embeds: [
-          await createUserInfo(
-            interaction,
-            interaction.options.getUser('user', true),
-          ),
-        ],
+        embeds: [await createUserInfo(interaction, interaction.options.getUser('user', true))],
         ephemeral: true,
       });
     if (subCommand === 'server')
@@ -80,23 +75,19 @@ const command = new ChatInput(
             .setDescription(
               [
                 idField(interaction.guild.id, { label: 'サーバーID' }),
-                userField(
-                  await interaction.guild.fetchOwner().then((v) => v.user),
-                  { label: 'オーナー' },
-                ),
+                userField(await interaction.guild.fetchOwner().then((v) => v.user), {
+                  label: 'オーナー',
+                }),
                 countField(interaction.guild.memberCount, {
                   emoji: 'member',
                   color: 'white',
                   label: 'メンバー数',
                 }),
-                countField(
-                  interaction.guild.channels.channelCountWithoutThreads,
-                  {
-                    emoji: 'channel',
-                    color: 'white',
-                    label: 'チャンネル数',
-                  },
-                ),
+                countField(interaction.guild.channels.channelCountWithoutThreads, {
+                  emoji: 'channel',
+                  color: 'white',
+                  label: 'チャンネル数',
+                }),
                 scheduleField(interaction.guild.createdAt, {
                   label: 'サーバー作成日',
                 }),
@@ -119,9 +110,7 @@ const command = new ChatInput(
               },
               {
                 name: 'ロール',
-                value: interaction.member.permissions.has(
-                  PermissionFlagsBits.ManageRoles,
-                )
+                value: interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)
                   ? roleList(interaction.guild.roles)
                   : permissionField(permToText('ManageRoles')),
               },
@@ -149,14 +138,10 @@ const context = new UserContext(
 export default [command, context];
 
 async function createUserInfo(
-  interaction:
-    | ChatInputCommandInteraction<'cached'>
-    | UserContextMenuCommandInteraction<'cached'>,
+  interaction: ChatInputCommandInteraction<'cached'> | UserContextMenuCommandInteraction<'cached'>,
   user: User,
 ) {
-  const member = await interaction.guild?.members
-    .fetch(user.id)
-    .catch(() => null);
+  const member = await interaction.guild?.members.fetch(user.id).catch(() => null);
 
   const userAvatar = user.displayAvatarURL();
   const userFlags = user.flags?.toArray().flatMap((flag) => {
@@ -169,9 +154,7 @@ async function createUserInfo(
     .setAuthor({ name: user.tag })
     .setTitle(member ? null : 'このユーザーはこのサーバーにはいません')
     .setDescription(
-      [member ? nicknameField(member) : '', idField(user.id)]
-        .filter(Boolean)
-        .join('\n'),
+      [member ? nicknameField(member) : '', idField(user.id)].filter(Boolean).join('\n'),
     )
     .setColor(member ? member.displayColor || Colors.White : Colors.DarkerGrey)
     .setThumbnail(userAvatar)
@@ -203,10 +186,7 @@ async function createUserInfo(
   if (member.premiumSince) {
     embed.addFields({
       name: 'ブースト開始日',
-      value: `${time(member.premiumSince, 'D')} (${time(
-        member.premiumSince,
-        'R',
-      )})`,
+      value: `${time(member.premiumSince, 'D')} (${time(member.premiumSince, 'R')})`,
     });
   }
 
@@ -225,9 +205,7 @@ async function createUserInfo(
 
   const memberAvatar = member.displayAvatarURL();
   if (memberAvatar !== userAvatar) {
-    embed
-      .setAuthor({ name: user.tag, iconURL: userAvatar })
-      .setThumbnail(memberAvatar);
+    embed.setAuthor({ name: user.tag, iconURL: userAvatar }).setThumbnail(memberAvatar);
   }
   return embed;
 }

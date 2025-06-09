@@ -1,5 +1,5 @@
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
 import { Events } from 'discord.js';
 
 export default new DiscordEventBuilder({

@@ -1,9 +1,5 @@
-import {
-  MessageContext,
-  SelectMenu,
-  SelectMenuType,
-} from '@akki256/discord-interaction';
-import { white } from '@const/emojis';
+import { white } from '@/constants/emojis';
+import { MessageContext, SelectMenu, SelectMenuType } from '@akki256/discord-interaction';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -31,9 +27,7 @@ const context = new MessageContext(
         ephemeral: true,
       });
 
-    const webhook = await interaction.targetMessage
-      .fetchWebhook()
-      .catch(() => null);
+    const webhook = await interaction.targetMessage.fetchWebhook().catch(() => null);
     if (!webhook || !interaction.client.user.equals(webhook.owner as User))
       return interaction.reply({
         content:
@@ -92,8 +86,7 @@ const select = new SelectMenu(
   },
   async (interaction) => {
     if (!interaction.inCachedGuild()) return;
-    const targetId =
-      interaction.message.embeds[0].footer?.text.match(/[0-9]{18,19}/)?.[0];
+    const targetId = interaction.message.embeds[0].footer?.text.match(/[0-9]{18,19}/)?.[0];
     const targetMessage = await interaction.channel?.messages
       .fetch(targetId || '')
       ?.catch(() => undefined);
@@ -109,10 +102,7 @@ const select = new SelectMenu(
       interaction.update({
         content: `メッセージID: ${targetId}`,
         embeds: targetMessage.embeds,
-        components: getEmbedMakerButtons(
-          targetMessage.embeds[0],
-          embedMakerType.edit,
-        ),
+        components: getEmbedMakerButtons(targetMessage.embeds[0], embedMakerType.edit),
       });
     else if (interaction.values[0] === 'addRoleSelect') {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles))
@@ -191,9 +181,7 @@ const select = new SelectMenu(
         embeds: [
           EmbedBuilder.from(interaction.message.embeds[0])
             .setTitle('`🧰` コンポーネントの削除')
-            .setDescription(
-              '下のセレクトメニューから削除するコンポーネントの行を選択してください',
-            ),
+            .setDescription('下のセレクトメニューから削除するコンポーネントの行を選択してください'),
         ],
         components: [
           new ActionRowBuilder<StringSelectMenuBuilder>().setComponents(

@@ -1,7 +1,7 @@
+import { permissionField } from '@/modules/fields';
+import { Duration } from '@/modules/format';
+import { permToText } from '@/modules/util';
 import { ChatInput } from '@akki256/discord-interaction';
-import { permissionField } from '@modules/fields';
-import { Duration } from '@modules/format';
-import { permToText } from '@modules/util';
 import {
   ApplicationCommandOptionType,
   Colors,
@@ -60,9 +60,7 @@ export default new ChatInput(
         interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setDescription(
-                `${inlineCode('❌')} 低速モードの設定に失敗しました`,
-              )
+              .setDescription(`${inlineCode('❌')} 低速モードの設定に失敗しました`)
               .setColor(Colors.Red),
           ],
         });

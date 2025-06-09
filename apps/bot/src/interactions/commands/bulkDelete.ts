@@ -1,7 +1,7 @@
+import { permissionField } from '@/modules/fields';
+import { Duration } from '@/modules/format';
+import { permToText } from '@/modules/util';
 import { ChatInput } from '@akki256/discord-interaction';
-import { permissionField } from '@modules/fields';
-import { Duration } from '@modules/format';
-import { permToText } from '@modules/util';
 import {
   ApplicationCommandOptionType,
   Colors,
@@ -14,8 +14,7 @@ import {
 export default new ChatInput(
   {
     name: 'bulkdelete',
-    description:
-      'このチャンネルに送信されたメッセージを最新順に一括削除 (2週間前まで)',
+    description: 'このチャンネルに送信されたメッセージを最新順に一括削除 (2週間前まで)',
     options: [
       {
         name: 'messages',
@@ -48,9 +47,7 @@ export default new ChatInput(
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                `${inlineCode('✅')} メッセージを${inlineCode(
-                  `${bulkCount}件`,
-                )}削除しました`,
+                `${inlineCode('✅')} メッセージを${inlineCode(`${bulkCount}件`)}削除しました`,
               )
               .setColor(Colors.Green),
           ],
@@ -62,10 +59,7 @@ export default new ChatInput(
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                [
-                  `${inlineCode('❌')} メッセージの削除に失敗しました`,
-                  codeBlock(err),
-                ].join('\n'),
+                [`${inlineCode('❌')} メッセージの削除に失敗しました`, codeBlock(err)].join('\n'),
               )
               .setColor(Colors.Red),
           ],

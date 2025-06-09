@@ -1,4 +1,4 @@
-import { white } from '@const/emojis';
+import { white } from '@/constants/emojis';
 import {
   type APIStringSelectComponent,
   ActionRowBuilder,
@@ -6,9 +6,7 @@ import {
   ButtonStyle,
 } from 'discord.js';
 
-export function getRoleSelectMakerButtons(
-  selectMenu?: Partial<APIStringSelectComponent>,
-) {
+export function getRoleSelectMakerButtons(selectMenu?: Partial<APIStringSelectComponent>) {
   return new ActionRowBuilder<ButtonBuilder>().setComponents(
     new ButtonBuilder()
       .setCustomId('nonick-js:embedMaker-selectRole-addRole')
@@ -31,11 +29,7 @@ export function getRoleSelectMakerButtons(
           ? 'nonick-js:embedMaker-selectRole-selectMode-single'
           : 'nonick-js:embedMaker-selectRole-selectMode-multi',
       )
-      .setLabel(
-        (selectMenu?.max_values || 0) <= 1
-          ? '選択モード：単一'
-          : '選択モード：複数',
-      )
+      .setLabel((selectMenu?.max_values || 0) <= 1 ? '選択モード：単一' : '選択モード：複数')
       .setStyle(ButtonStyle.Success)
       .setDisabled(!selectMenu),
     new ButtonBuilder()

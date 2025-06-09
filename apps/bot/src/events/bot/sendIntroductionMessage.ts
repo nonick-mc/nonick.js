@@ -1,7 +1,7 @@
-﻿import { success } from '@const/emojis';
-import { dashboard, document, supportServer } from '@const/links';
-import { DiscordEventBuilder } from '@modules/events';
-import { formatEmoji } from '@modules/util';
+﻿import { success } from '@/constants/emojis';
+import { dashboard, document, supportServer } from '@/constants/links';
+import { DiscordEventBuilder } from '@/modules/events';
+import { formatEmoji } from '@/modules/util';
 import {
   ActionRowBuilder,
   AuditLogEvent,
@@ -40,9 +40,7 @@ export default new DiscordEventBuilder({
             ),
           ])
           .addSeparatorComponents([
-            new SeparatorBuilder()
-              .setSpacing(SeparatorSpacingSize.Small)
-              .setDivider(false),
+            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
           ])
           .addTextDisplayComponents([
             new TextDisplayBuilder().setContent(
@@ -54,9 +52,7 @@ export default new DiscordEventBuilder({
             ),
           ])
           .addSeparatorComponents([
-            new SeparatorBuilder()
-              .setSpacing(SeparatorSpacingSize.Small)
-              .setDivider(false),
+            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
           ])
           .addActionRowComponents([
             new ActionRowBuilder<ButtonBuilder>().setComponents([

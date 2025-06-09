@@ -1,12 +1,6 @@
+import { dashboard, document, supportServer } from '@/constants/links';
 import { ChatInput } from '@akki256/discord-interaction';
-import { dashboard, document, supportServer } from '@const/links';
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  Colors,
-  EmbedBuilder,
-} from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder } from 'discord.js';
 
 export default new ChatInput(
   {
@@ -14,8 +8,7 @@ export default new ChatInput(
     description: 'このBOTについて',
   },
   async (interaction) => {
-    const developer =
-      await interaction.client.users.fetch('735110742222831657');
+    const developer = await interaction.client.users.fetch('735110742222831657');
 
     interaction.reply({
       embeds: [
@@ -42,10 +35,7 @@ export default new ChatInput(
             .setLabel('サポートサーバー')
             .setStyle(ButtonStyle.Link)
             .setURL(supportServer),
-          new ButtonBuilder()
-            .setLabel('使い方ガイド')
-            .setStyle(ButtonStyle.Link)
-            .setURL(document),
+          new ButtonBuilder().setLabel('使い方ガイド').setStyle(ButtonStyle.Link).setURL(document),
           new ButtonBuilder()
             .setLabel('ダッシュボード')
             .setStyle(ButtonStyle.Link)

@@ -2,13 +2,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import path from 'node:path';
-import {
-  DiscordInteractions,
-  ErrorCodes,
-  InteractionsError,
-} from '@akki256/discord-interaction';
-import { Cron } from '@modules/cron';
-import { DiscordEvents } from '@modules/events';
+import { Cron } from '@/modules/cron';
+import { DiscordEvents } from '@/modules/events';
+import { DiscordInteractions, ErrorCodes, InteractionsError } from '@akki256/discord-interaction';
 import {
   ActivityType,
   AllowedMentionsTypes,
@@ -29,12 +25,7 @@ export const client = new Client({
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildVoiceStates,
   ],
-  partials: [
-    Partials.Channel,
-    Partials.GuildMember,
-    Partials.Message,
-    Partials.User,
-  ],
+  partials: [Partials.Channel, Partials.GuildMember, Partials.Message, Partials.User],
   allowedMentions: {
     parse: [AllowedMentionsTypes.Role, AllowedMentionsTypes.User],
   },
@@ -53,10 +44,7 @@ client.once(Events.ClientReady, async () => {
   console.table({
     'Bot User': client.user?.tag,
     Guilds: `${client.guilds.cache.size} Servers`,
-    Watching: `${client.guilds.cache.reduce(
-      (a, b) => a + b.memberCount,
-      0,
-    )} Members`,
+    Watching: `${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Members`,
     'Discord.js': `v${version}`,
     'Node.js': process.version,
     Platform: `${process.platform} | ${process.arch}`,
@@ -80,10 +68,7 @@ client.on(Events.InteractionCreate, (interaction) => {
   if (!interaction.isRepliable()) return;
 
   interactions.run(interaction).catch((err) => {
-    if (
-      err instanceof InteractionsError &&
-      err.code === ErrorCodes.CommandHasCoolTime
-    )
+    if (err instanceof InteractionsError && err.code === ErrorCodes.CommandHasCoolTime)
       return interaction.reply({
         content: '`⌛` コマンドはクールダウン中です',
         ephemeral: true,

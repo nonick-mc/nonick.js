@@ -1,5 +1,5 @@
+import { Duration } from '@/modules/format';
 import { ChatInput } from '@akki256/discord-interaction';
-import { Duration } from '@modules/format';
 import {
   ApplicationCommandOptionType,
   Colors,
@@ -120,10 +120,7 @@ export default new ChatInput(
           embeds: [
             new EmbedBuilder()
               .setDescription(
-                [
-                  `${inlineCode('❌')} タイムアウトに失敗しました`,
-                  codeBlock(err),
-                ].join('\n'),
+                [`${inlineCode('❌')} タイムアウトに失敗しました`, codeBlock(err)].join('\n'),
               )
               .setColor(Colors.Red),
           ],

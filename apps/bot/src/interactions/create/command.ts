@@ -1,8 +1,8 @@
-﻿import { ChatInput } from '@akki256/discord-interaction';
-import { dashboard } from '@const/links';
-import { db } from '@modules/drizzle';
-import { permissionField } from '@modules/fields';
-import { permToText } from '@modules/util';
+﻿import { dashboard } from '@/constants/links';
+import { db } from '@/modules/drizzle';
+import { permissionField } from '@/modules/fields';
+import { permToText } from '@/modules/util';
+import { ChatInput } from '@akki256/discord-interaction';
 import {
   ActionRowBuilder,
   ApplicationCommandOptionType,
@@ -79,11 +79,7 @@ const createCommand = new ChatInput(
       });
     }
 
-    if (
-      !interaction.guild.members.me?.permissions.has(
-        PermissionFlagsBits.ManageRoles,
-      )
-    ) {
+    if (!interaction.guild.members.me?.permissions.has(PermissionFlagsBits.ManageRoles)) {
       return interaction.reply({
         content: permissionField(permToText('ManageRoles'), {
           label: 'BOTの権限が不足しています',
@@ -94,10 +90,7 @@ const createCommand = new ChatInput(
     if (
       !interaction.channel
         ?.permissionsFor(interaction.client.user)
-        ?.has([
-          PermissionFlagsBits.ViewChannel,
-          PermissionFlagsBits.SendMessages,
-        ])
+        ?.has([PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages])
     ) {
       return interaction.reply({
         content: `${inlineCode(
@@ -112,13 +105,9 @@ const createCommand = new ChatInput(
     const inputColor = interaction.options.getNumber('color');
 
     const container = new ContainerBuilder()
-      .addTextDisplayComponents([
-        new TextDisplayBuilder().setContent('## 認証'),
-      ])
+      .addTextDisplayComponents([new TextDisplayBuilder().setContent('## 認証')])
       .addSeparatorComponents(
-        new SeparatorBuilder()
-          .setSpacing(SeparatorSpacingSize.Small)
-          .setDivider(false),
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
       )
       .addTextDisplayComponents([
         new TextDisplayBuilder().setContent(
@@ -128,22 +117,16 @@ const createCommand = new ChatInput(
         ),
       ])
       .addSeparatorComponents(
-        new SeparatorBuilder()
-          .setSpacing(SeparatorSpacingSize.Small)
-          .setDivider(false),
+        new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
       );
 
     if (inputImage) {
       container
         .addMediaGalleryComponents([
-          new MediaGalleryBuilder().addItems(
-            new MediaGalleryItemBuilder().setURL(inputImage.url),
-          ),
+          new MediaGalleryBuilder().addItems(new MediaGalleryItemBuilder().setURL(inputImage.url)),
         ])
         .addSeparatorComponents(
-          new SeparatorBuilder()
-            .setSpacing(SeparatorSpacingSize.Small)
-            .setDivider(false),
+          new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
         );
     }
 

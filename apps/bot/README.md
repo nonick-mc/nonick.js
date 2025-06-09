@@ -1,7 +1,7 @@
-# NoNICK.js
+# `bot`
 Discordサーバーの運営をサポートする機能を搭載した多機能BOTです。
 
-![banner](/.github/assets/banner.png)
+![banner](./.github/assets/banner.png)
 
 ## 📑Usage
 ### Discordアプリケーションを作成する

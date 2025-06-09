@@ -1,5 +1,5 @@
-﻿import { report } from '@database/src/schema/report';
-import { db } from '@modules/drizzle';
+﻿import { db } from '@/modules/drizzle';
+import { report } from '@repo/database';
 import {
   type BaseMessageOptions,
   ChannelType,
@@ -22,9 +22,10 @@ export async function sendLogToRelatedReport(
   });
   if (!setting?.channel || !setting.showModerateLog) return;
 
-  const channel = (await guild.channels
-    .fetch(setting.channel)
-    .catch(() => null)) as TextChannel | ForumChannel | null;
+  const channel = (await guild.channels.fetch(setting.channel).catch(() => null)) as
+    | TextChannel
+    | ForumChannel
+    | null;
   if (!channel) return;
 
   const reports = await db.query.report.findMany({
@@ -44,14 +45,9 @@ export async function sendLogToRelatedReport(
 
   for (const r of reports) {
     const thread = await channel.threads.fetch(r.threadId).catch(() => null);
-    const starterMesasge = await thread
-      ?.fetchStarterMessage()
-      .catch(() => null);
+    const starterMesasge = await thread?.fetchStarterMessage().catch(() => null);
 
-    if (
-      !thread ||
-      (channel.type === ChannelType.GuildText && !starterMesasge)
-    ) {
+    if (!thread || (channel.type === ChannelType.GuildText && !starterMesasge)) {
       return await db.delete(report).where(eq(report.id, r.id));
     }
     if (!thread.isSendable()) return;

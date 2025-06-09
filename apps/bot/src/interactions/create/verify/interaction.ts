@@ -1,6 +1,6 @@
-﻿import { Button } from '@akki256/discord-interaction';
-import { dashboard } from '@const/links';
-import { db } from '@modules/drizzle';
+﻿import { dashboard } from '@/constants/links';
+import { db } from '@/modules/drizzle';
+import { Button } from '@akki256/discord-interaction';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -25,20 +25,16 @@ const verifyButton = new Button(
 
     if (!setting?.enabled || !setting.role) {
       return interaction.reply({
-        content:
-          '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
+        content: '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
         flags: MessageFlags.Ephemeral,
       });
     }
 
-    const role = await interaction.guild.roles
-      .fetch(setting.role)
-      .catch(() => null);
+    const role = await interaction.guild.roles.fetch(setting.role).catch(() => null);
 
     if (!role) {
       return interaction.reply({
-        content:
-          '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
+        content: '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
         flags: MessageFlags.Ephemeral,
       });
     }

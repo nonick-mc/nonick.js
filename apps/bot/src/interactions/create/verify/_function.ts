@@ -1,5 +1,5 @@
-﻿import { Captcha } from '@modules/captcha';
-import { Duration } from '@modules/format';
+﻿import { Captcha } from '@/modules/captcha';
+import { Duration } from '@/modules/format';
 import {
   AttachmentBuilder,
   type ButtonInteraction,
@@ -11,10 +11,7 @@ import {
 
 const duringAuthentication = new Set<string>();
 
-export function verifyForButtonCaptcha(
-  interaction: ButtonInteraction<'cached'>,
-  roleId: string,
-) {
+export function verifyForButtonCaptcha(interaction: ButtonInteraction<'cached'>, roleId: string) {
   interaction.member.roles
     .add(roleId, '認証')
     .then(() =>
@@ -94,14 +91,10 @@ export async function verifyForImageCaptcha(
 
         interaction.member.roles
           .add(roleId, '認証')
-          .then(() =>
-            interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`),
-          )
+          .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
-              `${inlineCode(
-                '❌',
-              )} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
+              `${inlineCode('❌')} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
             ),
           )
           .finally(() => collector.stop());
@@ -110,16 +103,11 @@ export async function verifyForImageCaptcha(
       collector.on('end', (collection) => {
         if (collection.size === 3) {
           interaction.user.send(
-            `${inlineCode(
-              '❌',
-            )} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
+            `${inlineCode('❌')} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
               '5分後',
             )}から可能になります。`,
           );
-          setTimeout(
-            () => duringAuthentication.delete(interaction.user.id),
-            Duration.toMS('5m'),
-          );
+          setTimeout(() => duringAuthentication.delete(interaction.user.id), Duration.toMS('5m'));
         } else duringAuthentication.delete(interaction.user.id);
       });
     })

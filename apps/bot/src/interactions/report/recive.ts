@@ -1,6 +1,6 @@
+import { db } from '@/modules/drizzle';
 import { Button, Modal } from '@akki256/discord-interaction';
-import { report } from '@database/src/schema/report';
-import { db } from '@modules/drizzle';
+import { report } from '@repo/database';
 import {
   ActionRowBuilder,
   type ButtonInteraction,
@@ -19,30 +19,26 @@ import {
 } from 'discord.js';
 import { and, eq } from 'drizzle-orm';
 
-const completeButton = new Button(
-  { customId: 'nonick-js:report-completed' },
-  (interaction) => closeReport(interaction, true),
+const completeButton = new Button({ customId: 'nonick-js:report-completed' }, (interaction) =>
+  closeReport(interaction, true),
 );
 
-const ignoreButton = new Button(
-  { customId: 'nonick-js:report-ignore' },
-  (interaction): void => {
-    interaction.showModal(
-      new ModalBuilder()
-        .setCustomId('nonick-js:report-ignoreReasonModal')
-        .setTitle('対応なしとしてマーク')
-        .setComponents(
-          new ActionRowBuilder<TextInputBuilder>().addComponents(
-            new TextInputBuilder()
-              .setCustomId('reason')
-              .setLabel('対応なしに設定する理由')
-              .setMaxLength(100)
-              .setStyle(TextInputStyle.Short),
-          ),
+const ignoreButton = new Button({ customId: 'nonick-js:report-ignore' }, (interaction): void => {
+  interaction.showModal(
+    new ModalBuilder()
+      .setCustomId('nonick-js:report-ignoreReasonModal')
+      .setTitle('対応なしとしてマーク')
+      .setComponents(
+        new ActionRowBuilder<TextInputBuilder>().addComponents(
+          new TextInputBuilder()
+            .setCustomId('reason')
+            .setLabel('対応なしに設定する理由')
+            .setMaxLength(100)
+            .setStyle(TextInputStyle.Short),
         ),
-    );
-  },
-);
+      ),
+  );
+});
 
 const ignoreReasonModal = new Modal(
   { customId: 'nonick-js:report-ignoreReasonModal' },
@@ -58,20 +54,14 @@ async function closeReport(
   reason?: string,
 ) {
   if (!interaction.inCachedGuild()) return;
-  if (
-    interaction.type === InteractionType.ModalSubmit &&
-    !interaction.isFromMessage()
-  )
-    return;
+  if (interaction.type === InteractionType.ModalSubmit && !interaction.isFromMessage()) return;
 
   const setting = await db.query.reportSetting.findFirst({
     where: (setting, { eq }) => eq(setting.guildId, interaction.guildId),
   });
   if (!setting) return;
 
-  const thread = interaction.channel?.isThread()
-    ? interaction.channel
-    : interaction.message.thread;
+  const thread = interaction.channel?.isThread() ? interaction.channel : interaction.message.thread;
 
   if (!thread?.parentId) return;
   const parentChannelId = thread.parentId;
@@ -85,8 +75,7 @@ async function closeReport(
       iconURL: interaction.user.displayAvatarURL(),
     })
     .setColor(isCompleted ? Colors.Green : Colors.Red);
-  if (!isCompleted)
-    embed.setFooter({ text: `理由: ${escapeMarkdown(reason ?? '')}` });
+  if (!isCompleted) embed.setFooter({ text: `理由: ${escapeMarkdown(reason ?? '')}` });
 
   await interaction.update({
     components: [
@@ -97,18 +86,13 @@ async function closeReport(
     flags: MessageFlags.IsComponentsV2,
   });
 
-  if (
-    thread.parent?.type === ChannelType.GuildForum &&
-    thread.parentId === setting.channel
-  ) {
+  if (thread.parent?.type === ChannelType.GuildForum && thread.parentId === setting.channel) {
     if (isCompleted && setting.forumCompletedTag)
       await thread
         .setAppliedTags([...thread.appliedTags, setting.forumCompletedTag])
         .catch(() => {});
     if (!isCompleted && setting.forumIgnoredTag)
-      await thread
-        .setAppliedTags([...thread.appliedTags, setting.forumIgnoredTag])
-        .catch(() => {});
+      await thread.setAppliedTags([...thread.appliedTags, setting.forumIgnoredTag]).catch(() => {});
   }
 
   await db

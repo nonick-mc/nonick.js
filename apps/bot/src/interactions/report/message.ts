@@ -1,10 +1,10 @@
+import { blurple, red } from '@/constants/emojis';
+import { dashboard } from '@/constants/links';
+import { db } from '@/modules/drizzle';
+import { channelField, scheduleField, userField } from '@/modules/fields';
+import { formatEmoji } from '@/modules/util';
 import { MessageContext, Modal } from '@akki256/discord-interaction';
-import { blurple, red } from '@const/emojis';
-import { dashboard } from '@const/links';
-import { report } from '@database/src/schema/report';
-import { db } from '@modules/drizzle';
-import { channelField, scheduleField, userField } from '@modules/fields';
-import { formatEmoji } from '@modules/util';
+import { report } from '@repo/database';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -51,8 +51,7 @@ const messageContext = new MessageContext(
         });
       }
       return interaction.reply({
-        content:
-          '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
+        content: '`❌` 現在この機能を利用できません。サーバーの管理者に連絡してください。',
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -66,11 +65,7 @@ const messageContext = new MessageContext(
         flags: MessageFlags.Ephemeral,
       });
     }
-    if (
-      targetUser.system ||
-      targetUser.bot ||
-      targetUser.id === interaction.client.user.id
-    ) {
+    if (targetUser.system || targetUser.bot || targetUser.id === interaction.client.user.id) {
       return interaction.reply({
         content: '`❌` このユーザーを通報することはできません。',
         flags: MessageFlags.Ephemeral,
@@ -134,9 +129,7 @@ const messageReportModal = new Modal(
     const targetMessage = await interaction.channel.messages
       .fetch(interaction.components[0].components[0].customId)
       .catch(() => null);
-    const channel = await interaction.guild.channels
-      .fetch(setting.channel)
-      .catch(() => null);
+    const channel = await interaction.guild.channels.fetch(setting.channel).catch(() => null);
     const permission = channel?.permissionsFor(interaction.client.user);
 
     if (!(targetMessage instanceof Message)) {
@@ -153,10 +146,7 @@ const messageReportModal = new Modal(
         ephemeral: true,
       });
     }
-    if (
-      channel.type !== ChannelType.GuildText &&
-      channel.type !== ChannelType.GuildForum
-    ) {
+    if (channel.type !== ChannelType.GuildText && channel.type !== ChannelType.GuildForum) {
       return interaction.reply({
         content:
           '`❌` 送信先のチャンネルは通報の送信に対応していません。サーバーの管理者に連絡してください。',
@@ -190,17 +180,10 @@ const messageReportModal = new Modal(
     });
 
     if (duplicateReport) {
-      const thread = await channel.threads
-        .fetch(duplicateReport.threadId)
-        .catch(() => null);
-      const starterMesasge = await thread
-        ?.fetchStarterMessage()
-        .catch(() => null);
+      const thread = await channel.threads.fetch(duplicateReport.threadId).catch(() => null);
+      const starterMesasge = await thread?.fetchStarterMessage().catch(() => null);
 
-      if (
-        !thread ||
-        (channel.type === ChannelType.GuildText && !starterMesasge)
-      ) {
+      if (!thread || (channel.type === ChannelType.GuildText && !starterMesasge)) {
         // チャンネルが削除されていた場合、データベース上から削除する
         await db.delete(report).where(eq(report.id, duplicateReport.id));
       } else {
@@ -215,9 +198,7 @@ const messageReportModal = new Modal(
                   ),
                 ])
                 .addSeparatorComponents([
-                  new SeparatorBuilder()
-                    .setSpacing(SeparatorSpacingSize.Small)
-                    .setDivider(false),
+                  new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
                 ])
                 .addTextDisplayComponents([
                   new TextDisplayBuilder().setContent(
@@ -236,8 +217,7 @@ const messageReportModal = new Modal(
           })
           .then(() =>
             interaction.followUp({
-              content:
-                '`✅` **ご協力ありがとうございます！** サーバー運営に通報を送信しました。',
+              content: '`✅` **ご協力ありがとうございます！** サーバー運営に通報を送信しました。',
               flags: MessageFlags.Ephemeral,
             }),
           )
@@ -255,14 +235,10 @@ const messageReportModal = new Modal(
       components: [
         new ContainerBuilder()
           .addTextDisplayComponents([
-            new TextDisplayBuilder().setContent(
-              `## ${formatEmoji(red.flag)} メッセージの通報`,
-            ),
+            new TextDisplayBuilder().setContent(`## ${formatEmoji(red.flag)} メッセージの通報`),
           ])
           .addSeparatorComponents(
-            new SeparatorBuilder()
-              .setSpacing(SeparatorSpacingSize.Small)
-              .setDivider(false),
+            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Small).setDivider(false),
           )
           .addSectionComponents([
             new SectionBuilder()
@@ -279,14 +255,10 @@ const messageReportModal = new Modal(
                 ),
               ])
               .setThumbnailAccessory(
-                new ThumbnailBuilder().setURL(
-                  targetMessage.author.displayAvatarURL(),
-                ),
+                new ThumbnailBuilder().setURL(targetMessage.author.displayAvatarURL()),
               ),
           ])
-          .addSeparatorComponents(
-            new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large),
-          )
+          .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large))
           .addTextDisplayComponents([
             new TextDisplayBuilder().setContent(
               [
@@ -344,9 +316,7 @@ const messageReportModal = new Modal(
       });
 
       if (setting.enableMention) {
-        await createdThread.send(
-          `🔔${setting.mentionRoles.map(roleMention).join()}`,
-        );
+        await createdThread.send(`🔔${setting.mentionRoles.map(roleMention).join()}`);
       }
 
       await db.insert(report).values({
@@ -359,14 +329,12 @@ const messageReportModal = new Modal(
       });
 
       interaction.followUp({
-        content:
-          '`✅` **ご協力ありがとうございます！** サーバー運営に通報を送信しました。',
+        content: '`✅` **ご協力ありがとうございます！** サーバー運営に通報を送信しました。',
         flags: MessageFlags.Ephemeral,
       });
     } catch {
       interaction.followUp({
-        content:
-          '`❌` 通報の送信中にエラーが発生しました。時間をおいて再度送信してください。',
+        content: '`❌` 通報の送信中にエラーが発生しました。時間をおいて再度送信してください。',
         flags: MessageFlags.Ephemeral,
       });
     }

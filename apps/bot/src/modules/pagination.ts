@@ -1,10 +1,5 @@
-import { Duration } from '@modules/format';
-import {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  ComponentType,
-} from 'discord.js';
+import { Duration } from '@/modules/format';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
 import type {
   ButtonInteraction,
   ComponentEmojiResolvable,
@@ -17,10 +12,7 @@ import type {
   TextBasedChannel,
 } from 'discord.js';
 
-type PaginationButtonFunc = (
-  this: EmbedPagination,
-  interaction: ButtonInteraction,
-) => void;
+type PaginationButtonFunc = (this: EmbedPagination, interaction: ButtonInteraction) => void;
 
 export class PaginationButton {
   private readonly builder: ButtonBuilder;
@@ -92,9 +84,9 @@ export class EmbedPagination {
     };
   }
 
-  private createMessageOption<
-    T extends MessageCreateOptions | InteractionReplyOptions,
-  >(options: T): T {
+  private createMessageOption<T extends MessageCreateOptions | InteractionReplyOptions>(
+    options: T,
+  ): T {
     return {
       ...options,
       embeds: [...(options.embeds || []), this.pages[this.current]],
@@ -124,10 +116,7 @@ export class EmbedPagination {
   private sendSetup() {
     if (!this.pages.length) throw new Error('page length 0');
     if (!this.buttons.length) {
-      this.addButtons(
-        EmbedPagination.previousButton,
-        EmbedPagination.nextButton,
-      );
+      this.addButtons(EmbedPagination.previousButton, EmbedPagination.nextButton);
     }
     this.setFooter();
     this.sended = true;
@@ -153,10 +142,7 @@ export class EmbedPagination {
 
   async setPage(interaction: ButtonInteraction, index: number) {
     const page = this.pages[index];
-    if (!page)
-      throw new RangeError(
-        `index must be between 0 and ${this.pages.length - 1}`,
-      );
+    if (!page) throw new RangeError(`index must be between 0 and ${this.pages.length - 1}`);
     this.current = index;
     await interaction.editReply({ embeds: [page] });
   }
@@ -168,10 +154,7 @@ export class EmbedPagination {
 
   async nextPage(interaction: ButtonInteraction) {
     const index = this.current + 1;
-    await this.setPage(
-      interaction,
-      index >= this.pageCount ? index - this.pageCount : index,
-    );
+    await this.setPage(interaction, index >= this.pageCount ? index - this.pageCount : index);
   }
 
   async sendMessage(
@@ -183,9 +166,7 @@ export class EmbedPagination {
     if (!channel.isSendable()) return;
     const msg = await channel.send(this.createMessageOption(options));
 
-    const collector = msg.createMessageComponentCollector(
-      this.createCollectorOption(),
-    );
+    const collector = msg.createMessageComponentCollector(this.createCollectorOption());
 
     collector.on('collect', async (i) => {
       if (message && this.senderOnly && !i.user.equals(message.author)) return;
@@ -206,17 +187,12 @@ export class EmbedPagination {
     await this.sendMessage(message.channel, options, message);
   }
 
-  async replyInteraction(
-    interaction: Interaction,
-    options: InteractionReplyOptions = {},
-  ) {
+  async replyInteraction(interaction: Interaction, options: InteractionReplyOptions = {}) {
     if (!interaction.isRepliable()) throw new Error("interaction can't reply");
     this.sendSetup();
     const msg = await interaction.reply(this.createMessageOption(options));
 
-    const collector = msg.createMessageComponentCollector(
-      this.createCollectorOption(),
-    );
+    const collector = msg.createMessageComponentCollector(this.createCollectorOption());
 
     collector.on('collect', async (i) => {
       if (this.senderOnly && !i.user.equals(interaction.user)) return;

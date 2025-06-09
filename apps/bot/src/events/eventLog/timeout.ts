@@ -1,8 +1,8 @@
-import { blurple, red } from '@const/emojis';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { scheduleField, textField, userField } from '@modules/fields';
-import { formatEmoji, getSendableChannel } from '@modules/util';
+import { blurple, red } from '@/constants/emojis';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { scheduleField, textField, userField } from '@/modules/fields';
+import { formatEmoji, getSendableChannel } from '@/modules/util';
 import {
   AuditLogEvent,
   Colors,
@@ -26,13 +26,10 @@ export default new DiscordEventBuilder({
       auditLogEntry as GuildAuditLogsEntry<AuditLogEvent.MemberUpdate>;
     if (!(executor && target)) return;
     const fetchedExecutor = await executor.fetch();
-    const member = await guild.members
-      .fetch(await target.fetch())
-      .catch(() => null);
+    const member = await guild.members.fetch(await target.fetch()).catch(() => null);
     if (!member) return;
 
-    const isCancel =
-      Date.parse((timeoutChange.new ?? 0) as string) <= Date.now();
+    const isCancel = Date.parse((timeoutChange.new ?? 0) as string) <= Date.now();
     const setting = await db.query.timeoutLogSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guild.id),
     });
@@ -56,9 +53,7 @@ export default new DiscordEventBuilder({
 
     if (!setting?.enabled || !setting.channel) return;
 
-    const channel = await getSendableChannel(guild, setting.channel).catch(
-      () => null,
-    );
+    const channel = await getSendableChannel(guild, setting.channel).catch(() => null);
     if (!channel) return;
 
     const field = [

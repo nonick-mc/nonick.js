@@ -1,6 +1,6 @@
-import { joinAndLeaveHolder } from '@const/holder';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
+import { joinAndLeaveHolder } from '@/constants/holder';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
 import { Events, type MessageCreateOptions } from 'discord.js';
 
 export default new DiscordEventBuilder({

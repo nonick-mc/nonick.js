@@ -1,5 +1,5 @@
+import { Duration } from '@/modules/format';
 import { ChatInput } from '@akki256/discord-interaction';
-import { Duration } from '@modules/format';
 import {
   ActionRowBuilder,
   ApplicationCommandOptionType,
@@ -47,9 +47,7 @@ export default new ChatInput(
           components: [
             new ActionRowBuilder<ButtonBuilder>().setComponents(
               new ButtonBuilder()
-                .setLabel(
-                  interaction.options.getString('label') ?? '最上部へ移動',
-                )
+                .setLabel(interaction.options.getString('label') ?? '最上部へ移動')
                 .setURL(message.url)
                 .setStyle(ButtonStyle.Link),
             ),

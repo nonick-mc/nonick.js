@@ -1,5 +1,5 @@
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
 import { ChannelType, Events } from 'discord.js';
 
 export default new DiscordEventBuilder({
@@ -20,8 +20,6 @@ export default new DiscordEventBuilder({
     if (!setting.channels.includes(message.channel.id)) return;
 
     if (!message.crosspostable) return;
-    message
-      .crosspost()
-      .catch(() => message.reply('`❌` メッセージの公開に失敗しました'));
+    message.crosspost().catch(() => message.reply('`❌` メッセージの公開に失敗しました'));
   },
 });

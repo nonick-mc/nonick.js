@@ -1,4 +1,4 @@
-import { white } from '@const/emojis';
+import { white } from '@/constants/emojis';
 import {
   type APIButtonComponent,
   type APIEmbed,
@@ -66,10 +66,7 @@ export function getBaseEmbedMakerButtons(embed: APIEmbed | Embed) {
   ];
 }
 
-export function getEmbedMakerButtons(
-  embed: APIEmbed | Embed,
-  type: embedMakerType,
-) {
+export function getEmbedMakerButtons(embed: APIEmbed | Embed, type: embedMakerType) {
   const actionRows = getBaseEmbedMakerButtons(embed);
 
   switch (type) {
@@ -102,20 +99,13 @@ export function reloadEmbedMaker(
   interaction: MessageComponentInteraction | ModalSubmitInteraction,
   embed: APIEmbed | Embed,
 ) {
-  if (
-    interaction instanceof ModalSubmitInteraction &&
-    !interaction.isFromMessage()
-  )
-    return;
+  if (interaction instanceof ModalSubmitInteraction && !interaction.isFromMessage()) return;
 
   const components = getBaseEmbedMakerButtons(embed);
-  if (interaction.message.components[1].type !== ComponentType.ActionRow)
-    return;
+  if (interaction.message.components[1].type !== ComponentType.ActionRow) return;
 
   components[1].addComponents(
-    ButtonBuilder.from(
-      interaction.message.components[1].components[3] as APIButtonComponent,
-    ),
+    ButtonBuilder.from(interaction.message.components[1].components[3] as APIButtonComponent),
   );
 
   interaction.update({ embeds: [embed], components }).catch((e) =>

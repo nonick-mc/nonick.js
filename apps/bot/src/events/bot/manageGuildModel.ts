@@ -1,6 +1,6 @@
-import { guild } from '@database/src/schema/guild';
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { guild } from '@repo/database';
 import { Events } from 'discord.js';
 import { eq } from 'drizzle-orm';
 

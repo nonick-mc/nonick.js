@@ -1,7 +1,7 @@
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { channelField, scheduleField, userField } from '@modules/fields';
-import { createAttachment, getSendableChannel } from '@modules/util';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { channelField, scheduleField, userField } from '@/modules/fields';
+import { createAttachment, getSendableChannel } from '@/modules/util';
 import { Colors, EmbedBuilder, Events } from 'discord.js';
 
 export default new DiscordEventBuilder({
@@ -12,10 +12,7 @@ export default new DiscordEventBuilder({
       where: (setting, { eq }) => eq(setting.guildId, oldMessage.guild.id),
     });
     if (!(setting?.enabled && setting.channel)) return;
-    const channel = await getSendableChannel(
-      oldMessage.guild,
-      setting.channel,
-    ).catch(() => null);
+    const channel = await getSendableChannel(oldMessage.guild, setting.channel).catch(() => null);
     if (!channel) return;
     const embed = new EmbedBuilder()
       .setTitle('`💬` メッセージ編集')
@@ -38,9 +35,7 @@ export default new DiscordEventBuilder({
       );
     }
 
-    const attachment = await createAttachment(
-      oldMessage.attachments.difference(attachments),
-    );
+    const attachment = await createAttachment(oldMessage.attachments.difference(attachments));
     if (attachment) channel.send({ embeds: [embed], files: [attachment] });
     if (contentChanged) channel.send({ embeds: [embed] });
   },

@@ -1,3 +1,0 @@
-[submodule "src/database"]
-	path = src/database
-	url = https://github.com/nonick-js/database

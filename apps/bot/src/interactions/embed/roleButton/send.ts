@@ -1,6 +1,6 @@
+import { getDangerPermission } from '@/modules/embed';
+import { permToText } from '@/modules/util';
 import { Button, Modal } from '@akki256/discord-interaction';
-import { getDangerPermission } from '@modules/embed';
-import { permToText } from '@modules/util';
 import {
   type ActionRow,
   ActionRowBuilder,
@@ -64,8 +64,7 @@ const sendRoleButtonModal = new Modal(
       !interaction.isFromMessage() ||
       !interaction.inCachedGuild() ||
       interaction.message.components[0].type !== ComponentType.ActionRow ||
-      interaction.message.components[0].components[1].type !==
-        ComponentType.Button ||
+      interaction.message.components[0].components[1].type !== ComponentType.Button ||
       !interaction.channel
     )
       return;
@@ -81,9 +80,8 @@ const sendRoleButtonModal = new Modal(
       (v) => v.name === roleNameOrId || v.id === roleNameOrId,
     );
     const emoji =
-      interaction.guild.emojis.cache.find(
-        (v) => v.name === emojiNameOrId || v.id === emojiNameOrId,
-      )?.id || emojiNameOrId.match(emojiRegex)?.[0];
+      interaction.guild.emojis.cache.find((v) => v.name === emojiNameOrId || v.id === emojiNameOrId)
+        ?.id || emojiNameOrId.match(emojiRegex)?.[0];
 
     if (!(role instanceof Role))
       return interaction.reply({
@@ -101,8 +99,7 @@ const sendRoleButtonModal = new Modal(
       interaction.member.roles.highest.position < role.position
     )
       return interaction.reply({
-        content:
-          '`❌` 自分の持つロールより上のロールを追加することはできません。',
+        content: '`❌` 自分の持つロールより上のロールを追加することはできません。',
       });
 
     const button = new ButtonBuilder()
@@ -115,19 +112,14 @@ const sendRoleButtonModal = new Modal(
     } else button.setLabel(displayName || role.name);
 
     // Edit Message
-    if (
-      !interaction.guild.members.me?.permissions.has(
-        PermissionFlagsBits.ManageWebhooks,
-      )
-    )
+    if (!interaction.guild.members.me?.permissions.has(PermissionFlagsBits.ManageWebhooks))
       return interaction.reply({
         content:
           '`❌` この機能を使用するにはBOTに`ウェブフックの管理`権限を付与する必要があります。',
         ephemeral: true,
       });
 
-    const targetId =
-      interaction.message.embeds[0].footer?.text.match(/[0-9]{18,19}/)?.[0];
+    const targetId = interaction.message.embeds[0].footer?.text.match(/[0-9]{18,19}/)?.[0];
     if (!targetId) return;
     const targetMessage = await (await interaction.channel.fetch()).messages
       .fetch(targetId)
@@ -155,20 +147,16 @@ const sendRoleButtonModal = new Modal(
       });
     if (
       targetMessage.components[0]?.type === ComponentType.ActionRow &&
-      targetMessage.components[0]?.components[0]?.type ===
-        ComponentType.StringSelect
+      targetMessage.components[0]?.components[0]?.type === ComponentType.StringSelect
     )
       return interaction.reply({
-        content:
-          '`❌` セレクトメニューとボタンは同じメッセージに追加できません。',
+        content: '`❌` セレクトメニューとボタンは同じメッセージに追加できません。',
         ephemeral: true,
       });
     if (
       targetMessage.components.some((v) => {
         if (v.type !== ComponentType.ActionRow) return false;
-        return v.components
-          .map((i) => i.customId)
-          .includes(`nonick-js:roleButton-${role.id}`);
+        return v.components.map((i) => i.customId).includes(`nonick-js:roleButton-${role.id}`);
       })
     )
       return interaction.reply({
@@ -182,16 +170,12 @@ const sendRoleButtonModal = new Modal(
     const lastActionRow = updatedComponents.slice(-1)[0];
 
     if (!lastActionRow || lastActionRow.components.length === 5)
-      updatedComponents.push(
-        new ActionRowBuilder<ButtonBuilder>().setComponents(button),
-      );
+      updatedComponents.push(new ActionRowBuilder<ButtonBuilder>().setComponents(button));
     else
       updatedComponents.splice(
         updatedComponents.length - 1,
         1,
-        ActionRowBuilder.from<ButtonBuilder>(lastActionRow).addComponents(
-          button,
-        ),
+        ActionRowBuilder.from<ButtonBuilder>(lastActionRow).addComponents(button),
       );
 
     const embeds = interaction.message.embeds;
@@ -234,10 +218,7 @@ const sendRoleButtonModal = new Modal(
 
       message
         .awaitMessageComponent({
-          filter: (v) =>
-            /^nonick-js:embedMaker-roleButton-send-(agree|disagree)$/.test(
-              v.customId,
-            ),
+          filter: (v) => /^nonick-js:embedMaker-roleButton-send-(agree|disagree)$/.test(v.customId),
           componentType: ComponentType.Button,
           time: 180_000,
         })

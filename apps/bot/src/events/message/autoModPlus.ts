@@ -1,7 +1,7 @@
-﻿import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { channelField, scheduleField, userField } from '@modules/fields';
-import { getSendableChannel } from '@modules/util';
+﻿import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { channelField, scheduleField, userField } from '@/modules/fields';
+import { getSendableChannel } from '@/modules/util';
 import {
   EmbedBuilder,
   Events,
@@ -30,17 +30,13 @@ const autoModPlus = new DiscordEventBuilder({
     if (
       !setting?.enabled ||
       setting.ignoreChannels.includes(message.channelId) ||
-      message.member.roles.cache.some((role) =>
-        setting.ignoreRoles.includes(role.id),
-      )
+      message.member.roles.cache.some((role) => setting.ignoreRoles.includes(role.id))
     )
       return;
 
     const logCh =
       setting.enableLog && setting.logChannel
-        ? await getSendableChannel(message.guild, setting.logChannel).catch(
-            () => null,
-          )
+        ? await getSendableChannel(message.guild, setting.logChannel).catch(() => null)
         : null;
 
     if (setting.enableInviteUrlFilter) {
@@ -56,9 +52,7 @@ const autoModPlus = new DiscordEventBuilder({
     if (
       setting.enableTokenFilter &&
       (/mfa\.[a-z0-9_-]{20,}/i.test(message.content) ||
-        /[a-z0-9_-]{23,28}\.[a-z0-9_-]{6,7}\.[a-z0-9_-]{27}/i.test(
-          message.content,
-        ))
+        /[a-z0-9_-]{23,28}\.[a-z0-9_-]{6,7}\.[a-z0-9_-]{27}/i.test(message.content))
     ) {
       deleteMessage(message, logCh, 'Discordアカウントのトークン');
     }
@@ -71,11 +65,7 @@ const autoModPlus = new DiscordEventBuilder({
   },
 });
 
-function deleteMessage(
-  message: Message<true>,
-  channel: GuildBasedChannel | null,
-  rule?: string,
-) {
+function deleteMessage(message: Message<true>, channel: GuildBasedChannel | null, rule?: string) {
   message.delete().then(() => {
     if (channel?.isTextBased())
       channel.send({

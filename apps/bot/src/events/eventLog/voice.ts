@@ -1,7 +1,7 @@
-import { db } from '@modules/drizzle';
-import { DiscordEventBuilder } from '@modules/events';
-import { channelField, userField } from '@modules/fields';
-import { getSendableChannel } from '@modules/util';
+import { db } from '@/modules/drizzle';
+import { DiscordEventBuilder } from '@/modules/events';
+import { channelField, userField } from '@/modules/fields';
+import { getSendableChannel } from '@/modules/util';
 import { Colors, EmbedBuilder, Events } from 'discord.js';
 
 export default new DiscordEventBuilder({
@@ -14,17 +14,10 @@ export default new DiscordEventBuilder({
     });
     if (!setting?.enabled || !setting?.channel) return;
 
-    const channel = await getSendableChannel(
-      oldState.guild,
-      setting.channel,
-    ).catch(() => null);
+    const channel = await getSendableChannel(oldState.guild, setting.channel).catch(() => null);
     if (!channel) return;
 
-    if (
-      oldState.channel &&
-      newState.channel &&
-      !oldState.channel.equals(newState.channel)
-    )
+    if (oldState.channel && newState.channel && !oldState.channel.equals(newState.channel))
       channel.send({
         embeds: [
           new EmbedBuilder()
