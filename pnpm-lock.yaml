@@ -26,15 +26,19 @@ importers:
 
   packages/database:
     dependencies:
-      discord-api-types:
-        specifier: 'catalog:'
-        version: 0.37.120
       drizzle-kit:
         specifier: ^0.31.1
         version: 0.31.1
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.41.0
+    devDependencies:
+      discord-api-types:
+        specifier: 'catalog:'
+        version: 0.37.120
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -557,6 +561,11 @@ packages:
     resolution: {integrity: sha512-kc8ZibdRcuWUG1pbYSBFWqmIjynlD8Lp7IB6U3vIzvOv9VG+6Sp8bzyeBWE3Oi8XV5KsQrznyRTBPvrf99E4mA==}
     hasBin: true
 
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
 snapshots:
 
   '@biomejs/biome@1.9.4':
@@ -867,3 +876,5 @@ snapshots:
       turbo-linux-arm64: 2.5.4
       turbo-windows-64: 2.5.4
       turbo-windows-arm64: 2.5.4
+
+  typescript@5.8.3: {}

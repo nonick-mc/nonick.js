@@ -8,8 +8,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "discord-api-types": "catalog:",
     "drizzle-kit": "^0.31.1",
     "drizzle-orm": "catalog:"
+  },
+  "devDependencies": {
+    "discord-api-types": "catalog:",
+    "typescript": "^5.8.3"
   }
 }
