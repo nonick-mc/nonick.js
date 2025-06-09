@@ -1,6 +1,6 @@
 ﻿import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
-import { guild } from './guild';
+import { timestamps } from '../utils.js';
+import { guild } from './guild.js';
 
 const actionType = ['update_guild_setting'] as const;
 

@@ -1,7 +1,7 @@
-﻿import { kickLogSetting } from '@/lib/database/src/schema/setting';
-import { snowflakeRegex } from '@/lib/zod/discord/constants';
+﻿import { snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
+import { kickLogSetting } from '@repo/database';
 
 export const settingFormSchema = createInsertSchema(kickLogSetting, {
   channel: (schema) => schema.regex(snowflakeRegex),

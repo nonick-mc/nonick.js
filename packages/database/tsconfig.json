@@ -1,13 +1,15 @@
 ﻿{
-	"compilerOptions": {
-		"rootDir": "./src",
-		"outDir": "./dist",
-		"baseUrl": "./src",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"resolveJsonModule": true
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist"]
+    "declaration": true,
+    "esModuleInterop": false,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

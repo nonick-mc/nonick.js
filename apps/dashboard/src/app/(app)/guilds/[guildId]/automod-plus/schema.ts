@@ -1,8 +1,8 @@
-﻿import { autoModSetting } from '@/lib/database/src/schema/setting';
-import { domainRegex, snowflakeRegex } from '@/lib/zod/discord/constants';
+﻿import { domainRegex, snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
 import { isUniqueArray } from '@/lib/zod/utils';
+import { autoModSetting } from '@repo/database';
 
 export const settingFormSchema = createInsertSchema(autoModSetting, {
   domainList: z.preprocess(

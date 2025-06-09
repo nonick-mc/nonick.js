@@ -1,8 +1,8 @@
-﻿import { msgExpandSetting } from '@/lib/database/src/schema/setting';
-import { snowflakeRegex } from '@/lib/zod/discord/constants';
+﻿import { snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
 import { isUniqueArray } from '@/lib/zod/utils';
+import { msgExpandSetting } from '@repo/database';
 import { ChannelType } from 'discord-api-types/v10';
 
 export const ignorePrefixes = ['!', '?', '.', '#', '$', '%', '&', '^', '<'];

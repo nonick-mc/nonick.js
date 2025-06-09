@@ -1,7 +1,8 @@
-﻿import type { auditLog } from '@/lib/database/src/schema/audit-log';
+﻿import type { auditLog } from '@repo/database';
+import type { InferSelectModel } from 'drizzle-orm';
 
-export type AuditLogActionType = (typeof auditLog.$inferSelect)['actionType'];
-export type AuditLogTargetName = (typeof auditLog.$inferSelect)['targetName'];
+export type AuditLogActionType = InferSelectModel<typeof auditLog>['actionType'];
+export type AuditLogTargetName = InferSelectModel<typeof auditLog>['targetName'];
 
 export const targetNameTexts: Record<AuditLogTargetName, string> = {
   join_message: '入室メッセージ',

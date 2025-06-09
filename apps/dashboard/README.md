@@ -1,8 +1,8 @@
-# NoNICK.js Dashboard
+# `dashboard`
 
 [Next.js](https://nextjs.org)で構築された、NoNICK.jsの設定を管理するWebダッシュボード
 
-![preview](/.github/assets/thumbnail.png)
+![preview](./.github/assets/thumbnail.png)
 
 ## 📑Usage
 ### Discordアプリケーションを作成する

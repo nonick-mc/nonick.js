@@ -1,6 +1,7 @@
 {
   "create setting form": {
     "prefix": "create_setting_form",
+    "scope": "typescriptreact",
     "body": [
       "'use client';",
       "",
@@ -65,6 +66,7 @@
   },
   "create setting page": {
     "prefix": "create_setting_page",
+    "scope": "typescriptreact",
     "body": [
       "import { Header } from '@/components/header';",
       "import { requireDashboardAccessPermission } from '@/lib/permission';",
@@ -110,10 +112,11 @@
   },
   "create setting action": {
     "prefix": "create_setting_action",
+    "scope": "typescriptreact",
     "body": [
       "'use server';",
       "",
-      "import { auditLog } from '@/lib/database/src/schema/audit-log';",
+      "import { auditLog } from '@repo/database';",
       "import { db } from '@/lib/drizzle';",
       "import { guildActionClient } from '@/lib/safe-action/client';",
       "",

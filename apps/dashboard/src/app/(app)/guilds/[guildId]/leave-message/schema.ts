@@ -1,8 +1,8 @@
-﻿import { leaveMessageSetting } from '@/lib/database/src/schema/setting';
-import { messageOptions } from '@/lib/zod/discord';
+﻿import { messageOptions } from '@/lib/zod/discord';
 import { snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
+import { leaveMessageSetting } from '@repo/database';
 
 export const settingFormSchema = createInsertSchema(leaveMessageSetting, {
   channel: (schema) => schema.regex(snowflakeRegex),

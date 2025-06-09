@@ -1,7 +1,6 @@
 ﻿'use client';
 
 import { Icon } from '@/components/icon';
-import type { auditLog } from '@/lib/database/src/schema/audit-log';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import {
   Avatar,
@@ -20,7 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from '@heroui/react';
+import type { auditLog } from '@repo/database';
 import type { APIUser } from 'discord-api-types/v10';
+import type { InferSelectModel } from 'drizzle-orm';
 import { useMemo, useState } from 'react';
 import type { AuditLogActionType } from './constants';
 import { TableRowAuthor, TableRowCreatedAt, TableRowLogContent } from './table-row-content';
@@ -43,7 +44,7 @@ const columns = [
 export function AuditLogTable({
   auditLogs,
   authors,
-}: { auditLogs: (typeof auditLog.$inferSelect)[]; authors: APIUser[] }) {
+}: { auditLogs: InferSelectModel<typeof auditLog>[]; authors: APIUser[] }) {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [userIdFilter, setUserIdFilter] = useState<string | null>(null);
@@ -71,7 +72,7 @@ export function AuditLogTable({
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
-  const renderCell = (entry: typeof auditLog.$inferSelect, columnKey: React.Key) => {
+  const renderCell = (entry: InferSelectModel<typeof auditLog>, columnKey: React.Key) => {
     switch (columnKey) {
       case 'user':
         return <TableRowAuthor authors={authors} authorId={entry.authorId} />;

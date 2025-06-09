@@ -1,9 +1,9 @@
 ﻿'use server';
 
-import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { reportSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
+import { auditLog } from '@repo/database';
+import { reportSetting } from '@repo/database';
 import { settingFormSchema } from './schema';
 
 export const updateSettingAction = guildActionClient

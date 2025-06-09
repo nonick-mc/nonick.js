@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "db:generate": "pnpm --filter=@repo/database db:generate",
+    "db:migrate": "pnpm --filter=@repo/database db:migrate",
+    "db:studio": "pnpm --filter=@repo/database db:studio"
   },
   "packageManager": "pnpm@10.12.1",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.15.30",
     "turbo": "^2.5.4"
   }
 }

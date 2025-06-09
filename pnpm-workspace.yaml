@@ -1,8 +1,14 @@
-﻿packages:
-  - "apps/*"
-  - "packages/*"
+packages:
+  - apps/*
+  - packages/*
 
 catalog:
   drizzle-orm: ^0.41.0
   pg: ^8.14.1
   discord-api-types: ^0.37.119
+
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@heroui/shared-utils'
+  - esbuild
+  - sharp

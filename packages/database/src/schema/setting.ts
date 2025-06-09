@@ -1,7 +1,7 @@
 ﻿import type { RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
 import { boolean, integer, jsonb, pgEnum, pgSchema, text } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
-import { guild } from './guild';
+import { timestamps } from '../utils.js';
+import { guild } from './guild.js';
 
 export const settingSchema = pgSchema('public_setting');
 

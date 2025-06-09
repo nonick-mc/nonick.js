@@ -1,9 +1,9 @@
 ﻿'use server';
 
-import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { msgEditLogSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
+import { auditLog } from '@repo/database';
+import { msgEditLogSetting } from '@repo/database';
 import { revalidatePath } from 'next/cache';
 import { settingFormSchema } from '../schemas/message-edit';
 
