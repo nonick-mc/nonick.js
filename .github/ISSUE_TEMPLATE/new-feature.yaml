@@ -1,0 +1,24 @@
+﻿name: 新機能の追加
+description: 新機能に関するissueを作成します。
+assignees:
+  - nonick-mc
+labels:
+  - new feature
+body:
+  - type: checkboxes
+    attributes:
+      label: 影響するプロダクト
+      description: 新機能の追加によって変更を加える必要のあるプロダクトはどれですか？
+      options:
+        - label: bot
+          required: false
+        - label: dashboard
+          required: false
+        - label: docs
+          required: false
+  - type: textarea
+    attributes:
+      label: 機能に関する説明
+      description: 追加する機能の内容について説明してください。
+    validations:
+      required: true

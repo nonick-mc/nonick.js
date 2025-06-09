@@ -1,0 +1,30 @@
+﻿name: バグ・不具合報告
+description: 発生している問題に関するissueを作成します。
+assignees:
+  - nonick-mc
+labels:
+  - bug
+body:
+  - type: checkboxes
+    attributes:
+      label: 問題が発生しているプロダクト
+      description: どのプロダクトに問題が発生していますか？
+      options:
+        - label: bot
+          required: false
+        - label: dashboard
+          required: false
+        - label: docs
+          required: false
+  - type: input
+    attributes:
+      label: 問題に関する説明
+      description: '発生しているバグについて、明確かつ簡潔に説明してください。 '
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 再現方法
+      description: 動作を再現するための手順を記入してください。
+    validations:
+      required: true
