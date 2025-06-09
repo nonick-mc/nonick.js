@@ -1,0 +1,8 @@
+# Directory
+node_modules
+dist
+
+# File
+.env
+config.json
+changelog.md
