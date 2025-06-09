@@ -1,5 +1,7 @@
 ﻿name: 機能の改善
 description: 既存機能の改善に関するissueを作成します。
+assignees:
+  - nonick-mc
 labels:
   - improvement
 body:

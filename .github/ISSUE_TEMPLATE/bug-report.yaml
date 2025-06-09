@@ -1,5 +1,7 @@
 ﻿name: バグ・不具合報告
 description: 発生している問題に関するissueを作成します。
+assignees:
+  - nonick-mc
 labels:
   - bug
 body:
