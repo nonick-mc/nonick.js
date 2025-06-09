@@ -1,0 +1,1 @@
+ALTER TABLE "public_setting"."leave_message" ALTER COLUMN "channel" DROP NOT NULL;
