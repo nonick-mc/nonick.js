@@ -1,4 +1,5 @@
-﻿providers = ["node"]
+﻿[phases.setup]
+nixPkgs = ["nodejs_22"]
 
 [phases.install]
 cmds = [
@@ -7,6 +8,3 @@ cmds = [
   "corepack prepare pnpm@10.10.0 --activate",
   "pnpm install"
 ]
-
-[variables]
-NIXPACKS_NODE_VERSION=22
