@@ -1,11 +1,12 @@
 {
   "name": "nonick.js",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "build:bot": "turbo run build --filter=bot",
+    "build:dashboard": "turbo run build --filter=dashboard",
     "db:generate": "pnpm --filter=@repo/database db:generate",
     "db:migrate": "pnpm --filter=@repo/database db:migrate",
     "db:studio": "pnpm --filter=@repo/database db:studio"
