@@ -1,5 +1,5 @@
 ﻿import { integer, pgTable, text } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils.js';
+import { timestamps } from '../utils';
 
 export const guild = pgTable('guild', {
   id: text('id').primaryKey(),
