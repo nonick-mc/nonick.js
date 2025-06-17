@@ -5,8 +5,14 @@ import { getPageMap } from 'nextra/page-map';
 import 'nextra-theme-docs/style.css';
 
 export const metadata = {
-  // Define your metadata here
-  // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+  title: {
+    default: 'NoNICK.js Docs',
+    template: '%s - NoNICK.js Docs',
+  },
+};
+
+export const viewport = {
+  themeColor: '#0073f5',
 };
 
 const notoSansJP = Noto_Sans_JP({
@@ -50,7 +56,7 @@ export default async function RootLayout({ children }) {
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase='https://github.com/nonick-mc/nonick.js/tree/main/apps/docs'
+          docsRepositoryBase='https://github.com/nonick-mc/nonick.js/tree/main/apps/web'
         >
           {children}
         </Layout>
