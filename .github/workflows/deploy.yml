@@ -5,6 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -12,8 +18,13 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  build-docs:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    env:
+     TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+     TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
