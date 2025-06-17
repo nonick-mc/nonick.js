@@ -1,11 +1,9 @@
 ﻿name: Deploy Docs to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_run:
-    workflows: [CI]
-    branches: [main]
+    workflows: ["CI"]
+    branches: ["main"]
     types: 
       - completed
   workflow_dispatch:
@@ -28,20 +26,21 @@ jobs:
      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
     steps:
-      - name: Checkout repository
+      - name: Check out code
         uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        with:
+          fetch-depth: 2
+ 
+      - uses: pnpm/action-setup@v3
         with:
           version: 10
 
-      - name: Setup Node.js
+      - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 22
           cache: 'pnpm'
-
+ 
       - name: Install dependencies
         run: pnpm install
 
