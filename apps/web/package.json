@@ -5,7 +5,7 @@
     "dev": "next dev --turbopack -p 3001",
     "build": "next build && pnpm postbuild",
     "start": "next start",
-    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && cp -r ./public/_pagefind ./out"
   },
   "dependencies": {
     "next": "15.3.0",
