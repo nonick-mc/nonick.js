@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug (Bot)",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/apps/bot/src/index.ts",
+        "cwd": "${workspaceFolder}/apps/bot",
+        "runtimeExecutable": "tsx",
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "skipFiles": [
+            "<node_internals>/**",
+            "${workspaceFolder}/node_modules/**",
+        ],
+      },
+      {
+        "name": "Debug (Dashboard)",
+        "type": "node-terminal",
+        "request": "launch",
+        "command": "pnpm dev",
+        "cwd": "${workspaceFolder}/apps/dashboard"
+      },
+      {
+        "name": "Debug (Web)",
+        "type": "node-terminal",
+        "request": "launch",
+        "command": "pnpm dev",
+        "cwd": "${workspaceFolder}/apps/web"
+      },
+    ],
+    "compounds": [
+      {
+        "name": "Debug (Bot & Dashboard)",
+        "configurations": [
+          "Debug (Bot)",
+          "Debug (Dashboard)"
+        ]
+      }
+    ]
+}
