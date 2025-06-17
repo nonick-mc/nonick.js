@@ -130,3 +130,16 @@ export const verificationSetting = settingSchema.table('verification', {
   ...timestamps,
 });
 // #endregion
+
+// #region Level
+type LevelSystemRewardType = {
+  level: number;
+  role: number;
+  mode: 'add' | 'replace';
+};
+
+export const levelSystemSetting = settingSchema.table('level_system', {
+  guildId,
+  enabled: boolean('enabled').notNull(),
+});
+// #endregion
