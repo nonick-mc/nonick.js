@@ -2,23 +2,25 @@
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    branches: [main]
   workflow_run:
-    workflows: ["CI"]
-    types:
+    workflows: [CI]
+    branches: [main]
+    types: 
       - completed
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-docs:
+  build:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
