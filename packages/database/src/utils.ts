@@ -2,5 +2,7 @@
 
 export const timestamps = {
   createdAt: timestamp('create_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+  updatedAt: timestamp('updated_at')
+    .$onUpdate(() => new Date())
+    .notNull(),
 };
