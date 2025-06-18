@@ -135,7 +135,7 @@ export const verificationSetting = settingSchema.table('verification', {
 type LevelRewardData = {
   level: number;
   role: number;
-  mode: 'add' | 'replace';
+  mode: 'add' | 'replace-previous';
 };
 
 type DateString = `${number}/${number}`;
@@ -146,9 +146,9 @@ type LevelBoostData = (RoleBoost | DateBoost) & { boost: number; only?: boolean 
 export const levelSystemSettings = settingSchema.table('level_system', {
   guildId,
   enabled: boolean('enabled').notNull(),
-  rewards: jsonb('rewards').array().notNull(),
-  boosts: jsonb('boosts').$type<LevelBoostData>().array().notNull(),
-  denyChannels: text('deny_channels').$type<LevelRewardData>().array().notNull(),
+  rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
+  boosts: jsonb('boosts').array().$type<LevelBoostData[]>().notNull(),
+  denyChannels: text('deny_channels').array().notNull(),
   allowThreadChannels: text('allow_thread_channels').array().notNull(),
 });
 // #endregion
