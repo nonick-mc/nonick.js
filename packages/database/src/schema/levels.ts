@@ -6,7 +6,9 @@ export const levels = pgTable(
   'levels',
   {
     userId: text('user_id').notNull(),
-    guildId: text('guild_id').references(() => guild.id, { onDelete: 'cascade' }),
+    guildId: text('guild_id')
+      .references(() => guild.id, { onDelete: 'cascade' })
+      .notNull(),
     level: integer().notNull().default(0),
     xp: integer().notNull().default(0),
     boost: integer('boost').notNull().default(1),

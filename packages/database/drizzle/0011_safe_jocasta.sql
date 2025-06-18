@@ -1,0 +1,1 @@
+ALTER TABLE "levels" ALTER COLUMN "guild_id" SET NOT NULL;
