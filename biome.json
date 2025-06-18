@@ -1,26 +1,50 @@
 ﻿{
-  "$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "files": {
     "ignoreUnknown": true
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
-    "ignore": [".next", "node_modules", ".github", ".vscode", "dist"],
+    "includes": [
+      "**",
+      "!**/.next",
+      "!**/node_modules",
+      "!**/.github",
+      "!**/.vscode",
+      "!**/dist"
+    ],
     "rules": {
       "recommended": true,
       "correctness": {
         "noUnusedImports": {
           "level": "warn"
         }
+      },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   },
   "formatter": {
     "enabled": true,
-    "ignore": [".next", "node_modules", ".github", ".vscode", "dist"],
+    "includes": [
+      "**",
+      "!**/.next",
+      "!**/node_modules",
+      "!**/.github",
+      "!**/.vscode",
+      "!**/dist"
+    ],
     "formatWithErrors": true,
     "indentStyle": "space"
   },
