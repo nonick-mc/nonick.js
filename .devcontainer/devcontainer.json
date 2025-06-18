@@ -19,7 +19,11 @@
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
-      "extensions": ["bradlc.vscode-tailwindcss", "biomejs.biome"]
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "biomejs.biome",
+        "unifiedjs.vscode-mdx"
+      ]
     }
   }
 
