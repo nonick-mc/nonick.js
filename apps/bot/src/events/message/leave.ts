@@ -1,7 +1,7 @@
+import { Events } from 'discord.js';
 import { joinAndLeaveHolder } from '@/constants/holder';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
-import { Events, type MessageCreateOptions } from 'discord.js';
 
 export default new DiscordEventBuilder({
   type: Events.GuildMemberRemove,
@@ -16,7 +16,7 @@ export default new DiscordEventBuilder({
       : null;
     if (channel?.isTextBased()) {
       channel.send(
-        joinAndLeaveHolder.parse(setting.message as MessageCreateOptions, {
+        joinAndLeaveHolder.parse(setting.message, {
           guild: member.guild,
           user: member.user,
         }),

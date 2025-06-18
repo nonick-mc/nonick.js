@@ -85,6 +85,13 @@
       "when": 1750220801530,
       "tag": "0011_safe_jocasta",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1750224058758,
+      "tag": "0012_oval_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

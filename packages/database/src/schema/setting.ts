@@ -1,4 +1,4 @@
-﻿import type { RESTPostAPIChannelMessageJSONBody } from 'discord-api-types/v10';
+﻿import type { MessageCreateOptions } from 'discord.js';
 import { boolean, integer, jsonb, pgEnum, pgSchema, text } from 'drizzle-orm/pg-core';
 import { timestamps } from '../utils';
 import { guild } from './guild';
@@ -15,7 +15,7 @@ export const joinMessageSetting = settingSchema.table('join_message', {
   enabled: boolean('enabled').notNull(),
   channel: text('channel'),
   ignoreBot: boolean('ignore_bot').notNull(),
-  message: jsonb('message').$type<RESTPostAPIChannelMessageJSONBody>().notNull(),
+  message: jsonb('message').$type<MessageCreateOptions>().notNull(),
   ...timestamps,
 });
 // #endregion
@@ -26,7 +26,7 @@ export const leaveMessageSetting = settingSchema.table('leave_message', {
   enabled: boolean('enabled').notNull(),
   channel: text('channel'),
   ignoreBot: boolean('ignore_bot').notNull(),
-  message: jsonb('message').$type<RESTPostAPIChannelMessageJSONBody>().notNull(),
+  message: jsonb('message').$type<MessageCreateOptions>().notNull(),
   ...timestamps,
 });
 // #endregion

@@ -25,10 +25,10 @@
   },
   "dependencies": {
     "drizzle-kit": "^0.31.1",
-    "drizzle-orm": "catalog:"
+    "drizzle-orm": "catalog:",
+    "discord.js": "catalog:"
   },
   "devDependencies": {
-    "discord-api-types": "catalog:",
     "dotenv": "^16.5.0",
     "typescript": "^5.8.3"
   }

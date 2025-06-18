@@ -1,0 +1,1 @@
+ALTER TABLE "public_setting"."level_system" ADD COLUMN "levelup_notification_message" jsonb NOT NULL;
