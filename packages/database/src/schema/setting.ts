@@ -132,22 +132,31 @@ export const verificationSetting = settingSchema.table('verification', {
 // #endregion
 
 // #region Level
-type LevelRewardData = {
+export type LevelRewardData = {
   level: number;
-  role: number;
+  role: string;
   mode: 'add' | 'replace-previous';
 };
 
-type DateString = `${number}/${number}`;
-type RoleBoost = { type: 'role'; role: string };
-type DateBoost = { type: 'date'; start: DateString; end: DateString };
-type LevelBoostData = (RoleBoost | DateBoost) & { boost: number; only?: boolean };
+export type DateString = `${number}/${number}`;
+export type LevelRoleBoost = { type: 'role'; role: string };
+export type LevelDateBoost = { type: 'date'; start: DateString; end: DateString };
+export type LevelBoostData = (LevelRoleBoost | LevelDateBoost) & { boost: number; only?: boolean };
 
+export const levelUpNotificationModeEnum = pgEnum('levelup_notification_mode', [
+  'current',
+  'specified',
+]);
 export const levelSystemSettings = settingSchema.table('level_system', {
   guildId,
   enabled: boolean('enabled').notNull(),
   rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
   boosts: jsonb('boosts').array().$type<LevelBoostData[]>().notNull(),
+  levelUpNotificationMode: levelUpNotificationModeEnum('levelup_notification_mode').notNull(),
+  levelUpNotificationChannel: text('levelup_notification_channel'),
+  levelUpNotificationMessage: jsonb('levelup_notification_message')
+    .$type<MessageCreateOptions>()
+    .notNull(),
   denyChannels: text('deny_channels').array().notNull(),
   allowThreadChannels: text('allow_thread_channels').array().notNull(),
 });
