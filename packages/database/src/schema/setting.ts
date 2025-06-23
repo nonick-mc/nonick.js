@@ -159,5 +159,7 @@ export const levelSystemSettings = settingSchema.table('level_system', {
     .notNull(),
   denyChannels: text('deny_channels').array().notNull(),
   allowThreadChannels: text('allow_thread_channels').array().notNull(),
+  enableLog: boolean('enable_log').notNull(),
+  logChannel: text('log_channel'),
 });
 // #endregion

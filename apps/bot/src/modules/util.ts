@@ -1,6 +1,5 @@
 import AdmZip from 'adm-zip';
 import axios from 'axios';
-import { AttachmentBuilder, PermissionFlagsBits } from 'discord.js';
 import type {
   Attachment,
   Collection,
@@ -9,41 +8,28 @@ import type {
   PermissionFlags,
   Snowflake,
 } from 'discord.js';
+import { AttachmentBuilder, PermissionFlagsBits } from 'discord.js';
 import { client } from '../index';
 
 export async function getMessage(
   ...id: [guildId: string, channelId: string, messageId: string]
 ): Promise<Message>;
-export async function getMessage(
-  ...id: [channelId: string, messageId: string]
-): Promise<Message>;
+export async function getMessage(...id: [channelId: string, messageId: string]): Promise<Message>;
 export async function getMessage(...id: string[]): Promise<Message> {
   const [messageId, channelId, guildId = null] = id.slice(0, 3).reverse();
-  const guild = guildId
-    ? await client.guilds.fetch(guildId).catch(() => null)
-    : client;
+  const guild = guildId ? await client.guilds.fetch(guildId).catch(() => null) : client;
   if (!guild) throw new URIError(`サーバーID:\`${guildId}\`に入っていません`);
   const channel = await guild.channels.fetch(channelId).catch(() => null);
   if (!channel?.isTextBased())
-    throw new URIError(
-      `チャンネルID:\`${channelId}\`が存在しないもしくはアクセスできません`,
-    );
+    throw new URIError(`チャンネルID:\`${channelId}\`が存在しないもしくはアクセスできません`);
   const message = await channel.messages.fetch(messageId).catch(() => {});
   if (!message)
-    throw new URIError(
-      `メッセージID:\`${messageId}\`が存在しないもしくはアクセスできません`,
-    );
+    throw new URIError(`メッセージID:\`${messageId}\`が存在しないもしくはアクセスできません`);
   return message;
 }
 
-export function formatEmoji<C extends Snowflake>(
-  emojiId: C,
-  animated?: false,
-): `<:x:${C}>`;
-export function formatEmoji<C extends Snowflake>(
-  emojiId: C,
-  animated?: true,
-): `<a:x:${C}>`;
+export function formatEmoji<C extends Snowflake>(emojiId: C, animated?: false): `<:x:${C}>`;
+export function formatEmoji<C extends Snowflake>(emojiId: C, animated?: true): `<a:x:${C}>`;
 export function formatEmoji<C extends Snowflake>(
   emojiId: C,
   animated?: boolean,
@@ -59,15 +45,11 @@ export function* range(_min: number, _max = 0) {
   for (let i = min; i < max; i++) yield i;
 }
 
-export async function createAttachment(
-  attachments: Collection<string, Attachment>,
-) {
+export async function createAttachment(attachments: Collection<string, Attachment>) {
   if (!attachments.size) return;
   const zip = new AdmZip();
   for await (const attachment of attachments.values()) {
-    const res = await axios
-      .get(attachment.url, { responseType: 'arraybuffer' })
-      .catch(() => null);
+    const res = await axios.get(attachment.url, { responseType: 'arraybuffer' }).catch(() => null);
     if (!res) continue;
     zip.addFile(attachment.name, res.data);
   }
@@ -155,4 +137,18 @@ export function permToText(...perms: (keyof PermissionFlags)[]) {
 
 export function isURL(url: string) {
   return /^https?:\/\//.test(url);
+}
+
+/**
+ *
+ * @param num
+ * @param method
+ * @returns
+ */
+export function siUnit(num: number, method: (n: number) => number = Math.floor) {
+  if (num <= 0) return String(num);
+  const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y', 'R', 'Q'];
+  const i = Math.min(Math.floor(Math.log10(num) / 3), units.length);
+  const res = method((num / 10 ** (i * 3)) * 100) / 100;
+  return `${res}${units[i - 1] ?? ''}`;
 }
