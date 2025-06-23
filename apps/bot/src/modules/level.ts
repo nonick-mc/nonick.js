@@ -77,15 +77,18 @@ export function validate(message: Message, setting: typeof levelSystemSettings.$
   return true;
 }
 
-export function getBoost(member: GuildMember, setting: typeof levelSystemSettings.$inferSelect) {
+export function getBoost(
+  member: GuildMember,
+  boosts: (typeof levelSystemSettings.$inferSelect)['boosts'],
+) {
   const roles = member.roles.cache;
   const check = (data: LevelBoostData) =>
     (data.type === 'date' && between(data)) || (data.type === 'role' && roles.has(data.role));
-  for (const data of setting.boosts.filter((v) => v.only)) {
+  for (const data of boosts.filter((v) => v.only)) {
     if (check(data)) return data.boost;
   }
   const result: Record<string, number> = { role: 1, date: 0 };
-  for (const data of setting.boosts.filter((v) => !v.only)) {
+  for (const data of boosts.filter((v) => !v.only)) {
     const type = data.type;
     if ((result[type] ?? 0) < data.boost && check(data)) result[type] = data.boost;
   }
@@ -110,9 +113,13 @@ export function merge({ level, xp }: { level: number; xp: number }, add: number)
   return { level, xp };
 }
 
-export async function getLevelData(guildId: string) {
-  return await db.query.levels.findMany({
+export async function getLevelDataWithRank(guildId: string, userId: string) {
+  const all = await db.query.levels.findMany({
     where: (levels, { eq }) => eq(levels.guildId, guildId),
     orderBy: (levels, { desc }) => [desc(levels.level), desc(levels.xp)],
   });
+  const levelData = all.find((data) => data.userId === userId);
+  if (!levelData) return;
+  const rank = all.findIndex((data) => data.userId === userId) + 1;
+  return { ...levelData, rank };
 }

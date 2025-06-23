@@ -1,5 +1,5 @@
+import { escapeMarkdown, type Guild, type User } from 'discord.js';
 import { PlaceHolder } from '@/modules/format';
-import { type Guild, type User, escapeMarkdown } from 'discord.js';
 
 export const joinAndLeaveHolder = new PlaceHolder<{
   guild: Guild;
@@ -10,3 +10,14 @@ export const joinAndLeaveHolder = new PlaceHolder<{
   .register('user', ({ user }) => user?.toString())
   .register('userName', ({ user }) => (user?.username ? escapeMarkdown(user.username) : null))
   .register('userTag', ({ user }) => (user?.tag ? escapeMarkdown(user.tag) : null));
+
+export const levelUpMessageHolder = new PlaceHolder<{
+  user: User;
+  level: number;
+  xp: number;
+}>()
+  .register('user', ({ user }) => user?.toString())
+  .register('userName', ({ user }) => (user?.username ? escapeMarkdown(user.username) : null))
+  .register('userId', ({ user }) => (user?.id ? escapeMarkdown(user.id) : null))
+  .register('level', ({ level }) => `${level}`)
+  .register('xp', ({ xp }) => `${xp}`);

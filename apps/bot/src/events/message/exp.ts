@@ -1,6 +1,6 @@
 ﻿import { type levelSystemSettings, levels } from '@repo/database';
 import { Events, type Message } from 'discord.js';
-import { and, eq } from 'drizzle-orm';
+import { levelUpMessageHolder } from '@/constants/holder';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
 import { Duration } from '@/modules/format';
@@ -18,45 +18,55 @@ const base = new DiscordEventBuilder({
     if (!validate(message, setting)) return;
     if (!message.member) return;
 
-    const levelData = await db.query.levels.findFirst({
+    const beforeLevelData = await db.query.levels.findFirst({
       where: (levels, { eq, and }) =>
         and(eq(levels.guildId, message.guildId), eq(levels.userId, message.author.id)),
     });
-    if (levelData && levelData.updatedAt.getTime() > Date.now() - Duration.toMS('1m')) return;
-
-    // データがない場合は新規作成
-    const newLevelData =
-      levelData ??
-      (
-        await db
-          .insert(levels)
-          .values({ userId: message.author.id, guildId: message.guildId })
-          .returning()
-      )[0];
+    if (beforeLevelData && beforeLevelData.updatedAt.getTime() > Date.now() - Duration.toMS('1m'))
+      return;
 
     const { level, xp } = merge(
-      { level: newLevelData.level, xp: newLevelData.xp },
-      Math.floor(getExp(getBoost(message.member, setting)) * newLevelData.boost),
+      { level: beforeLevelData?.level || 0, xp: beforeLevelData?.xp || 0 },
+      Math.floor(getExp(getBoost(message.member, setting.boosts)) * (beforeLevelData?.boost || 1)),
     );
 
     const res = (
       await db
-        .update(levels)
-        .set({ level, xp })
-        .where(and(eq(levels.guildId, message.guildId), eq(levels.userId, message.author.id)))
+        .insert(levels)
+        .values({
+          guildId: message.guildId,
+          userId: message.author.id,
+          level,
+          xp,
+        })
+        .onConflictDoUpdate({
+          target: [levels.guildId, levels.userId],
+          set: { level, xp },
+        })
         .returning()
     )[0];
 
-    if (res.level - newLevelData.level >= 1) return;
+    if (!(res.level - (beforeLevelData?.level || 0) >= 1)) return;
     const channel = await getLevelUpNotificationChannel(message, setting);
     if (!channel?.isTextBased()) return;
 
-    channel.send(setting.levelUpNotificationMessage);
+    channel.send(
+      levelUpMessageHolder.parse(setting.levelUpNotificationMessage, {
+        user: message.author,
+        level,
+        xp,
+      }),
+    );
 
-    const { current } = getRewardLevel(res.level, setting.rewards);
-    if (!current || current.level <= newLevelData.level) return;
+    const { current, before } = getRewardLevel(res.level, setting.rewards);
+    if (!current || current.level <= (beforeLevelData?.level || 0)) return;
     const role = await message.guild.roles.fetch(current.role);
     if (!role) return;
+
+    if (before && current.mode === 'replace-previous') {
+      await message.member.roles.remove(before.role, 'ランクアップ');
+    }
+    await message.member.roles.add(current.role, 'ランクアップ');
   },
 });
 
