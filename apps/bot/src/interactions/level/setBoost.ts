@@ -109,6 +109,7 @@ const setBoost = new ChatInput(
           ]),
       ],
       flags: [MessageFlags.IsComponentsV2],
+      allowedMentions: { parse: [] },
     });
   },
 );
