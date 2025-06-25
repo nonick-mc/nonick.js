@@ -63,10 +63,10 @@ const base = new DiscordEventBuilder({
     const role = await message.guild.roles.fetch(current.role);
     if (!role) return;
 
-    if (before && current.mode === 'replace-previous') {
-      await message.member.roles.remove(before.role, 'ランクアップ');
+    if (before && current.removeBeforeReward) {
+      await message.member.roles.remove(before.role, 'ランクアップ').catch(() => {});
     }
-    await message.member.roles.add(current.role, 'ランクアップ');
+    await message.member.roles.add(current.role, 'ランクアップ').catch(() => {});
   },
 });
 

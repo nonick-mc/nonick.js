@@ -135,7 +135,7 @@ export const verificationSetting = settingSchema.table('verification', {
 export type LevelRewardData = {
   level: number;
   role: string;
-  mode: 'add' | 'replace-previous';
+  removeBeforeReward: boolean;
 };
 
 export type DateString = `${number}/${number}`;
