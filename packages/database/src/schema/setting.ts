@@ -150,9 +150,9 @@ export const levelUpNotificationModeEnum = pgEnum('levelup_notification_mode', [
 export const levelSystemSettings = settingSchema.table('level_system', {
   guildId,
   enabled: boolean('enabled').notNull(),
-  rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
   globalBoost: integer('global_boost').notNull(),
   boosts: jsonb('boosts').array().$type<LevelBoostData[]>().notNull(),
+  rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
   levelUpNotificationMode: levelUpNotificationModeEnum('levelup_notification_mode').notNull(),
   levelUpNotificationChannel: text('levelup_notification_channel'),
   levelUpNotificationMessage: jsonb('levelup_notification_message')

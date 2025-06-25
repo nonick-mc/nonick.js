@@ -21,4 +21,5 @@ export const targetNameTexts: Record<AuditLogTargetName, string> = {
   auto_mod: 'AutoMod Plus',
   guild: 'サーバー',
   verification: 'メンバー認証',
+  level_system: 'レベルシステム',
 };
