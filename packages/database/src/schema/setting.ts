@@ -137,11 +137,11 @@ export type LevelRewardData = {
   role: string;
   removeBeforeReward: boolean;
 };
-
-export type DateString = `${number}/${number}`;
-export type LevelRoleBoost = { type: 'role'; role: string };
-export type LevelDateBoost = { type: 'date'; start: DateString; end: DateString };
-export type LevelBoostData = (LevelRoleBoost | LevelDateBoost) & { boost: number; only?: boolean };
+export type LevelBoostData = {
+  role: string;
+  boost: number;
+  only?: boolean;
+};
 
 export const levelUpNotificationModeEnum = pgEnum('levelup_notification_mode', [
   'current',
@@ -151,6 +151,7 @@ export const levelSystemSettings = settingSchema.table('level_system', {
   guildId,
   enabled: boolean('enabled').notNull(),
   rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
+  globalBoost: integer('global_boost').notNull(),
   boosts: jsonb('boosts').array().$type<LevelBoostData[]>().notNull(),
   levelUpNotificationMode: levelUpNotificationModeEnum('levelup_notification_mode').notNull(),
   levelUpNotificationChannel: text('levelup_notification_channel'),
@@ -161,5 +162,6 @@ export const levelSystemSettings = settingSchema.table('level_system', {
   allowThreadChannels: text('allow_thread_channels').array().notNull(),
   enableLog: boolean('enable_log').notNull(),
   logChannel: text('log_channel'),
+  ...timestamps,
 });
 // #endregion

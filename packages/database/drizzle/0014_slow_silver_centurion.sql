@@ -1,0 +1,2 @@
+ALTER TABLE "public_setting"."level_system" ADD COLUMN "create_at" timestamp DEFAULT now() NOT NULL;--> statement-breakpoint
+ALTER TABLE "public_setting"."level_system" ADD COLUMN "updated_at" timestamp NOT NULL;

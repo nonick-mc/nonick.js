@@ -1,0 +1,1 @@
+ALTER TABLE "public_setting"."level_system" ADD COLUMN "global_boost" integer NOT NULL;

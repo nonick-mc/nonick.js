@@ -1,24 +1,9 @@
 ﻿import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
-import type {
-  LevelBoostData,
-  LevelDateBoost,
-  LevelRewardData,
-  levelSystemSettings,
-} from '@repo/database';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isBetween from 'dayjs/plugin/isBetween';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import type { LevelBoostData, LevelRewardData, levelSystemSettings } from '@repo/database';
 import type { GuildMember, Message } from 'discord.js';
 import { resolve } from 'path';
 import { db } from './drizzle';
 import { per, siUnit } from './util';
-
-dayjs.extend(customParseFormat);
-dayjs.extend(timezone);
-dayjs.extend(utc);
-dayjs.extend(isBetween);
 
 GlobalFonts.registerFromPath(resolve(__dirname, '../fonts/NotoSansJP-Regular.ttf'), 'NotoSansJP');
 GlobalFonts.registerFromPath(
@@ -89,26 +74,18 @@ export function validate(message: Message, setting: typeof levelSystemSettings.$
 export function getBoost(
   member: GuildMember,
   boosts: (typeof levelSystemSettings.$inferSelect)['boosts'],
+  globalBoost: (typeof levelSystemSettings.$inferSelect)['globalBoost'],
 ) {
   const roles = member.roles.cache;
-  const check = (data: LevelBoostData) =>
-    (data.type === 'date' && between(data)) || (data.type === 'role' && roles.has(data.role));
+  const check = (data: LevelBoostData) => roles.has(data.role);
   for (const data of boosts.filter((v) => v.only)) {
     if (check(data)) return data.boost;
   }
-  const result: Record<string, number> = { role: 1, date: 0 };
+  let result = 1;
   for (const data of boosts.filter((v) => !v.only)) {
-    const type = data.type;
-    if ((result[type] ?? 0) < data.boost && check(data)) result[type] = data.boost;
+    if (result < data.boost && check(data)) result = data.boost;
   }
-  return Object.values(result).reduce((p, c) => p + c);
-}
-
-function between(data: LevelDateBoost) {
-  const start = dayjs.tz(data.start, 'M/D', 'Asia/Tokyo');
-  const _end = dayjs.tz(data.end, 'M/D', 'Asia/Tokyo');
-  const end = _end.isBefore(start) ? _end.add(1, 'year') : _end;
-  return dayjs().tz('Asia/Tokyo').isBetween(start, end, 'D', '[]');
+  return result + globalBoost;
 }
 
 export function merge({ level, xp }: { level: number; xp: number }, add: number) {

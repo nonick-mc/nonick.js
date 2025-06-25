@@ -27,7 +27,10 @@ const base = new DiscordEventBuilder({
 
     const { level, xp } = merge(
       { level: beforeLevelData?.level || 0, xp: beforeLevelData?.xp || 0 },
-      Math.floor(getExp(getBoost(message.member, setting.boosts)) * (beforeLevelData?.boost || 1)),
+      Math.floor(
+        getExp(getBoost(message.member, setting.boosts, setting.globalBoost)) *
+          (beforeLevelData?.boost || 1),
+      ),
     );
 
     const res = (
