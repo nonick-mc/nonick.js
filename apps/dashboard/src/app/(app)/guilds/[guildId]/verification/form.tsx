@@ -1,19 +1,20 @@
 ﻿'use client';
 
-import { FormCard } from '@/components/form';
-import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
-import { FormDevTool } from '@/components/react-hook-form/devtool';
-import { RoleSelect } from '@/components/react-hook-form/role-select';
-import { ControlledForm } from '@/components/react-hook-form/ui/form';
-import { ControlledRadioGroup } from '@/components/react-hook-form/ui/radio';
-import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { Radio, type RadioProps, addToast, cn } from '@heroui/react';
+import { addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { APIRole } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
+import { FormCard } from '@/components/form';
+import { CustomRadio } from '@/components/heroui/custom-radio';
+import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
+import { FormDevTool } from '@/components/react-hook-form/devtool';
+import { RoleSelect } from '@/components/react-hook-form/role-select';
+import { ControlledForm } from '@/components/react-hook-form/ui/form';
+import { ControlledRadioGroup } from '@/components/react-hook-form/ui/radio';
+import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { updateSettingAction } from './action';
 import { settingFormSchema } from './schema';
 
@@ -131,27 +132,5 @@ function GeneralSetting() {
         </CustomRadio>
       </ControlledRadioGroup>
     </FormCard>
-  );
-}
-
-function CustomRadio(props: RadioProps) {
-  const { children, ...otherProps } = props;
-
-  return (
-    <Radio
-      {...otherProps}
-      classNames={{
-        base: cn(
-          'inline-flex m-0 bg-default-100 hover:bg-default-200 items-center justify-between',
-          'w-full max-w-none cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent',
-          'data-[selected=true]:border-primary transition-background',
-        ),
-        label: 'text-sm font-semibold',
-        description: 'text-sm text-foreground-500',
-        labelWrapper: 'flex-1 text-sm',
-      }}
-    >
-      {children}
-    </Radio>
   );
 }
