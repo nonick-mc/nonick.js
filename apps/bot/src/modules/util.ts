@@ -38,11 +38,23 @@ export function formatEmoji(emojiId: string, animated = false) {
   return `<${animated ? 'a' : ''}:x:${emojiId}>`;
 }
 
+export function per(val: number, max: number) {
+  return (val / max) * 100;
+}
+
 export function range(max: number): Generator<number>;
 export function range(min: number, max: number): Generator<number>;
 export function* range(_min: number, _max = 0) {
   const [min, max] = _min < _max ? [_min, _max] : [_max, _min];
   for (let i = min; i < max; i++) yield i;
+}
+
+export function siUnit(num: number, method: (n: number) => number = Math.floor) {
+  if (num <= 0) return String(num);
+  const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y', 'R', 'Q'];
+  const i = Math.min(Math.floor(Math.log10(num) / 3), units.length);
+  const res = method((num / 10 ** (i * 3)) * 100) / 100;
+  return `${res}${units[i - 1] ?? ''}`;
 }
 
 export async function createAttachment(attachments: Collection<string, Attachment>) {
@@ -137,18 +149,4 @@ export function permToText(...perms: (keyof PermissionFlags)[]) {
 
 export function isURL(url: string) {
   return /^https?:\/\//.test(url);
-}
-
-/**
- *
- * @param num
- * @param method
- * @returns
- */
-export function siUnit(num: number, method: (n: number) => number = Math.floor) {
-  if (num <= 0) return String(num);
-  const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y', 'R', 'Q'];
-  const i = Math.min(Math.floor(Math.log10(num) / 3), units.length);
-  const res = method((num / 10 ** (i * 3)) * 100) / 100;
-  return `${res}${units[i - 1] ?? ''}`;
 }
