@@ -24,6 +24,18 @@ export default new ChatInput(
   async (interaction) => {
     if (!interaction.inCachedGuild()) return;
 
+    const setting = await db.query.levelSystemSettings.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, interaction.guildId),
+    });
+
+    if (!setting || !setting.enabled) {
+      return interaction.reply({
+        content:
+          '\`❌\` レベルシステムが有効になっていないため、このサーバーでこのコマンドを実行することはできません。',
+        flags: [MessageFlags.Ephemeral],
+      });
+    }
+
     const user = interaction.options.getUser('user') ?? interaction.user;
     const isPublic = interaction.options.getBoolean('public') ?? false;
     const member = await interaction.guild?.members.fetch(user);

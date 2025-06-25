@@ -4,6 +4,7 @@ import {
   ApplicationCommandOptionType,
   bold,
   ContainerBuilder,
+  hyperlink,
   MessageFlags,
   SectionBuilder,
   SeparatorBuilder,
@@ -12,6 +13,7 @@ import {
   ThumbnailBuilder,
 } from 'discord.js';
 import { white } from '@/constants/emojis';
+import { dashboard } from '@/constants/links';
 import { db } from '@/modules/drizzle';
 import { userField } from '@/modules/fields';
 import { formatEmoji } from '@/modules/util';
@@ -37,6 +39,17 @@ const setBoost = new ChatInput(
   },
   async (interaction) => {
     if (!interaction.inCachedGuild()) return;
+
+    const setting = await db.query.levelSystemSettings.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, interaction.guildId),
+    });
+
+    if (!setting || !setting.enabled) {
+      return interaction.reply({
+        content: `\`❌\` このコマンドを使用するためには、ダッシュボードで${hyperlink('レベルシステムを有効', `<${dashboard}/guilds/${interaction.guild.id}/levels>`)}にする必要があります。`,
+        flags: [MessageFlags.Ephemeral],
+      });
+    }
 
     const user = interaction.options.getUser('user', true);
     const boost = interaction.options.getNumber('boost', true);
@@ -75,10 +88,6 @@ const setBoost = new ChatInput(
     });
 
     // ログ送信
-    const setting = await db.query.levelSystemSettings.findFirst({
-      where: (setting, { eq }) => eq(setting.guildId, interaction.guildId),
-    });
-
     if (!setting?.enableLog || !setting.logChannel) return;
     const channel = await interaction.guild.channels.fetch(setting.logChannel).catch(() => null);
     if (!(channel?.isTextBased() && channel.isSendable)) return;
