@@ -153,6 +153,7 @@ export const levelSystemSettings = settingSchema.table('level_system', {
   globalBoost: integer('global_boost').notNull(),
   boosts: jsonb('boosts').array().$type<LevelBoostData[]>().notNull(),
   rewards: jsonb('rewards').array().$type<LevelRewardData[]>().notNull(),
+  enableLevelUpNotification: boolean('enable_levelup_notification').notNull(),
   levelUpNotificationMode: levelUpNotificationModeEnum('levelup_notification_mode').notNull(),
   levelUpNotificationChannel: text('levelup_notification_channel'),
   levelUpNotificationMessage: jsonb('levelup_notification_message')

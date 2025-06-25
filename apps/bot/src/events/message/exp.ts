@@ -50,17 +50,22 @@ const base = new DiscordEventBuilder({
     )[0];
 
     if (!(res.level - (beforeLevelData?.level || 0) >= 1)) return;
-    const channel = await getLevelUpNotificationChannel(message, setting);
-    if (!channel?.isTextBased()) return;
 
-    channel.send(
-      levelUpMessageHolder.parse(setting.levelUpNotificationMessage, {
-        user: message.author,
-        level,
-        xp,
-      }),
-    );
+    // レベルアップ通知
+    if (setting.enableLevelUpNotification) {
+      const channel = await getLevelUpNotificationChannel(message, setting);
+      if (channel?.isTextBased()) {
+        channel.send(
+          levelUpMessageHolder.parse(setting.levelUpNotificationMessage, {
+            user: message.author,
+            level,
+            xp,
+          }),
+        );
+      }
+    }
 
+    // 報酬ロールの付与
     const { current, before } = getRewardLevel(res.level, setting.rewards);
     if (!current || current.level <= (beforeLevelData?.level || 0)) return;
     const role = await message.guild.roles.fetch(current.role);
@@ -77,12 +82,14 @@ async function getLevelUpNotificationChannel(
   message: Message<true>,
   setting: typeof levelSystemSettings.$inferSelect,
 ) {
+  if (!setting.levelUpNotificationChannel) return null;
   switch (setting.levelUpNotificationMode) {
     case 'current':
       return message.channel;
     case 'specified':
-      // biome-ignore lint: false positive
-      return await message.guild.channels.fetch(setting.levelUpNotificationChannel!);
+      return await message.guild.channels
+        .fetch(setting.levelUpNotificationChannel)
+        .catch(() => null);
   }
 }
 
