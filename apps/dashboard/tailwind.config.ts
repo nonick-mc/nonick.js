@@ -14,15 +14,5 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [
-    heroui({
-      themes: {
-        dark: {
-          colors: {
-            background: '#111111',
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [heroui()],
 } satisfies Config;
