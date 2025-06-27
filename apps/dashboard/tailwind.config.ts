@@ -19,7 +19,10 @@ export default {
       themes: {
         dark: {
           colors: {
-            background: '#111111',
+            content1: '#0f0f12',
+            content2: '#18181b',
+            content3: '#27272a',
+            content4: '#3f3f46',
           },
         },
       },

@@ -1,10 +1,10 @@
-﻿import { Logo } from '@/components/logo';
-import { UserDropdown, UserDropdownSkeleton } from '@/components/user-dropdown';
-import { auth } from '@/lib/auth';
-import { Chip } from '@heroui/chip';
+﻿import { Chip } from '@heroui/chip';
 import { Link } from '@heroui/link';
 import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
 import { Suspense } from 'react';
+import { Logo } from '@/components/logo';
+import { UserDropdown, UserDropdownSkeleton } from '@/components/user-dropdown';
+import { auth } from '@/lib/auth';
 
 export async function Navbar() {
   const sessionPromise = auth();
