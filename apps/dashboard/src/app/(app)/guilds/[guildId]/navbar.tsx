@@ -1,14 +1,14 @@
 ﻿'use client';
 
-import { Icon } from '@/components/icon';
-import { Logo } from '@/components/logo';
-import { SidebarContext } from '@/components/sidebar-provider';
-import { UserDropdown } from '@/components/user-dropdown';
 import { Button } from '@heroui/button';
 import { Link } from '@heroui/link';
 import { Navbar as HeroUINavbar, NavbarContent, NavbarItem } from '@heroui/navbar';
 import type { Session } from 'next-auth';
 import { Suspense, useContext } from 'react';
+import { Icon } from '@/components/icon';
+import { Logo } from '@/components/logo';
+import { SidebarContext } from '@/components/sidebar-provider';
+import { UserDropdown } from '@/components/user-dropdown';
 
 export function Navbar({ sessionPromise }: { sessionPromise: Promise<Session | null> }) {
   const { onOpen } = useContext(SidebarContext);
