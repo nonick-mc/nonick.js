@@ -91,7 +91,7 @@ export function SidebarDrawer({
       </Drawer>
       <div
         className={cn(
-          'hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden border-divider border-r-1 lg:flex rounded-none flex-row z-50',
+          'hidden bg-content1 h-full max-w-[var(--sidebar-width)] overflow-x-hidden lg:flex rounded-none flex-row z-50',
           className,
         )}
       >

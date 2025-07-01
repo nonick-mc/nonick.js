@@ -1,14 +1,14 @@
 ﻿'use client';
 
+import { Link, ScrollShadow, Spacer } from '@heroui/react';
+import { usePathname } from 'next/navigation';
+import { Suspense, useContext } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Logo } from '@/components/logo';
 import { SidebarDrawer } from '@/components/sidebar-drawer';
 import { SidebarNavigation } from '@/components/sidebar-navigation';
 import { SidebarContext } from '@/components/sidebar-provider';
 import type { getGuild } from '@/lib/discord/api';
-import { Link, ScrollShadow, Spacer } from '@heroui/react';
-import { usePathname } from 'next/navigation';
-import { Suspense, useContext } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import {
   SidebarGuildButton,
   SidebarGuildButtonSkeleton,
@@ -22,7 +22,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
   const currentPath = pathname.split('/')?.[3];
 
   const content = (
-    <div className='relative w-[300px] flex flex-1 flex-col'>
+    <div className='relative w-[315px] flex flex-1 flex-col'>
       <div className='h-[80px] flex shrink-0 items-center px-6'>
         <Link href='/' className='ml-1'>
           <Logo height={16} />
