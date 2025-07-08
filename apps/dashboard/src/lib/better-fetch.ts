@@ -1,5 +1,4 @@
-﻿import { type BetterFetchPlugin, type RetryOptions, createFetch } from '@better-fetch/fetch';
-import { logger } from '@better-fetch/logger';
+﻿import type { RetryOptions } from '@better-fetch/fetch';
 
 export const defaultRetryOption: RetryOptions = {
   type: 'linear',
@@ -10,9 +9,3 @@ export const defaultRetryOption: RetryOptions = {
     return false;
   },
 };
-
-export const defaultPlugins: BetterFetchPlugin[] = [
-  logger({
-    enabled: process.env.NODE_ENV === 'development',
-  }),
-];
