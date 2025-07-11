@@ -18,7 +18,8 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": {
-          "level": "warn"
+          "level": "warn",
+          "fix": "safe"
         }
       },
       "style": {
