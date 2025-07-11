@@ -69,7 +69,7 @@ export function SettingForm({ setting, roles, channels }: Props) {
           color: 'danger',
         });
       }
-      formApi.reset(value);
+      formApi.reset(formApi.state.values);
     },
   });
 
@@ -88,8 +88,8 @@ export function SettingForm({ setting, roles, channels }: Props) {
 
   return (
     <form
-      onSubmit={(event) => {
-        event.preventDefault();
+      onSubmit={(e) => {
+        e.preventDefault();
         form.handleSubmit();
       }}
       className='flex flex-col gap-6 pb-28'
