@@ -1,6 +1,7 @@
 ﻿import { cn, Switch, type SwitchProps } from '@heroui/react';
-import type { HTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useFieldContext } from '../context';
+import { FieldLabel } from './label';
 
 export type SwitchFieldProps = {
   label?: ReactNode;
@@ -19,19 +20,7 @@ export function SwitchField({ label, description, wrapperClass, ...props }: Swit
         isSelected={field.state.value}
         {...props}
       />
-      <div className={cn('flex flex-col max-sm:gap-1', { 'opacity-disabled': props.isDisabled })}>
-        <SwitchLabel>{label}</SwitchLabel>
-        {description && <SwitchDescription>{description}</SwitchDescription>}
-      </div>
+      <FieldLabel label={label} description={description} isDisabled={props.isDisabled} />
     </div>
   );
-}
-
-function SwitchLabel({ className, ...props }: HTMLAttributes<HTMLLabelElement>) {
-  // biome-ignore lint: false
-  return <label className={cn('text-sm', className)} {...props} />;
-}
-
-function SwitchDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn('text-sm max-sm:text-xs text-default-500', className)} {...props} />;
 }
