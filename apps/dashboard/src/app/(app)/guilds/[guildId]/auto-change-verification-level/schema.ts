@@ -1,13 +1,13 @@
-﻿import { snowflakeRegex } from '@/lib/zod/discord/constants';
+﻿import { autoChangeVerifyLevelSetting } from '@repo/database';
+import { GuildVerificationLevel } from 'discord-api-types/v10';
+import { snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
-import { autoChangeVerifyLevelSetting } from '@repo/database';
-import { GuildVerificationLevel } from 'discord-api-types/v10';
 
 export const settingFormSchema = createInsertSchema(autoChangeVerifyLevelSetting, {
-  level: z.preprocess((v) => Number(v), z.nativeEnum(GuildVerificationLevel)),
-  startHour: z.preprocess((v) => Number(v), z.number().int().min(0).max(23)),
-  endHour: z.preprocess((v) => Number(v), z.number().int().min(0).max(23)),
+  level: z.nativeEnum(GuildVerificationLevel),
+  startHour: (schema) => schema.int().min(0).max(23),
+  endHour: (schema) => schema.int().min(0).max(23),
   logChannel: (schema) => schema.regex(snowflakeRegex),
 })
   .omit({ guildId: true, createdAt: true, updatedAt: true })

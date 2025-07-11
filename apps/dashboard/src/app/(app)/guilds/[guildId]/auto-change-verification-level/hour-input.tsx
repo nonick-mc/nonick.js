@@ -1,21 +1,14 @@
-﻿import { Icon } from '@/components/icon';
-import {
-  ControlledNumberInput,
-  type ControlledNumberInputProps,
-} from '@/components/react-hook-form/ui/number-input';
-import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
+﻿import { NumberInputField, type NumberInputFieldProps } from '@/components/form/ui/input';
+import { Icon } from '@/components/icon';
 
 type HourInputProps = Omit<
-  ControlledNumberInputProps,
+  NumberInputFieldProps,
   'minValue' | 'maxValue' | 'startContent' | 'endContent'
 >;
 
-export function ControlledHourInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(props: HourInputProps & UseControllerProps<TFieldValues, TName>) {
+export function HourInputField(props: HourInputProps) {
   return (
-    <ControlledNumberInput
+    <NumberInputField
       minValue={0}
       maxValue={23}
       startContent={

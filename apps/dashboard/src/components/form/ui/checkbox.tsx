@@ -1,6 +1,4 @@
-﻿'use client';
-
-import { CheckboxGroup, type CheckboxGroupProps } from '@heroui/checkbox';
+﻿import { CheckboxGroup, type CheckboxGroupProps } from '@heroui/checkbox';
 import { cn } from '@heroui/theme';
 import { useFieldContext } from '../context';
 
