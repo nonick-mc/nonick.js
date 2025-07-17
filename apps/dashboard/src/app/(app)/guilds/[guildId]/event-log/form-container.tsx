@@ -1,6 +1,5 @@
 ﻿'use client';
 
-import { Icon } from '@/components/icon';
 import {
   Accordion,
   AccordionItem,
@@ -15,14 +14,14 @@ import {
 } from '@heroui/react';
 import type { APIGuildChannel, GuildChannelType } from 'discord-api-types/v10';
 import { createContext, useState } from 'react';
-import { BanLogSettingForm } from './forms/ban';
+import { Icon } from '@/components/icon';
 import { KickLogSettingForm } from './forms/kick';
 import { MsgDeleteLogSettingForm } from './forms/message-delete';
 import { MsgEditLogSettingForm } from './forms/message-edit';
 import { TimeoutLogSettingForm } from './forms/timeout';
 import { VoiceLogSettingForm } from './forms/voice';
 import type { getLogSettings } from './lib';
-import { settingFormSchema as banLogSettingSchema } from './schemas/ban';
+// import { settingFormSchema as banLogSettingSchema } from './schemas/ban';
 import { settingFormSchema as kickLogSettingSchema } from './schemas/kick';
 import { settingFormSchema as msgDeleteLogSettingSchema } from './schemas/message-delete';
 import { settingFormSchema as msgEditLogSettingSchema } from './schemas/message-edit';
@@ -113,7 +112,7 @@ export function FormContainer({ settings, ...props }: Props) {
             onFormChange={handleFormChange}
           />
         </AccordionItem>
-        <AccordionItem
+        {/* <AccordionItem
           key='ban'
           title='BAN'
           startContent={<AccordionItemIcon icon='solar:sledgehammer-bold' />}
@@ -122,7 +121,7 @@ export function FormContainer({ settings, ...props }: Props) {
             setting={banLogSettingSchema.safeParse(settings.ban).data ?? null}
             onFormChange={handleFormChange}
           />
-        </AccordionItem>
+        </AccordionItem> */}
         <AccordionItem
           key='voice'
           title='ボイスチャンネル'

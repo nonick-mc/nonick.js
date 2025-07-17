@@ -1,27 +1,16 @@
-﻿import { domainRegex, snowflakeRegex } from '@/lib/zod/discord/constants';
+﻿import { autoModSetting } from '@repo/database';
+import { domainRegex, snowflakeRegex } from '@/lib/zod/discord/constants';
 import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
 import { isUniqueArray } from '@/lib/zod/utils';
-import { autoModSetting } from '@repo/database';
+
+export const domainListSchema = z
+  .array(z.string().regex(domainRegex))
+  .max(20)
+  .refine(isUniqueArray, { message: '重複したドメインが含まれています。' });
 
 export const settingFormSchema = createInsertSchema(autoModSetting, {
-  domainList: z.preprocess(
-    (v) =>
-      String(v)
-        .split(/,|\n/)
-        .reduce<string[]>((acc, item) => {
-          const trimmed = item.trim();
-          if (trimmed) acc.push(trimmed);
-          return acc;
-        }, []),
-    z
-      .array(z.string())
-      .max(20)
-      .refine((v) => v.every((domain) => domainRegex.test(domain)), {
-        params: { i18n: 'invalid_domains' },
-      })
-      .refine(isUniqueArray, { message: '重複した値が含まれています。' }),
-  ),
+  domainList: domainListSchema,
   ignoreChannels: z
     .array(z.string().regex(snowflakeRegex))
     .max(100)
