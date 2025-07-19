@@ -1,8 +1,8 @@
+import { ButtonStyle, Colors, EmbedBuilder, Events, time } from 'discord.js';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
 import { EmbedPagination, PaginationButton } from '@/modules/pagination';
 import { getMessage } from '@/modules/util';
-import { ButtonStyle, Colors, EmbedBuilder, Events, time } from 'discord.js';
 
 interface UrlMatchGroup {
   startPattern?: string;
@@ -15,7 +15,7 @@ interface UrlMatchGroup {
 export default new DiscordEventBuilder({
   type: Events.MessageCreate,
   async execute(message) {
-    if (!message.inGuild()) return;
+    if (!message.inGuild() || message.author.bot || message.system) return;
     const setting = await db.query.msgExpandSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, message.guildId),
     });

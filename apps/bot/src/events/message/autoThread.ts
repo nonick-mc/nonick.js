@@ -1,11 +1,11 @@
+import { Events } from 'discord.js';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
-import { Events } from 'discord.js';
 
 export default new DiscordEventBuilder({
   type: Events.MessageCreate,
   async execute(message) {
-    if (!message.inGuild()) return;
+    if (!message.inGuild() || message.author.bot || message.system) return;
     const setting = await db.query.autoCreateThreadSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, message.guildId),
     });
