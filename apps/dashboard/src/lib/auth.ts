@@ -14,9 +14,6 @@ export const auth = betterAuth({
         defaultValue: null,
       },
     },
-    fields: {
-      name: 'username',
-    },
   },
   socialProviders: {
     discord: {
