@@ -9,11 +9,11 @@ import {
   type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
-  type RESTGetAPIOAuth2CurrentAuthorizationResult,
 } from 'discord-api-types/v10';
+import { redirect } from 'next/navigation';
 import { db } from '../drizzle';
 import { DiscordEndPoints } from './constants';
-import { discordBotUserFetch, discordFetch, discordOAuth2UserFetch } from './fetch';
+import { discordBotUserFetch, discordOAuth2UserFetch } from './fetch';
 import { hasPermission } from './utils';
 
 /** Botの招待URL */
@@ -30,11 +30,16 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
  * @see https://discord.com/developers/docs/resources/user#get-current-user-guilds
  */
-export function getUserGuilds(withCounts = false) {
-  return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[], false>(
+export async function getUserGuilds(withCounts = false) {
+  const res = await discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[]>(
     `/users/@me/guilds?with_counts=${withCounts}`,
-    { throw: true },
   );
+
+  if (res.error) {
+    if (res.error.status === 401) redirect('/login');
+    throw new Error(res.error.statusText);
+  }
+  return res.data;
 }
 
 /**
@@ -159,13 +164,4 @@ export function addGuildMemberRole(guildId: string, roleId: string, userId: stri
     method: 'PUT',
     throw: true,
   });
-}
-
-/**
- * ログイン中のユーザーのアクセストークンが有効であるか確認
- */
-export async function isValidAccessToken() {
-  const { error } =
-    await discordOAuth2UserFetch<RESTGetAPIOAuth2CurrentAuthorizationResult>('/oauth2/@me');
-  return !error;
 }

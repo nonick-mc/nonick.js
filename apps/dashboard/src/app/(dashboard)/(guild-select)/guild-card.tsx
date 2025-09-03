@@ -20,7 +20,9 @@ export function GuildCard({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) 
             <AvatarFallback className='text-lg'>{guild.name.slice(0, 2)}</AvatarFallback>
           </Avatar>
         </div>
-        <p className='flex items-center justify-center p-3 border-t truncate'>{guild.name}</p>
+        <div className='p-3 border-t'>
+          <p className='w-full text-center truncate'>{guild.name}</p>
+        </div>
       </Card>
     </Link>
   );
@@ -28,12 +30,12 @@ export function GuildCard({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) 
 
 export function GuildCardSkeleton() {
   return (
-    <Card className='overflow-hidden flex flex-col w-full'>
+    <Card className='overflow-hidden flex flex-col w-full py-0 gap-0'>
       <div className='py-6 mx-auto'>
         <Skeleton className='size-20 rounded-full' />
       </div>
-      <div className='p-3 mx-auto border-t'>
-        <Skeleton className='max-w-[200px]' />
+      <div className='w-full p-3 mx-auto border-t h-'>
+        <Skeleton className='max-w-[200px] h-[24px] mx-auto' />
       </div>
     </Card>
   );

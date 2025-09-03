@@ -1,7 +1,8 @@
 ﻿'use client';
 
-import { LayoutDashboardIcon, LogInIcon, SettingsIcon } from 'lucide-react';
+import { LayoutDashboardIcon, LogInIcon, PaintbrushIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -9,7 +10,12 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -17,6 +23,7 @@ import { authClient } from '@/lib/auth-client';
 
 export function UserDropdown() {
   const { data: session } = authClient.useSession();
+  const { theme, setTheme } = useTheme();
   const router = useRouter();
 
   return (
@@ -54,10 +61,19 @@ export function UserDropdown() {
             <LayoutDashboardIcon />
             ダッシュボード
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/user/settings')}>
-            <SettingsIcon />
-            アカウント設定
-          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className='flex gap-2 [&_svg]:size-4'>
+              <PaintbrushIcon className='stroke-muted-foreground' />
+              テーマ
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup value={theme} onValueChange={(v) => setTheme(v)}>
+                <DropdownMenuRadioItem value='system'>システム</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='light'>ライト</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='dark'>ダーク</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
