@@ -1,4 +1,4 @@
-﻿import type { PropsWithChildren } from 'react';
+﻿import { type PropsWithChildren, Suspense } from 'react';
 import { InviteButton } from './invite-button';
 import { Navbar } from './navbar';
 import { SearchInput } from './search-input';
@@ -16,7 +16,9 @@ export default function Layout({ children }: PropsWithChildren) {
             </p>
           </section>
           <div className='flex flex-col gap-3 md:flex-row md:flex-1'>
-            <SearchInput />
+            <Suspense>
+              <SearchInput />
+            </Suspense>
             <InviteButton />
           </div>
         </div>

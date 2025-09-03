@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +21,9 @@ export default function Page() {
           <CardDescription>Discordアカウントを使用して続行</CardDescription>
         </CardHeader>
         <CardContent className='flex flex-col gap-2'>
-          <LoginButton />
+          <Suspense>
+            <LoginButton />
+          </Suspense>
           <Button variant='secondary' className='w-full' asChild>
             <Link href='https://docs.nonick-js.com/tutorial/dashboard'>ログインについて</Link>
           </Button>
