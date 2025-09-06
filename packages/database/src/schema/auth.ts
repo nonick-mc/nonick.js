@@ -15,6 +15,7 @@ export const user = pgTable('user', {
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
   globalName: text('global_name'),
+  discordUserId: text('discord_user_id').notNull().unique(),
 });
 
 export const session = pgTable('session', {

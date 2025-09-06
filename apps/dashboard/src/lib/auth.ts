@@ -13,6 +13,11 @@ export const auth = betterAuth({
         required: false,
         defaultValue: null,
       },
+      discordUserId: {
+        type: 'string',
+        required: true,
+        unique: true,
+      },
     },
   },
   socialProviders: {
@@ -25,6 +30,7 @@ export const auth = betterAuth({
         return {
           name: profile.username,
           globalName: profile.global_name,
+          discordUserId: profile.id,
         };
       },
     },

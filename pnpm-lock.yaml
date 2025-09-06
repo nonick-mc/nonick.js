@@ -138,6 +138,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      discord-snowflake:
+        specifier: ^2.0.0
+        version: 2.0.0
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.41.0(kysely@0.28.2)(pg@8.16.0)
@@ -2370,6 +2373,10 @@ packages:
 
   discord-api-types@0.38.11:
     resolution: {integrity: sha512-XN0qhcQpetkyb/49hcDHuoeUPsQqOkb17wbV/t48gUkoEDi4ajhsxqugGcxvcN17BBtI9FPPWEgzv6IhQmCwyw==}
+
+  discord-snowflake@2.0.0:
+    resolution: {integrity: sha512-MFWier0d78ajvk1lAXUCm7wbNnY2bD7/rqvtemuhoebkBBS9AnA0OwQI7SpYqiy/01GR1raLPTsIOwWCj8Pb+w==}
+    engines: {node: '>=18'}
 
   discord.js@14.19.3:
     resolution: {integrity: sha512-lncTRk0k+8Q5D3nThnODBR8fR8x2fM798o8Vsr40Krx0DjPwpZCuxxTcFMrXMQVOqM1QB9wqWgaXPg3TbmlHqA==}
@@ -6015,6 +6022,8 @@ snapshots:
   discord-api-types@0.37.120: {}
 
   discord-api-types@0.38.11: {}
+
+  discord-snowflake@2.0.0: {}
 
   discord.js@14.19.3:
     dependencies:

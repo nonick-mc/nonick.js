@@ -33,6 +33,7 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
 export async function getUserGuilds(withCounts = false) {
   const res = await discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[]>(
     `/users/@me/guilds?with_counts=${withCounts}`,
+    { next: { revalidate: 5 } },
   );
 
   if (res.error) {

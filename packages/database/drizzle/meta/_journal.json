@@ -71,6 +71,13 @@
       "when": 1754532634025,
       "tag": "0009_perfect_crystal",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1756971051421,
+      "tag": "0010_calm_eddie_brock",
+      "breakpoints": true
     }
   ]
 }
