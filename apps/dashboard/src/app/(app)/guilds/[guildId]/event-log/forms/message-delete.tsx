@@ -1,17 +1,17 @@
 ﻿'use client';
 
-import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
-import { ChannelSelect } from '@/components/react-hook-form/channel-select';
-import { FormDevTool } from '@/components/react-hook-form/devtool';
-import { ControlledForm } from '@/components/react-hook-form/ui/form';
-import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { addToast } from '@heroui/react';
+import { addToast, Divider } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
+import { ChannelSelect } from '@/components/react-hook-form/channel-select';
+import { FormDevTool } from '@/components/react-hook-form/devtool';
+import { FormSubmitButton } from '@/components/react-hook-form/submit-button';
+import { ControlledForm } from '@/components/react-hook-form/ui/form';
+import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { updateSettingAction } from '../actions/message-delete';
 import { PropsContext } from '../form-container';
 import { settingFormSchema } from '../schemas/message-delete';
@@ -55,7 +55,8 @@ export function MsgDeleteLogSettingForm({ setting, onFormChange }: Props) {
   return (
     <ControlledForm form={form} onSubmit={form.handleSubmit(onSubmit)} className='pb-0'>
       <GeneralSetting />
-      <FormChangePublisher />
+      <Divider />
+      <FormSubmitButton />
       <FormDevTool />
     </ControlledForm>
   );
