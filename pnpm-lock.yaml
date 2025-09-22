@@ -102,6 +102,9 @@ importers:
 
   apps/dashboard:
     dependencies:
+      '@better-fetch/fetch':
+        specifier: ^1.1.18
+        version: 1.1.18
       '@icons-pack/react-simple-icons':
         specifier: ^13.7.0
         version: 13.7.0(react@19.1.0)
@@ -163,6 +166,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.6(@types/react@19.1.8)
+      discord-api-types:
+        specifier: 'catalog:'
+        version: 0.37.120
       tailwindcss:
         specifier: ^4
         version: 4.1.11
