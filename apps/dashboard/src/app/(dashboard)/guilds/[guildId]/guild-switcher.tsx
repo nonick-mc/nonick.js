@@ -36,7 +36,7 @@ export function GuildSwitcher({ guildPromise, otherGuildsPromise, inviteUrl }: G
           className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border'
           variant='outline'
         >
-          <Avatar className='size-7 rounded-md'>
+          <Avatar className='size-6 rounded-md'>
             <AvatarImage
               src={
                 currentGuild.icon

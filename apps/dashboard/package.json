@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@base-ui-components/react": "1.0.0-beta.3",
     "@better-fetch/fetch": "^1.1.18",
     "@icons-pack/react-simple-icons": "^13.7.0",
     "@radix-ui/react-dialog": "^1.1.15",
