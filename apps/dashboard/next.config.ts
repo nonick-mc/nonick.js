@@ -1,5 +1,5 @@
-import { DiscordEndPoints } from '@/lib/discord/constants';
 import type { NextConfig } from 'next';
+import { DiscordEndPoints } from '@/lib/discord/constants';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL(`${DiscordEndPoints.CDN}/**`)],
   },
+  typedRoutes: true,
 };
 
 export default nextConfig;

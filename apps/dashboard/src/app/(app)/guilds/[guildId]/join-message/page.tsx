@@ -1,10 +1,9 @@
-﻿import { FadeInUp } from '@/components/animation';
+﻿import type { Metadata } from 'next';
+import { FadeInUp } from '@/components/animation';
 import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
-import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
 import { settingFormSchema } from './schema';
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
   title: '入室メッセージ',
 };
 
-export default async function ({ params }: SettingPageProps) {
+export default async function ({ params }: PageProps<'/guilds/[guildId]/join-message'>) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 

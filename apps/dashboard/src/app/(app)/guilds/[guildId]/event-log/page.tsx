@@ -1,9 +1,8 @@
-﻿import { FadeInUp } from '@/components/animation';
+﻿import type { Metadata } from 'next';
+import { FadeInUp } from '@/components/animation';
 import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { requireDashboardAccessPermission } from '@/lib/permission';
-import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
 import { FormContainer } from './form-container';
 import { getLogSettings } from './lib';
 
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
   title: 'イベントログ',
 };
 
-export default async function ({ params }: SettingPageProps) {
+export default async function ({ params }: PageProps<'/guilds/[guildId]/event-log'>) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 

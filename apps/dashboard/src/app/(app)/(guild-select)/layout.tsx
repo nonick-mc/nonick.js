@@ -1,6 +1,5 @@
-﻿import { Header } from '@/components/header';
-import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
+﻿import type { Metadata } from 'next';
+import { Header } from '@/components/header';
 import { InviteButton } from './invite-button';
 import { Navbar } from './navbar';
 
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
   title: 'サーバー選択',
 };
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <>
       <Navbar />

@@ -2,15 +2,11 @@
 import { auth } from '@/lib/auth';
 import { getGuild } from '@/lib/discord/api';
 import { requireDashboardAccessPermission } from '@/lib/permission';
-import type { ReactNode } from 'react';
 import { Breadcrumbs } from './breadcrumbs';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
 
-export default async function Layout({
-  children,
-  params,
-}: { children: ReactNode; params: Promise<{ guildId: string }> }) {
+export default async function Layout({ children, params }: LayoutProps<'/guilds/[guildId]'>) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 

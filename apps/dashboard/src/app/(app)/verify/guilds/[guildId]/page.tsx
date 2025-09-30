@@ -1,18 +1,12 @@
-﻿import { Logo } from '@/components/logo';
+﻿import { Card } from '@heroui/card';
+import { forbidden, notFound } from 'next/navigation';
+import { Logo } from '@/components/logo';
 import { auth } from '@/lib/auth';
 import { getGuild, getGuildMember, isUserJoinedGuild } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
-import { Card } from '@heroui/card';
-import { forbidden, notFound } from 'next/navigation';
 import { VerificationWizard } from './wizard';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{
-    guildId: string;
-  }>;
-}) {
+export default async function Page({ params }: PageProps<'/verify/guilds/[guildId]'>) {
   const { guildId } = await params;
 
   const guild = await getGuild(guildId).catch(() => null);
