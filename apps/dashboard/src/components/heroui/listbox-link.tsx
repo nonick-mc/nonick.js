@@ -2,8 +2,8 @@
 
 export function LinkForListbox({
   ...props
-}: Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> &
-  LinkProps & { textValue: string | undefined }) {
+}: Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps<string>> &
+  LinkProps<string> & { textValue: string | undefined }) {
   const { textValue, ...otherProps } = props;
   return <Link {...otherProps} />;
 }

@@ -1,12 +1,11 @@
-﻿import { FadeInUp } from '@/components/animation';
+﻿import { Alert } from '@heroui/alert';
+import { Link } from '@heroui/link';
+import { getDate, type Snowflake } from 'discord-snowflake';
+import type { Metadata } from 'next';
+import { FadeInUp } from '@/components/animation';
 import { Links } from '@/lib/constants';
 import { getGuild } from '@/lib/discord/api';
 import { requireDashboardAccessPermission } from '@/lib/permission';
-import { Alert } from '@heroui/alert';
-import { Link } from '@heroui/link';
-import { type Snowflake, getDate } from 'discord-snowflake';
-import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
 import { GuildCard } from './guild-card';
 import { StatsCard } from './stats-card';
 
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
   title: 'ダッシュボード',
 };
 
-export default async function Page({ params }: SettingPageProps) {
+export default async function Page({ params }: PageProps<'/guilds/[guildId]'>) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 

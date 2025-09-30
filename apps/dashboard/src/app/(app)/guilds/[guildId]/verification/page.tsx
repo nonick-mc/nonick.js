@@ -1,11 +1,10 @@
-﻿import { FadeInUp } from '@/components/animation';
+﻿import { Alert } from '@heroui/alert';
+import type { Metadata } from 'next';
+import { FadeInUp } from '@/components/animation';
 import { getRoles, getUserHighestRole } from '@/lib/discord/api';
 import { sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
-import { Alert } from '@heroui/alert';
-import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
 import { settingFormSchema } from './schema';
 
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
   title: 'メンバー認証',
 };
 
-export default async function ({ params }: SettingPageProps) {
+export default async function ({ params }: PageProps<'/guilds/[guildId]/verification'>) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
