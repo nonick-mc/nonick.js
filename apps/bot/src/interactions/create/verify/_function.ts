@@ -85,7 +85,7 @@ export async function verifyForImageCaptcha(
         time: Duration.toMS('1m'),
       });
 
-      collector.on('collect', async (tryMessage) => {
+      collector.on('collect', (tryMessage) => {
         if (tryMessage.content !== text) {
           // 3回認証コードが異なっていた場合
           if (collector.collected.size === 3) {
@@ -101,17 +101,18 @@ export async function verifyForImageCaptcha(
           return interaction.user.send('`❌️` 認証コードが間違っています。');
         }
 
-        await interaction.member.roles
+        interaction.member.roles
           .add(roleId, '認証')
           .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
               `${inlineCode('❌')} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
             ),
-          );
-
-        duringAuthentication.delete(interaction.user.id);
-        collector.stop();
+          )
+          .finally(() => {
+            duringAuthentication.delete(interaction.user.id);
+            collector.stop();
+          });
       });
     })
     .catch(() => {
