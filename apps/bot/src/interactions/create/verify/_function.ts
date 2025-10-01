@@ -83,33 +83,35 @@ export async function verifyForImageCaptcha(
       const collector = interaction.user.dmChannel.createMessageCollector({
         filter: (v) => v.author.id === interaction.user.id,
         time: Duration.toMS('1m'),
-        max: 3,
       });
 
-      collector.on('collect', (tryMessage) => {
-        if (tryMessage.content !== text)
-          return interaction.user.send('`❌️` 認証コードが間違っています。');
+      collector.on('collect', async (tryMessage) => {
+        if (tryMessage.content !== text) {
+          // 3回認証コードが異なっていた場合
+          if (collector.collected.size === 3) {
+            interaction.user.send(
+              `${inlineCode('❌')} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
+                '5分後',
+              )}から可能になります。`,
+            );
+            setTimeout(() => duringAuthentication.delete(interaction.user.id), Duration.toMS('5m'));
+            return collector.stop();
+          }
 
-        interaction.member.roles
+          return interaction.user.send('`❌️` 認証コードが間違っています。');
+        }
+
+        await interaction.member.roles
           .add(roleId, '認証')
           .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
               `${inlineCode('❌')} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
             ),
-          )
-          .finally(() => collector.stop());
-      });
-
-      collector.on('end', (collection) => {
-        if (collection.size === 3) {
-          interaction.user.send(
-            `${inlineCode('❌')} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
-              '5分後',
-            )}から可能になります。`,
           );
-          setTimeout(() => duringAuthentication.delete(interaction.user.id), Duration.toMS('5m'));
-        } else duringAuthentication.delete(interaction.user.id);
+
+        duringAuthentication.delete(interaction.user.id);
+        collector.stop();
       });
     })
     .catch(() => {
