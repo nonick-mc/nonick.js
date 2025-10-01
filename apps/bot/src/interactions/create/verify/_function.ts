@@ -1,13 +1,13 @@
-﻿import { Captcha } from '@/modules/captcha';
-import { Duration } from '@/modules/format';
-import {
+﻿import {
   AttachmentBuilder,
   type ButtonInteraction,
   Colors,
   EmbedBuilder,
-  MessageFlags,
   inlineCode,
+  MessageFlags,
 } from 'discord.js';
+import { Captcha } from '@/modules/captcha';
+import { Duration } from '@/modules/format';
 
 const duringAuthentication = new Set<string>();
 
@@ -87,7 +87,8 @@ export async function verifyForImageCaptcha(
       });
 
       collector.on('collect', (tryMessage) => {
-        if (tryMessage.content !== text) return;
+        if (tryMessage.content !== text)
+          return interaction.user.send('`❌️` 認証コードが間違っています。');
 
         interaction.member.roles
           .add(roleId, '認証')
