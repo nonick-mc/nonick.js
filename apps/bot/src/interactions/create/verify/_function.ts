@@ -1,13 +1,13 @@
-﻿import { Captcha } from '@/modules/captcha';
-import { Duration } from '@/modules/format';
-import {
+﻿import {
   AttachmentBuilder,
   type ButtonInteraction,
   Colors,
   EmbedBuilder,
-  MessageFlags,
   inlineCode,
+  MessageFlags,
 } from 'discord.js';
+import { Captcha } from '@/modules/captcha';
+import { Duration } from '@/modules/format';
 
 const duringAuthentication = new Set<string>();
 
@@ -83,11 +83,23 @@ export async function verifyForImageCaptcha(
       const collector = interaction.user.dmChannel.createMessageCollector({
         filter: (v) => v.author.id === interaction.user.id,
         time: Duration.toMS('1m'),
-        max: 3,
       });
 
       collector.on('collect', (tryMessage) => {
-        if (tryMessage.content !== text) return;
+        if (tryMessage.content !== text) {
+          // 3回認証コードが異なっていた場合
+          if (collector.collected.size === 3) {
+            interaction.user.send(
+              `${inlineCode('❌')} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
+                '5分後',
+              )}から可能になります。`,
+            );
+            setTimeout(() => duringAuthentication.delete(interaction.user.id), Duration.toMS('5m'));
+            return collector.stop();
+          }
+
+          return interaction.user.send('`❌️` 認証コードが間違っています。');
+        }
 
         interaction.member.roles
           .add(roleId, '認証')
@@ -97,18 +109,10 @@ export async function verifyForImageCaptcha(
               `${inlineCode('❌')} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
             ),
           )
-          .finally(() => collector.stop());
-      });
-
-      collector.on('end', (collection) => {
-        if (collection.size === 3) {
-          interaction.user.send(
-            `${inlineCode('❌')} 試行回数を超えて検証に失敗しました。次回の検証は${inlineCode(
-              '5分後',
-            )}から可能になります。`,
-          );
-          setTimeout(() => duringAuthentication.delete(interaction.user.id), Duration.toMS('5m'));
-        } else duringAuthentication.delete(interaction.user.id);
+          .finally(() => {
+            duringAuthentication.delete(interaction.user.id);
+            collector.stop();
+          });
       });
     })
     .catch(() => {
