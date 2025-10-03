@@ -1,4 +1,5 @@
 ﻿import Link from 'next/link';
+import { Suspense } from 'react';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,7 +12,9 @@ export default function Page() {
         <Logo height={18} />
         <p className='text-xl font-bold'>ログインして続行</p>
         <div className='w-full flex flex-col gap-2'>
-          <LoginButton />
+          <Suspense>
+            <LoginButton />
+          </Suspense>
           <Button variant='secondary' asChild>
             <Link href='https://docs.nonick-js.com/tutorial/introduction'>ログインについて</Link>
           </Button>
