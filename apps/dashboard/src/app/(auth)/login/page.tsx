@@ -2,13 +2,13 @@
 import { Suspense } from 'react';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Item } from '@/components/ui/item';
 import { LoginButton } from './login-button';
 
 export default function Page() {
   return (
     <div className='min-h-dvh flex items-center justify-center'>
-      <Card className='w-[400px] px-6 py-8 items-center'>
+      <Item className='w-[400px] px-6 py-8 flex-col gap-6' variant='outline'>
         <Logo height={18} />
         <p className='text-xl font-bold'>ログインして続行</p>
         <div className='w-full flex flex-col gap-2'>
@@ -30,7 +30,7 @@ export default function Page() {
           </Button>
           に同意したとみなされます。
         </p>
-      </Card>
+      </Item>
     </div>
   );
 }
