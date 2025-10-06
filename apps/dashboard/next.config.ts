@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     typedEnv: true,
+    browserDebugInfoInTerminal: true,
   },
   typedRoutes: true,
 };
