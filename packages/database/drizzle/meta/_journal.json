@@ -71,6 +71,13 @@
       "when": 1759307551682,
       "tag": "0009_tired_echo",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1759738261762,
+      "tag": "0010_pale_stranger",
+      "breakpoints": true
     }
   ]
 }

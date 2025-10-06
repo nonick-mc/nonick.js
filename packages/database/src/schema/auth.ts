@@ -12,6 +12,7 @@ export const user = pgTable('user', {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
   globalName: text('global_name'),
+  discordUserId: text('discord_user_id').notNull(),
 });
 
 export const session = pgTable('session', {

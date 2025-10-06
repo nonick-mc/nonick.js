@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "discord_user_id" text NOT NULL;
