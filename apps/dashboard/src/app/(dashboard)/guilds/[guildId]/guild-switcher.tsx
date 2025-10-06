@@ -31,7 +31,7 @@ export async function GuildSwitcher({ currentGuildId }: GuildSwitcherProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border'
             >
               <Avatar className='size-8 rounded-lg'>
                 <AvatarImage
