@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { authClient } from '@/lib/auth-client';
+import { Links } from '@/lib/constants';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
   DropdownMenu,
@@ -93,13 +94,13 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={'https://docs.nonick-js.com'} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.Docs} target='_blank' rel='noopener noreferrer'>
               <BookOpenIcon />
               ドキュメント
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={'https://discord.gg/q4FcBm2P42'} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.SupportServer} target='_blank' rel='noopener noreferrer'>
               <LifeBuoyIcon />
               サポートサーバー
             </Link>
