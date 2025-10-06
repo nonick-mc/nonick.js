@@ -1,5 +1,5 @@
 ﻿import { cookies } from 'next/headers';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { AppSidebar } from './app-sidebar';
 import { Navbar } from './navbar';
@@ -21,10 +21,10 @@ export default async function Layout({ params, children }: LayoutProps<'/guilds/
       }
     >
       <AppSidebar guildId={guildId} />
-      <main className='w-full'>
+      <SidebarInset className='w-full'>
         <Navbar />
         <div className='p-6 flex flex-col gap-6'>{children}</div>
-      </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
