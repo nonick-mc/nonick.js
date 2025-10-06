@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import { Links } from '@repo/lib';
 import {
   BookOpenIcon,
   LayoutPanelLeftIcon,
@@ -93,13 +94,13 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={'https://docs.nonick-js.com'} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.docs} target='_blank' rel='noopener noreferrer'>
               <BookOpenIcon />
               ドキュメント
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={'https://discord.gg/q4FcBm2P42'} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.supportServer} target='_blank' rel='noopener noreferrer'>
               <LifeBuoyIcon />
               サポートサーバー
             </Link>
