@@ -1,5 +1,6 @@
 ﻿import { getSessionCookie } from 'better-auth/cookies';
-import { type NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse, URLPattern } from 'next/server';
+import { snowflakeRegex } from './lib/zod/discord';
 
 export async function middleware(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
@@ -18,11 +19,25 @@ export async function middleware(request: NextRequest) {
     const guildId = request.nextUrl.searchParams.get('guild_id');
     if (guildId) return NextResponse.redirect(new URL(`/guilds/${guildId}`, request.url));
 
-    const error = request.nextUrl.searchParams.get('error');
+    const error =
+      request.nextUrl.searchParams.get('error') ??
+      request.nextUrl.searchParams.get('error_description');
+
     if (error) {
       const url = request.nextUrl;
       url.searchParams.delete('error');
+      url.searchParams.delete('error_description');
       return NextResponse.redirect(url);
+    }
+  }
+
+  // 設定ページのURLが不正な場合はサーバー選択ページにリダイレクト
+  if (request.nextUrl.pathname.startsWith('/guilds')) {
+    const urlPattern = new URLPattern({ pathname: '/guilds/:guildId/:segment*' });
+    const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+
+    if (!guildId || !snowflakeRegex.test(guildId)) {
+      NextResponse.redirect(new URL('/', request.url));
     }
   }
 
