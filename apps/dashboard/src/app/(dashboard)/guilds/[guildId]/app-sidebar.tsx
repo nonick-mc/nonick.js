@@ -51,6 +51,8 @@ export function AppSidebar({ guildId }: AppSidebarProps) {
                     ドキュメント
                   </Link>
                 </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href={Links.SupportServer} target='_blank' rel='noopener noreferrer'>
                     <LifeBuoyIcon className='text-muted-foreground' />
