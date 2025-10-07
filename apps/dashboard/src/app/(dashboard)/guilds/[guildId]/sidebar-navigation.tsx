@@ -137,7 +137,7 @@ export function SidebarNavigation() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={currentPath === item.key}>
                     <Link href={item.url(params.guildId) as Route}>
-                      <item.icon className='pt-0.5' />
+                      <item.icon className='text-muted-foreground' />
                       {item.title}
                     </Link>
                   </SidebarMenuButton>
