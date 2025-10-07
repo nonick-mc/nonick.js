@@ -24,8 +24,8 @@ type AppSidebarProps = {
 
 export function AppSidebar({ guildId }: AppSidebarProps) {
   return (
-    <Sidebar>
-      <SidebarHeader className='px-3 pt-0'>
+    <Sidebar variant='inset'>
+      <SidebarHeader className='px-2 pt-0'>
         <div className='h-16 px-2 flex items-center'>
           <Link href='/'>
             <Logo height={17} />
@@ -37,10 +37,10 @@ export function AppSidebar({ guildId }: AppSidebarProps) {
           </Suspense>
         </div>
       </SidebarHeader>
-      <SidebarContent className='px-3'>
+      <SidebarContent className='px-2'>
         <SidebarNavigation />
       </SidebarContent>
-      <SidebarFooter className='px-3'>
+      <SidebarFooter className='px-2'>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
