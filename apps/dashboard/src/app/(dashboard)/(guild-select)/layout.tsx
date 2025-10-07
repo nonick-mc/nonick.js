@@ -1,5 +1,6 @@
 ﻿import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { inviteBotUrl } from '@/lib/discord/constants';
 import { Navbar } from './navbar';
@@ -11,7 +12,9 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       <Navbar />
       <div className='px-6 lg:px-12 py-6 flex flex-col gap-6'>
         <div className='flex items-stretch justify-between gap-3'>
-          <SearchInput />
+          <Suspense>
+            <SearchInput />
+          </Suspense>
           <Button size='lg' asChild>
             <Link href={inviteBotUrl}>
               <PlusIcon />
