@@ -5,7 +5,7 @@ import {
   LayoutPanelLeftIcon,
   LifeBuoyIcon,
   LogInIcon,
-  PaintbrushIcon,
+  PaletteIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -79,7 +79,7 @@ export function UserDropdown() {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className='flex gap-2 [&_svg]:size-4'>
-              <PaintbrushIcon />
+              <PaletteIcon />
               テーマ
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
