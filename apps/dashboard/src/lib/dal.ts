@@ -48,5 +48,5 @@ export const canAccessDashboard = cache(async (guildId: string) => {
 
 export const verifyDashboardAccessPermission = cache(async (guildId: string) => {
   const isAccessible = await canAccessDashboard(guildId);
-  if (!isAccessible) redirect('/login');
+  if (!isAccessible) redirect('/');
 });
