@@ -13,6 +13,6 @@ export const formSchema = createInsertSchema(reportSetting, {
   forumIgnoredTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。').nullable(),
   mentionRoles: z
     .array(snowflakeSchema)
-    .max(100)
+    .max(10, 'ロールは最大10個まで設定できます。')
     .refine(isUniqueArray, '重複した値が含まれています。'),
 }).omit({ guildId: true, createdAt: true, updatedAt: true });
