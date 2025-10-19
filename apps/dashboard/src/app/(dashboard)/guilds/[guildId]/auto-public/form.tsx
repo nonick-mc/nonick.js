@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 import { MultipleChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
 import { updateSettingAction } from './action';
@@ -67,6 +67,9 @@ export function SettingForm({ channels, setting }: FormProps) {
           </CardContent>
         </Card>
         <Card>
+          <CardHeader>
+            <CardTitle>チャンネル設定</CardTitle>
+          </CardHeader>
           <CardContent>
             <FieldGroup>
               <Watch
