@@ -9,8 +9,8 @@ z.config(z.locales.ja());
 
 export const formSchema = createInsertSchema(reportSetting, {
   channel: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
-  forumCompletedTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。').nullable(),
-  forumIgnoredTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。').nullable(),
+  forumCompletedTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
+  forumIgnoredTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
   mentionRoles: z
     .array(snowflakeSchema)
     .max(10, 'ロールは最大10個まで設定できます。')
