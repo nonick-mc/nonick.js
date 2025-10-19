@@ -3,6 +3,7 @@
 import {
   ClipboardListIcon,
   FlagIcon,
+  HammerIcon,
   LayoutGridIcon,
   Link2Icon,
   LogInIcon,
@@ -106,10 +107,16 @@ const items: SidebarGroupItem<string>[] = [
         icon: MegaphoneIcon,
       },
       {
-        key: 'automod-plus',
+        key: 'auto-create-thread',
         title: '自動スレッド作成',
-        url: (guildId) => `/guilds/${guildId}/automod-plus`,
+        url: (guildId) => `/guilds/${guildId}/auto-create-thread`,
         icon: SpoolIcon,
+      },
+      {
+        key: 'automod-plus',
+        title: 'AutoMod Plus',
+        url: (guildId) => `/guilds/${guildId}/automod-plus`,
+        icon: HammerIcon,
       },
       {
         key: 'verification',
