@@ -92,6 +92,5 @@ export const getGuildMemberPermissions = cache(async (guildId: string, userId: s
     permissions |= BigInt(role.permissions);
   }
 
-  console.log('getCurrentUserGuildPermissions');
   return permissions.toString();
 });

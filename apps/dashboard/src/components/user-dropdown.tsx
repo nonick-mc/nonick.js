@@ -34,37 +34,36 @@ export function UserDropdown() {
   const { theme, setTheme } = useTheme();
   const { data: session } = authClient.useSession();
 
+  if (!session) {
+    return <Skeleton className='size-8 rounded-full' />;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className='size-8'>
-          <AvatarImage src={session?.user.image ?? undefined} alt={`@${session?.user.name}`} />
+          <AvatarImage src={session.user.image ?? undefined} alt={`@${session.user.name}`} />
           <AvatarFallback>
-            {session?.user.globalName?.slice(0, 2) ?? session?.user.name.slice(0, 2)}
+            {session.user.globalName?.slice(0, 2) ?? session.user.name.slice(0, 2)}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-56'>
         <DropdownMenuLabel>
-          {session ? (
-            <div className='flex gap-3 items-center'>
-              <Avatar>
-                <AvatarImage
-                  className='rounded-lg bg-muted'
-                  // biome-ignore lint: false positive
-                  src={session.user.image!}
-                  alt={`@${session.user.name}`}
-                />
-                <AvatarFallback>{session.user.globalName ?? session.user.name}</AvatarFallback>
-              </Avatar>
-              <section className='leading-tight text-sm'>
-                <p className='text-foreground'>{session.user.globalName ?? session.user.name}</p>
-                <p className='text-muted-foreground'>@{session.user.name}</p>
-              </section>
-            </div>
-          ) : (
-            <Skeleton className='h-11' />
-          )}
+          <div className='flex gap-3 items-center'>
+            <Avatar>
+              <AvatarImage
+                className='rounded-lg bg-muted'
+                src={session.user.image ?? undefined}
+                alt={`@${session.user.name}`}
+              />
+              <AvatarFallback>{session.user.globalName ?? session.user.name}</AvatarFallback>
+            </Avatar>
+            <section className='leading-tight text-sm'>
+              <p className='text-foreground'>{session.user.globalName ?? session.user.name}</p>
+              <p className='text-muted-foreground'>@{session.user.name}</p>
+            </section>
+          </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -117,7 +116,6 @@ export function UserDropdown() {
               })
             }
             variant='destructive'
-            disabled={!session}
           >
             <LogInIcon />
             ログアウト

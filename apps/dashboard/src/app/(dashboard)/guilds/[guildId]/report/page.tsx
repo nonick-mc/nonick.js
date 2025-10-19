@@ -1,0 +1,42 @@
+﻿import { InfoIcon } from 'lucide-react';
+import { Header } from '@/components/header';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { verifyDashboardAccessPermission } from '@/lib/dal';
+import { getChannels, getRoles } from '@/lib/discord/api';
+import { sortChannels, sortRoles } from '@/lib/discord/utils';
+import { db } from '@/lib/drizzle';
+import { SettingForm } from './form';
+import { formSchema } from './schema';
+
+export default async function Page({ params }: PageProps<'/guilds/[guildId]/report'>) {
+  const { guildId } = await params;
+  await verifyDashboardAccessPermission(guildId);
+
+  const [channels, roles, setting] = await Promise.all([
+    getChannels(guildId),
+    getRoles(guildId),
+    db.query.reportSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    }),
+  ]);
+
+  return (
+    <>
+      <Header
+        title='サーバー内通報'
+        description='不適切なメッセージやユーザーをメンバーが通報できるようにします。'
+      />
+      <Alert>
+        <InfoIcon />
+        <AlertDescription>
+          この機能を無効にするには、Discordサーバーの「サーバー設定」→「連携サービス」から、コマンドを無効化する必要があります。
+        </AlertDescription>
+      </Alert>
+      <SettingForm
+        channels={sortChannels(channels)}
+        roles={sortRoles(roles)}
+        setting={formSchema.safeParse(setting).data}
+      />
+    </>
+  );
+}
