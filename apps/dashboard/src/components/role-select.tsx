@@ -75,7 +75,11 @@ export function MultipleRoleSelect({
           {selectedRoles.length ? (
             <div className='flex flex-wrap gap-1 flex-1'>
               {selectedRoles.map((role) => (
-                <Badge key={role.id} variant='secondary'>
+                <Badge
+                  key={role.id}
+                  variant='secondary'
+                  className='border border-muted-foreground/20'
+                >
                   <span
                     className='size-2 rounded-full'
                     style={{
@@ -102,9 +106,7 @@ export function MultipleRoleSelect({
                 <CommandItem
                   key={role.id}
                   value={role.id}
-                  onSelect={() => {
-                    handleSelect(role.id);
-                  }}
+                  onSelect={() => handleSelect(role.id)}
                   disabled={disabledItemFilter?.(role)}
                 >
                   <span
