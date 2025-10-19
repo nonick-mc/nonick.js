@@ -1,4 +1,5 @@
 ﻿import { InfoIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
@@ -7,6 +8,10 @@ import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { SettingForm } from './form';
 import { formSchema } from './schema';
+
+export const metadata: Metadata = {
+  title: 'サーバー内通報',
+};
 
 export default async function Page({ params }: PageProps<'/guilds/[guildId]/report'>) {
   const { guildId } = await params;

@@ -1,4 +1,5 @@
 ﻿import { ChartLineIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import {
   Empty,
@@ -9,6 +10,10 @@ import {
 } from '@/components/ui/empty';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { GuildInfoCard, GuildInfoCardSkeleton } from './guild-info-card';
+
+export const metadata: Metadata = {
+  title: 'ダッシュボード',
+};
 
 export default async function Page({ params }: { params: { guildId: string } }) {
   const { guildId } = await params;
