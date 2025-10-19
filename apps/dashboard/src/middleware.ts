@@ -1,5 +1,6 @@
 ﻿import { getSessionCookie } from 'better-auth/cookies';
 import { type NextRequest, NextResponse, URLPattern } from 'next/server';
+import { snowflakeRegex } from './lib/discord/constants';
 
 export async function middleware(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
@@ -35,7 +36,7 @@ export async function middleware(request: NextRequest) {
     const urlPattern = new URLPattern({ pathname: '/guilds/:guildId/:segment*' });
     const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
 
-    if (!guildId || !/^\d{17,19}$/.test(guildId)) {
+    if (!guildId || !snowflakeRegex.test(guildId)) {
       NextResponse.redirect(new URL('/', request.url));
     }
   }

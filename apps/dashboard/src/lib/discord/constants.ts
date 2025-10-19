@@ -11,3 +11,5 @@ export const inviteBotUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearc
   response_type: 'code',
   redirect_uri: process.env.NEXT_PUBLIC_BETTER_AUTH_URL as string,
 })}` as const;
+
+export const snowflakeRegex = /^\d{17,19}$/;

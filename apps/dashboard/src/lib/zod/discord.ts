@@ -1,3 +1,4 @@
 ﻿import z from 'zod';
+import { snowflakeRegex } from '@/lib/discord/constants';
 
-export const snowflakeSchema = z.string().regex(/^\d{17,19}$/, { message: '無効なIDです。' });
+export const snowflakeSchema = z.string().regex(snowflakeRegex, { message: '無効なIDです。' });
