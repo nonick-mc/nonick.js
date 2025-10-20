@@ -192,7 +192,11 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                     control={form.control}
                     name='mentionRoles'
                     render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid} orientation='responsive'>
+                      <Field
+                        data-invalid={fieldState.invalid}
+                        data-disabled={!enableMention}
+                        orientation='responsive'
+                      >
                         <FieldContent>
                           <FieldLabel htmlFor={field.name}>メンションするロール</FieldLabel>
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

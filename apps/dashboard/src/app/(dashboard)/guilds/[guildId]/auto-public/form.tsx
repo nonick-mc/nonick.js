@@ -80,7 +80,11 @@ export function SettingForm({ channels, setting }: FormProps) {
                     control={form.control}
                     name='channels'
                     render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid} orientation='responsive'>
+                      <Field
+                        data-invalid={fieldState.invalid}
+                        data-disabled={!enabled}
+                        orientation='responsive'
+                      >
                         <FieldContent>
                           <FieldLabel htmlFor={field.name}>自動公開するチャンネル</FieldLabel>
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
