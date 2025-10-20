@@ -93,13 +93,13 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href={Links.Docs} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.Docs} target='_blank'>
               <BookOpenIcon />
               ドキュメント
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={Links.SupportServer} target='_blank' rel='noopener noreferrer'>
+            <Link href={Links.SupportServer} target='_blank'>
               <LifeBuoyIcon />
               サポートサーバー
             </Link>

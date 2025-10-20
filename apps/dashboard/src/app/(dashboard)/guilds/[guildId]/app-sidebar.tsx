@@ -46,7 +46,7 @@ export function AppSidebar({ guildId }: AppSidebarProps) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href={Links.Docs} target='_blank' rel='noopener noreferrer'>
+                  <Link href={Links.Docs} target='_blank'>
                     <BookOpenIcon className='text-muted-foreground' />
                     ドキュメント
                   </Link>
@@ -54,7 +54,7 @@ export function AppSidebar({ guildId }: AppSidebarProps) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href={Links.SupportServer} target='_blank' rel='noopener noreferrer'>
+                  <Link href={Links.SupportServer} target='_blank'>
                     <LifeBuoyIcon className='text-muted-foreground' />
                     サポートサーバー
                   </Link>
