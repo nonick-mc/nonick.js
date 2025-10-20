@@ -63,7 +63,7 @@
       "  title: '$1',",
       "};",
       "",
-      "export default async function Page({ params }: PageProps<'$2'>) {",
+      "export default async function Page({ params }: PageProps<'$1'>) {",
       "  const { guildId } = await params;",
       "  await verifyDashboardAccessPermission(guildId);",
       "",
