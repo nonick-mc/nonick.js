@@ -1,0 +1,29 @@
+﻿'use server';
+
+import { auditLog, autoChangeVerifyLevelSetting } from '@repo/database';
+import { db } from '@/lib/drizzle';
+import { guildActionClient } from '@/lib/safe-action/clients';
+import { formSchema } from './schema';
+
+export const updateSettingAction = guildActionClient
+  .inputSchema(formSchema)
+  .action(async ({ parsedInput, bindArgsParsedInputs: [guildId], ctx: { session } }) => {
+    const currentSetting = await db.query.autoChangeVerifyLevelSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    });
+
+    const [newSetting] = await db
+      .insert(autoChangeVerifyLevelSetting)
+      .values({ guildId, ...parsedInput })
+      .onConflictDoUpdate({ target: autoChangeVerifyLevelSetting.guildId, set: parsedInput })
+      .returning();
+
+    db.insert(auditLog).values({
+      guildId,
+      authorId: session.user.discordUserId,
+      targetName: 'auto_change_verify_level',
+      actionType: 'update_guild_setting',
+      oldValue: currentSetting,
+      newValue: newSetting,
+    });
+  });
