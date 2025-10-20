@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import {
+  ChevronRightIcon,
   ClipboardListIcon,
   FlagIcon,
   HammerIcon,
@@ -20,6 +21,7 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -28,6 +30,9 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
 type SidebarGroupItem<T> = {
@@ -41,6 +46,13 @@ type SidebarItem<T> = {
   url: (arg: T) => string;
   badge?: ReactNode;
   icon: LucideIcon;
+  subitems?: SidebarSubItem[];
+};
+
+type SidebarSubItem = {
+  title: string;
+  key?: string;
+  badge?: ReactNode;
 };
 
 const items: SidebarGroupItem<string>[] = [
@@ -87,6 +99,32 @@ const items: SidebarGroupItem<string>[] = [
         title: 'イベントログ',
         url: (guildId) => `/guilds/${guildId}/event-log`,
         icon: ClipboardListIcon,
+        subitems: [
+          {
+            title: 'タイムアウト',
+            key: 'timeout',
+          },
+          {
+            title: 'キック',
+            key: 'kick',
+          },
+          {
+            title: 'BAN',
+            key: 'ban',
+          },
+          {
+            title: 'ボイスチャット',
+            key: 'voice',
+          },
+          {
+            title: 'メッセージ削除',
+            key: 'message-delete',
+          },
+          {
+            title: 'メッセージ編集',
+            key: 'message-edit',
+          },
+        ],
       },
       {
         key: 'message-expand',
@@ -131,7 +169,8 @@ const items: SidebarGroupItem<string>[] = [
 export function SidebarNavigation() {
   const params = useParams<{ guildId: string }>();
   const pathname = usePathname();
-  const currentPath = pathname.split('/')?.[3] as string | undefined;
+
+  const currentPath = pathname.split('/').slice(3).join('/');
 
   return (
     <>
@@ -142,13 +181,49 @@ export function SidebarNavigation() {
             <SidebarMenu>
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={currentPath === item.key}>
-                    <Link href={item.url(params.guildId) as Route}>
-                      <item.icon className='text-muted-foreground' />
-                      {item.title}
-                    </Link>
-                  </SidebarMenuButton>
-                  {item.badge && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
+                  {item.subitems?.length ? (
+                    <Collapsible
+                      defaultOpen={currentPath.split('/')[0] === item.key}
+                      className='group/collapsible'
+                    >
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton>
+                          <item.icon className='text-muted-foreground' />
+                          {item.title}
+                          <ChevronRightIcon className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.subitems.map((subitem) => (
+                            <SidebarMenuSubItem key={subitem.key}>
+                              <SidebarMenuSubButton
+                                asChild
+                                isActive={currentPath === `${item.key}/${subitem.key}`}
+                              >
+                                <Link href={`${item.url(params.guildId)}/${subitem.key}` as Route}>
+                                  {subitem.title}
+                                </Link>
+                              </SidebarMenuSubButton>
+                              {subitem.badge && (
+                                <SidebarMenuBadge>{subitem.badge}</SidebarMenuBadge>
+                              )}
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  ) : (
+                    <>
+                      <SidebarMenuButton asChild isActive={currentPath === item.key}>
+                        <Link href={item.url(params.guildId) as Route}>
+                          <item.icon className='text-muted-foreground' />
+                          {item.title}
+                        </Link>
+                      </SidebarMenuButton>
+                      {item.badge && <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>}
+                    </>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
