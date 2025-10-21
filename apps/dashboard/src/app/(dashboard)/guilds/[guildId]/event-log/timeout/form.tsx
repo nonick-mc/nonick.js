@@ -87,9 +87,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                         orientation='horizontal'
                       >
                         <FieldContent>
-                          <FieldLabel htmlFor={field.name}>
-                            タイムアウトログを送信するチャンネル
-                          </FieldLabel>
+                          <FieldLabel htmlFor={field.name}>ログを送信するチャンネル</FieldLabel>
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </FieldContent>
                         <ChannelSelect
