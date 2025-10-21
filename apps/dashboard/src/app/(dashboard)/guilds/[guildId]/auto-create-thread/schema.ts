@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { snowflakeSchema } from '@/lib/zod/discord';
 import { isUniqueArray } from '@/lib/zod/utils';
 
+z.config(z.locales.ja());
+
 export const formSchema = createInsertSchema(autoCreateThreadSetting, {
   channels: z
     .array(snowflakeSchema)

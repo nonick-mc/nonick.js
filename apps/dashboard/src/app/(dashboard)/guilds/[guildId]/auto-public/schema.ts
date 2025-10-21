@@ -1,8 +1,10 @@
 ﻿import { autoPublicSetting } from '@repo/database';
 import { createInsertSchema } from 'drizzle-zod';
-import z from 'zod';
+import { z } from 'zod';
 import { snowflakeSchema } from '@/lib/zod/discord';
 import { isUniqueArray } from '@/lib/zod/utils';
+
+z.config(z.locales.ja());
 
 export const formSchema = createInsertSchema(autoPublicSetting, {
   channels: z

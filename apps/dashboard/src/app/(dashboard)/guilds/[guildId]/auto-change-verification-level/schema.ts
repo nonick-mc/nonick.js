@@ -1,8 +1,10 @@
 ﻿import { autoChangeVerifyLevelSetting } from '@repo/database';
 import { GuildVerificationLevel } from 'discord-api-types/v10';
 import { createInsertSchema } from 'drizzle-zod';
-import z from 'zod';
+import { z } from 'zod';
 import { snowflakeRegex } from '@/lib/discord/constants';
+
+z.config(z.locales.ja());
 
 export const formSchema = createInsertSchema(autoChangeVerifyLevelSetting, {
   level: z.enum(GuildVerificationLevel),

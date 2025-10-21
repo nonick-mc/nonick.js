@@ -1,6 +1,9 @@
 ﻿import { kickLogSetting } from '@repo/database';
 import { createInsertSchema } from 'drizzle-zod';
+import { z } from 'zod';
 import { snowflakeRegex } from '@/lib/discord/constants';
+
+z.config(z.locales.ja());
 
 export const formSchema = createInsertSchema(kickLogSetting, {
   channel: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
