@@ -19,7 +19,7 @@ export const updateSettingAction = guildActionClient
       .onConflictDoUpdate({ target: banLogSetting.guildId, set: parsedInput })
       .returning();
 
-    db.insert(auditLog).values({
+    await db.insert(auditLog).values({
       guildId,
       authorId: session.user.discordUserId,
       targetName: 'ban_log',

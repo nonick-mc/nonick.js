@@ -112,7 +112,7 @@
       "      .onConflictDoUpdate({ target: $2.guildId, set: parsedInput })",
       "      .returning();",
       "",
-      "    db.insert(auditLog).values({",
+      "    await db.insert(auditLog).values({",
       "      guildId,",
       "      authorId: session.user.discordUserId,",
       "      targetName: '$3',",
