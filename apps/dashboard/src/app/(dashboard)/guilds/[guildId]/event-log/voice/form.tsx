@@ -53,7 +53,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid} orientation='horizontal'>
                     <FieldContent>
-                      <FieldLabel htmlFor={field.name}>タイムアウトログを有効にする</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>ボイスチャットログを有効にする</FieldLabel>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
