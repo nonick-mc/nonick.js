@@ -124,5 +124,17 @@
       "    revalidatePath('/');",
       "  });"
     ]
+  },
+  "create setting schema": {
+    "prefix": "create_setting_schema",
+    "scope": "typescript",
+    "body": [
+      "import { createInsertSchema } from 'drizzle-zod';",
+      "import { z } from 'zod';",
+      "",
+      "z.config(z.locales.ja());",
+      "",
+      "export const formSchema = createInsertSchema($1);"
+    ]
   }
 }
