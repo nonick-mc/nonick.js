@@ -124,6 +124,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                     </FieldContent>
                     <Switch
                       id={field.name}
+                      name={field.name}
                       aria-invalid={fieldState.invalid}
                       checked={field.value}
                       onCheckedChange={field.onChange}
@@ -146,6 +147,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                     </FieldContent>
                     <Switch
                       id={field.name}
+                      name={field.name}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       aria-invalid={fieldState.invalid}
@@ -176,6 +178,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                     </FieldContent>
                     <Switch
                       id={field.name}
+                      name={field.name}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       aria-invalid={fieldState.invalid}

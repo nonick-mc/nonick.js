@@ -84,6 +84,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                     </FieldContent>
                     <Switch
                       id={field.name}
+                      name={field.name}
                       aria-invalid={fieldState.invalid}
                       checked={field.value}
                       onCheckedChange={field.onChange}
@@ -279,6 +280,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                           </FieldContent>
                           <Switch
                             id={field.name}
+                            name={field.name}
                             aria-invalid={fieldState.invalid}
                             checked={field.value}
                             onCheckedChange={field.onChange}
