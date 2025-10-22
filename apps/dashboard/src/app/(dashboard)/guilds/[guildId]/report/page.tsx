@@ -1,7 +1,7 @@
 ﻿import { InfoIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
-import { Alert, AlertDescription, AlertIcon } from '@/components/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';
@@ -31,10 +31,8 @@ export default async function Page({ params }: PageProps<'/guilds/[guildId]/repo
         title='サーバー内通報'
         description='不適切なメッセージやユーザーをメンバーが通報できるようにします。'
       />
-      <Alert appearance='light'>
-        <AlertIcon>
-          <InfoIcon />
-        </AlertIcon>
+      <Alert>
+        <InfoIcon />
         <AlertDescription>
           この機能を無効にするには、Discordサーバーの「サーバー設定」→「連携サービス」から、コマンドを無効化する必要があります。
         </AlertDescription>
