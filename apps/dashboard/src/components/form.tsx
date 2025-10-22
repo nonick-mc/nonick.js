@@ -1,12 +1,16 @@
 ﻿'use client';
 
-import { DevTool } from '@hookform/devtools';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SaveIcon } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useFormContext, useFormState } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Item, ItemActions, ItemContent, ItemDescription } from '@/components/ui/item';
 import { Spinner } from './ui/spinner';
+
+const DevTool = dynamic(() => import('@hookform/devtools').then((module) => module.DevTool), {
+  ssr: false,
+});
 
 export function FormChangePublisher() {
   const { isDirty, isSubmitting } = useFormState();
