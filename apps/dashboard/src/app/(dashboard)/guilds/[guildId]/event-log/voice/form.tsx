@@ -86,7 +86,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                       <Field
                         data-invalid={fieldState.invalid}
                         data-disabled={!enabled}
-                        orientation='horizontal'
+                        orientation='responsive'
                       >
                         <FieldContent>
                           <FieldLabel htmlFor={field.name}>ログを送信するチャンネル</FieldLabel>
