@@ -210,7 +210,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                           <MultipleChannelSelect
                             id={field.name}
                             aria-invalid={fieldState.invalid}
-                            className='sm:max-w-[400px] sm:min-w-[400px]'
+                            className='sm:max-w-sm sm:min-w-sm'
                             channels={channels}
                             value={field.value}
                             onValueChange={field.onChange}
@@ -238,7 +238,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <PrefixSelect
-                            className='sm:max-w-[300px] sm:min-w-[300px]'
+                            className='sm:max-w-xs sm:min-w-xs'
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             value={field.value}

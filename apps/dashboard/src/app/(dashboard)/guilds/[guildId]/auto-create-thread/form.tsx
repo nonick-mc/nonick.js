@@ -93,7 +93,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                         <MultipleChannelSelect
                           id={field.name}
                           aria-invalid={fieldState.invalid}
-                          className='sm:max-w-[400px] sm:min-w-[400px]'
+                          className='sm:max-w-sm sm:min-w-sm'
                           channels={channels}
                           value={field.value}
                           onValueChange={field.onChange}

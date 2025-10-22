@@ -120,7 +120,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <HourSelect
-                            className='sm:max-w-[300px] sm:min-w-[300px]'
+                            className='sm:max-w-xs sm:min-w-xs'
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             value={field.value}
@@ -148,7 +148,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <HourSelect
-                            className='sm:max-w-[300px] sm:min-w-[300px]'
+                            className='sm:max-w-xs sm:min-w-xs'
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             value={field.value}
@@ -311,7 +311,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                               <ChannelSelect
                                 id={field.name}
                                 aria-invalid={fieldState.invalid}
-                                className='sm:max-w-[300px] sm:min-w-[300px]'
+                                className='sm:max-w-xs sm:min-w-xs'
                                 channels={channels}
                                 value={field.value}
                                 onValueChange={field.onChange}

@@ -91,7 +91,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                     <ChannelSelect
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      className='sm:max-w-[300px] sm:min-w-[300px]'
+                      className='sm:max-w-xs sm:min-w-xs'
                       channels={channels}
                       value={field.value}
                       onValueChange={field.onChange}
@@ -204,7 +204,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                         <MultipleRoleSelect
                           id={field.name}
                           aria-invalid={fieldState.invalid}
-                          className='sm:max-w-[400px] sm:min-w-[400px]'
+                          className='sm:max-w-sm sm:min-w-sm'
                           roles={roles}
                           value={field.value}
                           onValueChange={field.onChange}
@@ -262,7 +262,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
                   <ForumTagSelect
                     id={field.name}
                     aria-invalid={fieldState.invalid}
-                    className='sm:max-w-[300px] sm:min-w-[300px]'
+                    className='sm:max-w-xs sm:min-w-xs'
                     tags={tags}
                     value={field.value}
                     onValueChange={field.onChange}
@@ -285,7 +285,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
                   <ForumTagSelect
                     id={field.name}
                     aria-invalid={fieldState.invalid}
-                    className='sm:max-w-[300px] sm:min-w-[300px]'
+                    className='sm:max-w-xs sm:min-w-xs'
                     tags={tags}
                     value={field.value}
                     onValueChange={field.onChange}
