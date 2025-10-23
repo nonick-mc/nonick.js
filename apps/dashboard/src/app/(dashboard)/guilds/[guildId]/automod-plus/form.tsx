@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { MultipleRoleSelect } from '@/components/role-select';
+import { RoleSelect } from '@/components/role-select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -340,7 +340,7 @@ export function SettingForm({ channels, roles, setting }: FormProps) {
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
-                          <MultipleRoleSelect
+                          <RoleSelect
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             className='sm:min-w-sm sm:max-w-sm'

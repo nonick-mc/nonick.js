@@ -23,7 +23,7 @@ import type { z } from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { ForumTagSelect } from '@/components/forum-tag-select';
-import { MultipleRoleSelect } from '@/components/role-select';
+import { RoleSelect } from '@/components/role-select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Field,
@@ -205,7 +205,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                           <FieldLabel htmlFor={field.name}>メンションするロール</FieldLabel>
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </FieldContent>
-                        <MultipleRoleSelect
+                        <RoleSelect
                           id={field.name}
                           aria-invalid={fieldState.invalid}
                           className='sm:max-w-sm sm:min-w-sm'

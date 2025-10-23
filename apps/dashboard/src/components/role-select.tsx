@@ -2,11 +2,8 @@
 
 import type { APIRole } from 'discord-api-types/v10';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import type React from 'react';
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -14,51 +11,69 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from './ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { Badge } from './ui/badge';
 
-const DEFAULT_PLACEHOLDER = 'ロールを選択';
-const DEFAULT_EMPTY_TEXT = 'ロールが見つかりません';
-const DEFAULT_SEARCH_PLACEHOLDER = 'ロールを検索';
-
-type BaseRoleSelectProps = {
+type RoleValue = string | string[] | null;
+type RoleSelectProps<TValue extends RoleValue> = Omit<React.ComponentProps<'button'>, 'value'> & {
+  value: TValue;
+  onValueChange: (value: TValue) => void;
   roles: APIRole[];
   placeholder?: string;
   searchPlaceholder?: string;
   emptyText?: string;
   disabledItemFilter?: (role: APIRole) => boolean;
-} & Pick<React.ComponentProps<'button'>, 'className' | 'disabled' | 'aria-invalid' | 'id'>;
-
-type MultipleRoleSelectProps = BaseRoleSelectProps & {
-  value: string[];
-  onValueChange: (value: string[]) => void;
+  required?: boolean;
 };
 
-export function MultipleRoleSelect({
-  roles,
+export function RoleSelect<TValue extends RoleValue>({
   value,
   onValueChange,
-  placeholder = DEFAULT_PLACEHOLDER,
-  emptyText = DEFAULT_EMPTY_TEXT,
-  searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
+  roles,
+  placeholder = 'ロールを選択',
+  emptyText = 'ロールが見つかりません',
+  searchPlaceholder = 'ロールを検索',
   disabledItemFilter,
+  required = false,
   ...triggerProps
-}: MultipleRoleSelectProps) {
+}: RoleSelectProps<TValue>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
-  const selectedRoles = roles.filter((role) => value.includes(role.id));
   const filteredRoles = roles.filter((role) =>
     role.name.toLowerCase().includes(search.toLowerCase()),
   );
 
+  const isMultiple = Array.isArray(value);
+
+  const selectedRoles = isMultiple
+    ? roles.filter((role) => (value as string[]).includes(role.id))
+    : roles.filter((role) => role.id === (value as string | null));
+
   const handleSelect = (roleId: string) => {
-    if (value.includes(roleId)) {
-      onValueChange(value.filter((id) => id !== roleId));
+    if (isMultiple) {
+      const newValues = value.includes(roleId)
+        ? value.filter((id) => id !== roleId)
+        : [...value, roleId];
+      onValueChange(newValues as TValue);
     } else {
-      onValueChange([...value, roleId]);
+      if (required && roleId === value) return;
+      const nextValue = roleId === value ? null : roleId;
+      onValueChange(nextValue as TValue);
+      setOpen(false);
     }
   };
+
+  const RoleColorIcon = ({ role }: { role: APIRole }) => (
+    <span
+      className='size-2 rounded-full shrink-0'
+      style={{
+        backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#808080',
+      }}
+    />
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -69,29 +84,30 @@ export function MultipleRoleSelect({
           // biome-ignore lint/a11y/useSemanticElements: Combobox Trigger
           role='combobox'
           aria-expanded={open}
-          className={cn('justify-between min-h-9 h-auto', triggerProps.className)}
-          disabled={triggerProps.disabled}
+          className={cn('justify-between', isMultiple && 'min-h-9 h-auto', triggerProps.className)}
         >
           {selectedRoles.length ? (
-            <div className='flex flex-wrap gap-1 flex-1'>
-              {selectedRoles.map((role) => (
-                <Badge
-                  key={role.id}
-                  variant='secondary'
-                  className='border border-muted-foreground/20'
-                >
-                  <span
-                    className='size-2 rounded-full'
-                    style={{
-                      backgroundColor: role.color ? `#${role.color.toString(16)}` : 'GrayText',
-                    }}
-                  />
-                  {role.name}
-                </Badge>
-              ))}
-            </div>
+            isMultiple ? (
+              <div className='flex flex-wrap gap-1 flex-1'>
+                {selectedRoles.map((role) => (
+                  <Badge
+                    key={role.id}
+                    variant='secondary'
+                    className='border border-muted-foreground/20'
+                  >
+                    <RoleColorIcon role={role} />
+                    <span className='truncate'>{role.name}</span>
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <div className='flex items-center gap-2 min-w-0 flex-1'>
+                <RoleColorIcon role={selectedRoles[0]} />
+                <span className='truncate min-w-0'>{selectedRoles[0].name}</span>
+              </div>
+            )
           ) : (
-            <span className='text-muted-foreground'>{placeholder}</span>
+            placeholder
           )}
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
@@ -102,28 +118,26 @@ export function MultipleRoleSelect({
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
             <CommandGroup>
-              {filteredRoles.map((role) => (
-                <CommandItem
-                  key={role.id}
-                  value={role.id}
-                  onSelect={() => handleSelect(role.id)}
-                  disabled={disabledItemFilter?.(role)}
-                >
-                  <span
-                    className='size-2 rounded-full'
-                    style={{
-                      backgroundColor: role.color ? `#${role.color.toString(16)}` : 'GrayText',
-                    }}
-                  />
-                  <span className='truncate'>{role.name}</span>
-                  <CheckIcon
-                    className={cn(
-                      'ml-auto size-4',
-                      value.includes(role.id) ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                </CommandItem>
-              ))}
+              {filteredRoles.map((role) => {
+                const selected = isMultiple
+                  ? (value as string[]).includes(role.id)
+                  : (value as string | null) === role.id;
+
+                return (
+                  <CommandItem
+                    key={role.id}
+                    value={role.id}
+                    onSelect={() => handleSelect(role.id)}
+                    disabled={disabledItemFilter?.(role)}
+                  >
+                    <RoleColorIcon role={role} />
+                    <span className='truncate'>{role.name}</span>
+                    <CheckIcon
+                      className={cn('ml-auto size-4', selected ? 'opacity-100' : 'opacity-0')}
+                    />
+                  </CommandItem>
+                );
+              })}
             </CommandGroup>
           </CommandList>
         </Command>
