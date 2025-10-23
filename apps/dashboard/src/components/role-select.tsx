@@ -86,7 +86,11 @@ export function RoleSelect<TValue extends RoleValue>({
           // biome-ignore lint/a11y/useSemanticElements: Combobox Trigger
           role='combobox'
           aria-expanded={open}
-          className={cn('justify-between', isMultiple && 'min-h-9 h-auto', triggerProps.className)}
+          className={cn(
+            'justify-between',
+            { 'min-h-9 h-auto': isMultiple },
+            triggerProps.className,
+          )}
         >
           {selectedRoles.length ? (
             isMultiple ? (
