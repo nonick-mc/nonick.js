@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
-import { MultipleChannelSelect } from '@/components/channel-select';
+import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -209,7 +209,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
-                          <MultipleChannelSelect
+                          <ChannelSelect
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             className='sm:max-w-sm sm:min-w-sm'

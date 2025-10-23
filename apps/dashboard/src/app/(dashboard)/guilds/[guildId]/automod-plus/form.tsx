@@ -12,7 +12,7 @@ import { useParams } from 'next/navigation';
 import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
 import { toast } from 'sonner';
 import type { z } from 'zod';
-import { ChannelSelect, MultipleChannelSelect } from '@/components/channel-select';
+import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { MultipleRoleSelect } from '@/components/role-select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -310,7 +310,7 @@ export function SettingForm({ channels, roles, setting }: FormProps) {
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
-                          <MultipleChannelSelect
+                          <ChannelSelect
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             className='sm:min-w-sm sm:max-w-sm'

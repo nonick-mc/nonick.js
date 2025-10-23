@@ -35,151 +35,71 @@ const ChannelTypeIcons = new Map<GuildChannelType, LucideIcon>([
   [ChannelType.GuildAnnouncement, MegaphoneIcon],
 ]);
 
-const DEFAULT_PLACEHOLDER = 'チャンネルを選択';
-const DEFAULT_EMPTY_TEXT = 'チャンネルが見つかりません';
-const DEFAULT_SEARCH_PLACEHOLDER = 'チャンネルを検索';
-
-type BaseChannelSelectProps = {
+type ChannelValue = string | string[] | null;
+type ChannelSelectProps<TValue extends ChannelValue> = Omit<
+  React.ComponentProps<'button'>,
+  'value'
+> & {
+  value: TValue;
+  onValueChange: (value: TValue) => void;
   channels: APIGuildChannel<GuildChannelType>[];
   placeholder?: string;
   searchPlaceholder?: string;
   emptyText?: string;
   includeChannelTypes?: GuildChannelType[];
   excludeChannelTypes?: GuildChannelType[];
-} & Pick<React.ComponentProps<'button'>, 'className' | 'disabled' | 'aria-invalid' | 'id'>;
-
-type ChannelSelectProps = BaseChannelSelectProps & {
-  value: string | null;
-  onValueChange: (value: string | null) => void;
+  required?: boolean;
 };
 
-type MultipleChannelSelectProps = BaseChannelSelectProps & {
-  value: string[];
-  onValueChange: (value: string[]) => void;
-};
-
-export function ChannelSelect({
-  channels,
+export function ChannelSelect<TValue extends ChannelValue>({
   value,
   onValueChange,
-  placeholder = DEFAULT_PLACEHOLDER,
-  emptyText = DEFAULT_EMPTY_TEXT,
-  searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
+  channels,
+  placeholder = 'チャンネルを選択',
+  emptyText = 'チャンネルが見つかりません',
+  searchPlaceholder = 'チャンネルを検索',
   includeChannelTypes,
   excludeChannelTypes,
+  required = false,
   ...triggerProps
-}: ChannelSelectProps) {
+}: ChannelSelectProps<TValue>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
   const validChannels = channels.filter((channel) => {
     const include = includeChannelTypes?.includes(channel.type) ?? true;
     const exclude = excludeChannelTypes?.includes(channel.type) ?? false;
-
     return include && !exclude;
   });
 
-  const selectedChannel = validChannels.find((channel) => channel.id === value);
   const filteredChannels = validChannels.filter((channel) =>
     channel.name.toLowerCase().includes(search.toLowerCase()),
   );
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          {...triggerProps}
-          variant='outline'
-          // biome-ignore lint/a11y/useSemanticElements: Combobox Trigger
-          role='combobox'
-          aria-expanded={open}
-          className={cn('justify-between', triggerProps.className)}
-          disabled={triggerProps.disabled}
-        >
-          {selectedChannel ? (
-            <div className='flex items-center gap-2 min-w-0 flex-1'>
-              {ChannelTypeIcons.has(selectedChannel.type) &&
-                // biome-ignore lint/style/noNonNullAssertion: 95行目でキーの存在を検証済み
-                createElement(ChannelTypeIcons.get(selectedChannel.type)!, {
-                  className: 'size-4 shrink-0 text-muted-foreground',
-                })}
-              <span className='truncate min-w-0'>{selectedChannel.name}</span>
-            </div>
-          ) : (
-            <span className='text-muted-foreground'>{placeholder}</span>
-          )}
-          <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'>
-        <Command shouldFilter={false}>
-          <CommandInput placeholder={searchPlaceholder} value={search} onValueChange={setSearch} />
-          <CommandList>
-            <CommandEmpty>{emptyText}</CommandEmpty>
-            <CommandGroup>
-              {filteredChannels.map((channel) => (
-                <CommandItem
-                  key={channel.id}
-                  value={channel.id}
-                  onSelect={() => {
-                    onValueChange(channel.id === value ? null : channel.id);
-                    setOpen(false);
-                  }}
-                >
-                  {ChannelTypeIcons.has(channel.type) &&
-                    // biome-ignore lint/style/noNonNullAssertion: 123行目でキーの存在を検証済み
-                    createElement(ChannelTypeIcons.get(channel.type)!, {
-                      className: 'size-4 shrink-0 text-muted-foreground',
-                    })}
-                  <span className='truncate'>{channel.name}</span>
-                  <CheckIcon
-                    className={cn(
-                      'ml-auto size-4',
-                      value === channel.id ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
+  const isMultiple = Array.isArray(value);
 
-export function MultipleChannelSelect({
-  channels,
-  value,
-  onValueChange,
-  placeholder = DEFAULT_PLACEHOLDER,
-  emptyText = DEFAULT_EMPTY_TEXT,
-  searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER,
-  includeChannelTypes,
-  excludeChannelTypes,
-  ...triggerProps
-}: MultipleChannelSelectProps) {
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
-
-  const validChannels = channels.filter((channel) => {
-    const include = includeChannelTypes?.includes(channel.type) ?? true;
-    const exclude = excludeChannelTypes?.includes(channel.type) ?? false;
-
-    return include && !exclude;
-  });
-
-  const selectedChannels = validChannels.filter((channel) => value.includes(channel.id));
-  const filteredChannels = validChannels.filter((channel) =>
-    channel.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  const selectedChannels = isMultiple
+    ? validChannels.filter((ch) => (value as string[]).includes(ch.id))
+    : validChannels.filter((ch) => ch.id === (value as string | null));
 
   const handleSelect = (channelId: string) => {
-    if (value.includes(channelId)) {
-      onValueChange(value.filter((id) => id !== channelId));
+    if (isMultiple) {
+      const newValues = value.includes(channelId)
+        ? value.filter((id) => id !== channelId)
+        : [...value, channelId];
+      onValueChange(newValues as TValue);
     } else {
-      onValueChange([...value, channelId]);
+      if (required && channelId === value) return;
+      const nextValue = channelId === value ? null : channelId;
+      onValueChange(nextValue as TValue);
+      setOpen(false);
     }
+  };
+
+  const ChannelTypeIcon = ({ className, type }: { className: string; type: GuildChannelType }) => {
+    const Icon = ChannelTypeIcons.get(type);
+    if (!Icon) return null;
+    return createElement(Icon, { className });
   };
 
   return (
@@ -191,28 +111,36 @@ export function MultipleChannelSelect({
           // biome-ignore lint/a11y/useSemanticElements: Combobox Trigger
           role='combobox'
           aria-expanded={open}
-          className={cn('justify-between min-h-9 h-auto', triggerProps.className)}
-          disabled={triggerProps.disabled}
+          className={cn('justify-between', isMultiple && 'min-h-9 h-auto', triggerProps.className)}
         >
           {selectedChannels.length ? (
-            <div className='flex flex-wrap gap-1 flex-1'>
-              {selectedChannels.map((channel) => (
-                <Badge
-                  key={channel.id}
-                  variant='secondary'
-                  className='border border-muted-foreground/20'
-                >
-                  {ChannelTypeIcons.has(channel.type) &&
-                    // biome-ignore lint/style/noNonNullAssertion: 95行目でキーの存在を検証済み
-                    createElement(ChannelTypeIcons.get(channel.type)!, {
-                      className: 'size-4 shrink-0 text-muted-foreground',
-                    })}
-                  <span className='truncate'>{channel.name}</span>
-                </Badge>
-              ))}
-            </div>
+            isMultiple ? (
+              <div className='flex flex-wrap gap-1 flex-1'>
+                {selectedChannels.map((channel) => (
+                  <Badge
+                    key={channel.id}
+                    variant='secondary'
+                    className='border border-muted-foreground/20'
+                  >
+                    <ChannelTypeIcon
+                      className='size-4 shrink-0 text-muted-foreground'
+                      type={channel.type}
+                    />
+                    <span className='truncate'>{channel.name}</span>
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <div className='flex items-center gap-2 min-w-0 flex-1'>
+                <ChannelTypeIcon
+                  className='size-4 shrink-0 text-muted-foreground'
+                  type={selectedChannels[0].type}
+                />
+                <span className='truncate min-w-0'>{selectedChannels[0].name}</span>
+              </div>
+            )
           ) : (
-            <span className='text-muted-foreground'>{placeholder}</span>
+            placeholder
           )}
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
@@ -223,26 +151,28 @@ export function MultipleChannelSelect({
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
             <CommandGroup>
-              {filteredChannels.map((channel) => (
-                <CommandItem
-                  key={channel.id}
-                  value={channel.id}
-                  onSelect={() => handleSelect(channel.id)}
-                >
-                  {ChannelTypeIcons.has(channel.type) &&
-                    // biome-ignore lint/style/noNonNullAssertion: 123行目でキーの存在を検証済み
-                    createElement(ChannelTypeIcons.get(channel.type)!, {
-                      className: 'size-4 shrink-0 text-muted-foreground',
-                    })}
-                  <span className='truncate'>{channel.name}</span>
-                  <CheckIcon
-                    className={cn(
-                      'ml-auto size-4',
-                      value.includes(channel.id) ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                </CommandItem>
-              ))}
+              {filteredChannels.map((channel) => {
+                const selected = isMultiple
+                  ? (value as string[]).includes(channel.id)
+                  : (value as string | null) === channel.id;
+
+                return (
+                  <CommandItem
+                    key={channel.id}
+                    value={channel.id}
+                    onSelect={() => handleSelect(channel.id)}
+                  >
+                    <ChannelTypeIcon
+                      className='size-4 shrink-0 text-muted-foreground'
+                      type={channel.type}
+                    />
+                    <span className='truncate'>{channel.name}</span>
+                    <CheckIcon
+                      className={cn('ml-auto size-4', selected ? 'opacity-100' : 'opacity-0')}
+                    />
+                  </CommandItem>
+                );
+              })}
             </CommandGroup>
           </CommandList>
         </Command>

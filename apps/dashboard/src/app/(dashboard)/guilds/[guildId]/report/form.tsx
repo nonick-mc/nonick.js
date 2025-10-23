@@ -96,6 +96,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       value={field.value}
                       onValueChange={field.onChange}
                       includeChannelTypes={[ChannelType.GuildText, ChannelType.GuildForum]}
+                      required
                     />
                   </Field>
                 )}
