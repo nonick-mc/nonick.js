@@ -80,6 +80,13 @@ export const getMutualManagedGuilds = cache(async (withCounts = false) => {
   );
 });
 
+export async function getUserHighestRole(guildId: string, userId: string) {
+  const [roles, member] = await Promise.all([getRoles(guildId), getGuildMember(guildId, userId)]);
+  const memberRoles = roles.filter((role) => member.roles.includes(role.id));
+  if (!memberRoles.length) return null;
+  return memberRoles.sort((a, b) => b.position - a.position)[0];
+}
+
 export const getGuildMemberPermissions = cache(async (guildId: string, userId: string) => {
   const [member, roles] = await Promise.all([getGuildMember(guildId, userId), getRoles(guildId)]);
 
