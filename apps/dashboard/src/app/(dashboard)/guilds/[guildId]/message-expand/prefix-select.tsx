@@ -10,6 +10,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useIsMobile } from '@/lib/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { ignorePrefixes } from './schema';
 
@@ -20,6 +21,7 @@ interface PrefixSelectProps extends Omit<React.ComponentProps<'button'>, 'value'
 
 export function PrefixSelect({ value, onValueChange, ...props }: PrefixSelectProps) {
   const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const selectedPrefixes = ignorePrefixes.filter((prefix) => value.includes(prefix));
 
@@ -57,7 +59,12 @@ export function PrefixSelect({ value, onValueChange, ...props }: PrefixSelectPro
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'>
+      <PopoverContent
+        className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'
+        onOpenAutoFocus={(e) => {
+          if (isMobile) e.preventDefault();
+        }}
+      >
         <Command>
           <CommandList>
             <CommandEmpty>プレフィックスが見つかりません</CommandEmpty>

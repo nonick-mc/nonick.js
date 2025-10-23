@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import twemoji from 'twemoji';
 import { DiscordEndPoints } from '@/lib/discord/constants';
+import { useIsMobile } from '@/lib/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import {
@@ -40,6 +41,7 @@ export function ForumTagSelect({
 }: ForumTagSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const isMobile = useIsMobile();
 
   const selectedTag = tags.find((tag) => tag.id === value);
   const filteredTags = tags.filter((tag) => tag.name.toLowerCase().includes(search.toLowerCase()));
@@ -89,7 +91,12 @@ export function ForumTagSelect({
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[var(--radix-popover-trigger-width)] p-0'>
+      <PopoverContent
+        className='w-[var(--radix-popover-trigger-width)] p-0'
+        onOpenAutoFocus={(e) => {
+          if (isMobile) e.preventDefault();
+        }}
+      >
         <Command shouldFilter={false}>
           <CommandInput placeholder={searchPlaceholder} value={search} onValueChange={setSearch} />
           <CommandList>

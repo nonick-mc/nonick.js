@@ -23,6 +23,7 @@ import {
   CommandList,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useIsMobile } from '@/lib/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { Badge } from './ui/badge';
 
@@ -65,6 +66,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
 }: ChannelSelectProps<TValue>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const isMobile = useIsMobile();
 
   const validChannels = channels.filter((channel) => {
     const include = includeChannelTypes?.includes(channel.type) ?? true;
@@ -145,7 +147,12 @@ export function ChannelSelect<TValue extends ChannelValue>({
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'>
+      <PopoverContent
+        className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'
+        onOpenAutoFocus={(e) => {
+          if (isMobile) e.preventDefault();
+        }}
+      >
         <Command shouldFilter={false}>
           <CommandInput placeholder={searchPlaceholder} value={search} onValueChange={setSearch} />
           <CommandList>
