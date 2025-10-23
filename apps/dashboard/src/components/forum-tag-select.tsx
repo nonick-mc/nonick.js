@@ -21,14 +21,14 @@ const DEFAULT_PLACEHOLDER = 'タグを選択';
 const DEFAULT_EMPTY_TEXT = 'タグが見つかりません';
 const DEFAULT_SEARCH_PLACEHOLDER = 'タグを検索';
 
-type ForumTagSelectProps = {
+type ForumTagSelectProps = Omit<React.ComponentProps<'button'>, 'value'> & {
   value: string | null;
   onValueChange: (value: string | null) => void;
   tags: APIGuildForumTag[];
   placeholder?: string;
   searchPlaceholder?: string;
   emptyText?: string;
-} & Pick<React.ComponentProps<'button'>, 'className' | 'disabled' | 'aria-invalid' | 'id'>;
+};
 
 export function ForumTagSelect({
   tags,

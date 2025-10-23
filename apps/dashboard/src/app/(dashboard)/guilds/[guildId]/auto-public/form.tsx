@@ -55,6 +55,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       aria-invalid={fieldState.invalid}
@@ -91,12 +92,13 @@ export function SettingForm({ channels, setting }: FormProps) {
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </FieldContent>
                         <ChannelSelect
+                          ref={field.ref}
                           id={field.name}
                           aria-invalid={fieldState.invalid}
-                          className='sm:max-w-sm sm:min-w-sm'
-                          channels={channels}
                           value={field.value}
                           onValueChange={field.onChange}
+                          className='sm:max-w-sm sm:min-w-sm'
+                          channels={channels}
                           includeChannelTypes={[ChannelType.GuildAnnouncement]}
                           disabled={!enabled}
                         />

@@ -89,12 +89,13 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <ChannelSelect
+                      ref={field.ref}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      className='sm:max-w-xs sm:min-w-xs'
-                      channels={channels}
                       value={field.value}
                       onValueChange={field.onChange}
+                      className='sm:max-w-xs sm:min-w-xs'
+                      channels={channels}
                       includeChannelTypes={[ChannelType.GuildText, ChannelType.GuildForum]}
                       required
                     />
@@ -124,6 +125,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       aria-invalid={fieldState.invalid}
@@ -147,6 +149,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       checked={field.value}
@@ -178,6 +181,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       checked={field.value}
@@ -206,12 +210,13 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </FieldContent>
                         <RoleSelect
+                          ref={field.ref}
                           id={field.name}
                           aria-invalid={fieldState.invalid}
-                          className='sm:max-w-sm sm:min-w-sm'
-                          roles={roles}
                           value={field.value}
                           onValueChange={field.onChange}
+                          className='sm:max-w-sm sm:min-w-sm'
+                          roles={roles}
                           disabled={!enableMention}
                         />
                       </Field>

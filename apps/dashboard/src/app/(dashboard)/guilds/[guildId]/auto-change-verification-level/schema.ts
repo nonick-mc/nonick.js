@@ -17,12 +17,12 @@ export const formSchema = createInsertSchema(autoChangeVerifyLevelSetting, {
     if (v.startHour === v.endHour) {
       ctx.addIssue({
         code: 'custom',
-        message: '開始時間と終了時間を同じ値にすることはできません。',
+        message: '終了時間と同じ値にすることはできません。',
         path: ['startHour'],
       });
       ctx.addIssue({
         code: 'custom',
-        message: '開始時間と終了時間を同じ値にすることはできません。',
+        message: '開始時間と同じ値にすることはできません。',
         path: ['endHour'],
       });
     }

@@ -76,6 +76,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       aria-invalid={fieldState.invalid}
@@ -117,6 +118,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                         </FieldContent>
                         <Switch
+                          ref={field.ref}
                           id={field.name}
                           name={field.name}
                           aria-invalid={fieldState.invalid}
@@ -168,6 +170,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                                 orientation='horizontal'
                               >
                                 <Checkbox
+                                  ref={field.ref}
                                   id={`${field.name}-${option.value}`}
                                   name={field.name}
                                   aria-invalid={fieldState.invalid}
@@ -210,12 +213,13 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <ChannelSelect
+                            ref={field.ref}
                             id={field.name}
                             aria-invalid={fieldState.invalid}
-                            className='sm:max-w-sm sm:min-w-sm'
-                            channels={channels}
                             value={field.value}
                             onValueChange={field.onChange}
+                            className='sm:max-w-sm sm:min-w-sm'
+                            channels={channels}
                             excludeChannelTypes={[ChannelType.GuildCategory]}
                             disabled={!enabled}
                           />
@@ -240,11 +244,12 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <PrefixSelect
-                            className='sm:max-w-xs sm:min-w-xs'
+                            ref={field.ref}
                             id={field.name}
                             aria-invalid={fieldState.invalid}
                             value={field.value}
                             onValueChange={field.onChange}
+                            className='sm:max-w-xs sm:min-w-xs'
                             disabled={!enabled}
                           />
                         </Field>

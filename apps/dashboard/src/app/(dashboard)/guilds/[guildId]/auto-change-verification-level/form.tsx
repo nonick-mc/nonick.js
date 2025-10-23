@@ -34,7 +34,6 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { updateSettingAction } from './action';
-import { HourSelect } from './hour-select';
 import { formSchema } from './schema';
 
 type FormProps = {
@@ -83,6 +82,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
+                      ref={field.ref}
                       id={field.name}
                       name={field.name}
                       aria-invalid={fieldState.invalid}
@@ -120,14 +120,29 @@ export function SettingForm({ channels, setting }: FormProps) {
                             <FieldDescription>この時間に認証レベルを変更します。</FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
-                          <HourSelect
-                            className='sm:max-w-xs sm:min-w-xs'
-                            id={field.name}
-                            aria-invalid={fieldState.invalid}
-                            value={field.value}
-                            onChange={field.onChange}
+                          <Select
+                            name={field.name}
+                            value={field.value.toString()}
+                            onValueChange={(value) => field.onChange(Number(value))}
                             disabled={!enabled}
-                          />
+                          >
+                            <SelectTrigger
+                              ref={field.ref}
+                              id={field.name}
+                              aria-invalid={fieldState.invalid}
+                              className='sm:max-w-xs sm:min-w-xs'
+                            >
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Array.from({ length: 24 }, (_, i) => (
+                                // biome-ignore lint/suspicious/noArrayIndexKey: キーを使用する必要があるため
+                                <SelectItem key={i} value={i.toString()}>
+                                  {i.toString().padStart(2, '0')}:00
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </Field>
                       )}
                     />
@@ -148,14 +163,29 @@ export function SettingForm({ channels, setting }: FormProps) {
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
-                          <HourSelect
-                            className='sm:max-w-xs sm:min-w-xs'
-                            id={field.name}
-                            aria-invalid={fieldState.invalid}
-                            value={field.value}
-                            onChange={field.onChange}
+                          <Select
+                            name={field.name}
+                            value={field.value.toString()}
+                            onValueChange={(value) => field.onChange(Number(value))}
                             disabled={!enabled}
-                          />
+                          >
+                            <SelectTrigger
+                              ref={field.ref}
+                              id={field.name}
+                              aria-invalid={fieldState.invalid}
+                              className='sm:max-w-xs sm:min-w-xs'
+                            >
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Array.from({ length: 24 }, (_, i) => (
+                                // biome-ignore lint/suspicious/noArrayIndexKey: キーを使用する必要があるため
+                                <SelectItem key={i} value={i.toString()}>
+                                  {i.toString().padStart(2, '0')}:00
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </Field>
                       )}
                     />
@@ -186,12 +216,16 @@ export function SettingForm({ channels, setting }: FormProps) {
                             </FieldDescription>
                           </FieldContent>
                           <Select
+                            name={field.name}
                             value={field.value.toString()}
                             onValueChange={(v) => field.onChange(Number(v))}
+                            disabled={!enabled}
                           >
                             <SelectTrigger
+                              ref={field.ref}
+                              id={field.name}
+                              aria-invalid={fieldState.invalid}
                               className='sm:min-w-[400px] sm:max-w-[400px] min-h-16'
-                              disabled={!enabled}
                             >
                               <SelectValue placeholder='認証レベルを選択' />
                             </SelectTrigger>
@@ -279,6 +313,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
                           <Switch
+                            ref={field.ref}
                             id={field.name}
                             name={field.name}
                             aria-invalid={fieldState.invalid}
@@ -311,12 +346,13 @@ export function SettingForm({ channels, setting }: FormProps) {
                                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                               </FieldContent>
                               <ChannelSelect
+                                ref={field.ref}
                                 id={field.name}
                                 aria-invalid={fieldState.invalid}
-                                className='sm:max-w-xs sm:min-w-xs'
-                                channels={channels}
                                 value={field.value}
                                 onValueChange={field.onChange}
+                                className='sm:max-w-xs sm:min-w-xs'
+                                channels={channels}
                                 includeChannelTypes={[ChannelType.GuildText]}
                                 disabled={!enabled || !enableLog}
                               />
