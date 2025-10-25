@@ -212,7 +212,7 @@ export function SettingForm({ setting, channels }: FormProps) {
                         <div className='flex-1 flex flex-col gap-2'>
                           <div className='flex items-center gap-2'>
                             <p className='font-medium'>NoNICK.js</p>
-                            <Badge className='h-5 mt-0.5'>
+                            <Badge className='h-5 mt-0.5 bg-[#5865F2] gap-0.5 px-1.5'>
                               <CheckIcon className='mt-0.5' />
                               アプリ
                             </Badge>
