@@ -1,4 +1,5 @@
-﻿import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
+﻿import { relations } from 'drizzle-orm';
+import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { timestamps } from '../utils';
 import { user } from './auth';
 import { guild } from './guild';
@@ -41,3 +42,10 @@ export const auditLog = pgTable('audit_log', {
   after: jsonb('after').$type<unknown>(),
   createdAt: timestamps.createdAt,
 });
+
+export const auditLogRelations = relations(auditLog, ({ one }) => ({
+  author: one(user, {
+    fields: [auditLog.authorId],
+    references: [user.id],
+  }),
+}));
