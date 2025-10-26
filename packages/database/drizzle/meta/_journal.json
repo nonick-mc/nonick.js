@@ -92,6 +92,13 @@
       "when": 1761465531731,
       "tag": "0012_high_mulholland_black",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1761493836933,
+      "tag": "0013_quick_lockjaw",
+      "breakpoints": true
     }
   ]
 }
