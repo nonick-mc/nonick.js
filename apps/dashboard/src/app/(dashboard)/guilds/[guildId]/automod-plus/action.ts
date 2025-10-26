@@ -9,11 +9,11 @@ import { formSchema } from './schema';
 export const updateSettingAction = guildActionClient
   .inputSchema(formSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs: [guildId], ctx: { session } }) => {
-    const currentSetting = await db.query.autoModSetting.findFirst({
+    const beforeSetting = await db.query.autoModSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guildId),
     });
 
-    const [newSetting] = await db
+    const [afterSetting] = await db
       .insert(autoModSetting)
       .values({ guildId, ...parsedInput })
       .onConflictDoUpdate({ target: autoModSetting.guildId, set: parsedInput })
@@ -21,11 +21,11 @@ export const updateSettingAction = guildActionClient
 
     await db.insert(auditLog).values({
       guildId,
-      authorId: session.user.discordUserId,
+      authorId: session.user.id,
       targetName: 'auto_mod',
       actionType: 'update_guild_setting',
-      oldValue: currentSetting,
-      newValue: newSetting,
+      before: beforeSetting,
+      after: afterSetting,
     });
 
     revalidatePath('/');

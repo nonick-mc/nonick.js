@@ -9,11 +9,11 @@ import { formSchema } from './schema';
 export const updateSettingAction = guildActionClient
   .inputSchema(formSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs: [guildId], ctx: { session } }) => {
-    const currentSetting = await db.query.voiceLogSetting.findFirst({
+    const beforeSetting = await db.query.voiceLogSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guildId),
     });
 
-    const [newSetting] = await db
+    const [afterSetting] = await db
       .insert(voiceLogSetting)
       .values({ guildId, ...parsedInput })
       .onConflictDoUpdate({ target: voiceLogSetting.guildId, set: parsedInput })
@@ -21,11 +21,11 @@ export const updateSettingAction = guildActionClient
 
     await db.insert(auditLog).values({
       guildId,
-      authorId: session.user.discordUserId,
+      authorId: session.user.id,
       targetName: 'voice_log',
       actionType: 'update_guild_setting',
-      oldValue: currentSetting,
-      newValue: newSetting,
+      before: beforeSetting,
+      after: afterSetting,
     });
 
     revalidatePath('/');
