@@ -240,9 +240,12 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
   const channel = useWatch({ control: form.control, name: 'channel' });
 
   useEffect(() => {
-    form.setValue('forumCompletedTag', null);
-    form.setValue('forumIgnoredTag', null);
-  }, [channel]);
+    // チャンネルが変更された時のみ初期化。初回は初期値を保持する。
+    if (form.formState.isDirty) {
+      form.setValue('forumCompletedTag', null);
+      form.setValue('forumIgnoredTag', null);
+    }
+  }, [channel, form.formState.isDirty]);
 
   return (
     <Watch
