@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import type { Route } from 'next';
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -168,9 +168,7 @@ const items: SidebarGroupItem<string>[] = [
 
 export function SidebarNavigation() {
   const params = useParams<{ guildId: string }>();
-  const pathname = usePathname();
-
-  const currentPath = pathname.split('/').slice(3).join('/');
+  const segments = useSelectedLayoutSegments().filter((s) => !s.startsWith('('));
 
   return (
     <>
@@ -183,7 +181,7 @@ export function SidebarNavigation() {
                 <SidebarMenuItem key={item.title}>
                   {item.subitems?.length ? (
                     <Collapsible
-                      defaultOpen={currentPath.split('/')[0] === item.key}
+                      defaultOpen={segments[0] === item.key}
                       className='group/collapsible'
                     >
                       <CollapsibleTrigger asChild>
@@ -199,7 +197,7 @@ export function SidebarNavigation() {
                             <SidebarMenuSubItem key={subitem.key}>
                               <SidebarMenuSubButton
                                 asChild
-                                isActive={currentPath === `${item.key}/${subitem.key}`}
+                                isActive={segments[0] === item.key && segments[1] === subitem.key}
                               >
                                 <Link href={`${item.url(params.guildId)}/${subitem.key}` as Route}>
                                   {subitem.title}
@@ -215,7 +213,7 @@ export function SidebarNavigation() {
                     </Collapsible>
                   ) : (
                     <>
-                      <SidebarMenuButton asChild isActive={currentPath === item.key}>
+                      <SidebarMenuButton asChild isActive={segments[0] === item.key}>
                         <Link href={item.url(params.guildId) as Route}>
                           <item.icon className='text-muted-foreground' />
                           {item.title}
