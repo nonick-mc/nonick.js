@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
 
     if (!guildId || !snowflakeRegex.test(guildId)) {
-      NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
