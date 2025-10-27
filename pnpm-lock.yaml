@@ -64,7 +64,7 @@ importers:
         version: 0.31.1
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.41.0(kysely@0.28.7)(pg@8.16.0)
+        version: 0.41.0(kysely@0.28.8)(pg@8.16.0)
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
@@ -166,8 +166,8 @@ importers:
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       better-auth:
-        specifier: ^1.3.24
-        version: 1.3.24(next@15.5.4(@babel/core@7.28.4)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^1.3.26
+        version: 1.3.26(next@15.5.4(@babel/core@7.28.4)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -185,10 +185,10 @@ importers:
         version: 0.37.120
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.41.0(kysely@0.28.7)(pg@8.16.0)
+        version: 0.41.0(kysely@0.28.8)(pg@8.16.0)
       drizzle-zod:
         specifier: ^0.8.3
-        version: 0.8.3(drizzle-orm@0.41.0(kysely@0.28.7)(pg@8.16.0))(zod@4.1.12)
+        version: 0.8.3(drizzle-orm@0.41.0(kysely@0.28.8)(pg@8.16.0))(zod@4.1.12)
       framer-motion:
         specifier: ^12.23.24
         version: 12.23.24(@emotion/is-prop-valid@1.4.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -298,7 +298,7 @@ importers:
         version: 0.31.1
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.41.0(kysely@0.28.7)(pg@8.16.0)
+        version: 0.41.0(kysely@0.28.8)(pg@8.16.0)
     devDependencies:
       discord-api-types:
         specifier: 'catalog:'
@@ -483,8 +483,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@better-auth/core@1.3.24':
-    resolution: {integrity: sha512-nU4aj5SA0COXAls0p3htIWmGPOG+76HULd9tG8CEUfwcK95rRrUIUN74FKvsAu3b18AVj3E7cL4bYrQS3KYKRw==}
+  '@better-auth/core@1.3.26':
+    resolution: {integrity: sha512-S5ooXaOcn9eLV3/JayfbMsAB5PkfoTRaRrtpb5djwvI/UAJOgLyjqhd+rObsBycovQ/nPQvMKjzyM/G1oBKngA==}
 
   '@better-auth/utils@0.3.0':
     resolution: {integrity: sha512-W+Adw6ZA6mgvnSnhOki270rwJ42t4XzSK6YWGF//BbVXL6SwCLWfyzBc1lN2m/4RM28KubdBKQ4X5VMoLRNPQw==}
@@ -2171,11 +2171,11 @@ packages:
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
 
-  '@simplewebauthn/browser@13.2.0':
-    resolution: {integrity: sha512-N3fuA1AAnTo5gCStYoIoiasPccC+xPLx2YU88Dv0GeAmPQTWHETlZQq5xZ0DgUq1H9loXMWQH5qqUjcI7BHJ1A==}
+  '@simplewebauthn/browser@13.2.2':
+    resolution: {integrity: sha512-FNW1oLQpTJyqG5kkDg5ZsotvWgmBaC6jCHR7Ej0qUNep36Wl9tj2eZu7J5rP+uhXgHaLk+QQ3lqcw2vS5MX1IA==}
 
-  '@simplewebauthn/server@13.2.1':
-    resolution: {integrity: sha512-Inmfye5opZXe3HI0GaksqBnQiM7glcNySoG6DH1GgkO1Lh9dvuV4XSV9DK02DReUVX39HpcDob9nxHELjECoQw==}
+  '@simplewebauthn/server@13.2.2':
+    resolution: {integrity: sha512-HcWLW28yTMGXpwE9VLx9J+N2KEUaELadLrkPEEI9tpI5la70xNEVEsu/C+m3u7uoq4FulLqZQhgBCzR9IZhFpA==}
     engines: {node: '>=20.0.0'}
 
   '@sindresorhus/merge-streams@4.0.0':
@@ -2582,8 +2582,8 @@ packages:
     resolution: {integrity: sha512-hY/u2lxLrbecMEWSB0IpGzGyDyeoMFQhCvZd2jGFSE5I17Fh01sYUBPCJtkWERw7zrac9+cIghxm/ytJa2X8iA==}
     hasBin: true
 
-  better-auth@1.3.24:
-    resolution: {integrity: sha512-LyxIbnB2FExhjqQ/J1G8S8EAbmTBDFOz6CjqHNNu15Gux+c4fF0Si1YNLprROEb4EGNuGUfslurW0Q6nZ+Dobg==}
+  better-auth@1.3.26:
+    resolution: {integrity: sha512-umaOGmv29yF4sD6o2zlW6B0Oayko5yD/A8mKJOFDDEIoVP/pR7nJ/2KsqKy+xvBpnDsKdrZseqA8fmczPviUHw==}
     peerDependencies:
       '@lynx-js/react': '*'
       '@sveltejs/kit': '*'
@@ -3840,8 +3840,8 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
-  kysely@0.28.7:
-    resolution: {integrity: sha512-u/cAuTL4DRIiO2/g4vNGRgklEKNIj5Q3CG7RoUB5DV5SfEC2hMvPxKi0GWPmnzwL2ryIeud2VTcEEmqzTzEPNw==}
+  kysely@0.28.8:
+    resolution: {integrity: sha512-QUOgl5ZrS9IRuhq5FvOKFSsD/3+IA6MLE81/bOOTRA/YQpKDza2sFdN5g6JCB9BOpqMJDGefLCQ9F12hRS13TA==}
     engines: {node: '>=20.0.0'}
 
   langium@3.3.1:
@@ -3989,6 +3989,7 @@ packages:
 
   mathjax-full@3.2.2:
     resolution: {integrity: sha512-+LfG9Fik+OuI8SLwsiR02IVdjcnRCy5MufYLi0C3TdMT56L/pjB0alMVGgoWJF8pN9Rc7FESycZB9BMNWIid5w==}
+    deprecated: Version 4 replaces this package with the scoped package @mathjax/src
 
   mdast-util-find-and-replace@3.0.2:
     resolution: {integrity: sha512-Tmd1Vg/m3Xz43afeNxDIhWRtFZgM2VLyaf4vSTYwudTyeuTneoL3qtWMA5jeLyz/O1vDJmmV4QuScFCA2tBPwg==}
@@ -4622,9 +4623,9 @@ packages:
   pvtsutils@1.3.6:
     resolution: {integrity: sha512-PLgQXQ6H2FWCaeRak8vvk1GW462lMxB5s3Jm673N82zI4vqtVUPuZdffdZbPDFRoU8kAhItWFtPCWiPpp4/EDg==}
 
-  pvutils@1.1.3:
-    resolution: {integrity: sha512-pMpnA0qRdFp32b1sJl1wOJNxZLQ2cbQx+k6tjNtZ8CpvVhNqEPRgivZ2WOUev2YMajecdH7ctUPDvEe87nariQ==}
-    engines: {node: '>=6.0.0'}
+  pvutils@1.1.5:
+    resolution: {integrity: sha512-KTqnxsgGiQ6ZAzZCVlJH5eOjSnvlyEgx1m8bkRJfOhmGRqfo5KLvmAlACQkrjEtOQ4B7wF9TdSLIs9O90MX9xA==}
+    engines: {node: '>=16.0.0'}
 
   qs@6.14.0:
     resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
@@ -5767,7 +5768,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.1.15
 
-  '@better-auth/core@1.3.24':
+  '@better-auth/core@1.3.26':
     dependencies:
       better-call: 1.0.19
       zod: 4.1.12
@@ -7348,9 +7349,9 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@simplewebauthn/browser@13.2.0': {}
+  '@simplewebauthn/browser@13.2.2': {}
 
-  '@simplewebauthn/server@13.2.1':
+  '@simplewebauthn/server@13.2.2':
     dependencies:
       '@hexagon/base64': 1.1.28
       '@levischuck/tiny-cbor': 0.2.11
@@ -7728,7 +7729,7 @@ snapshots:
   asn1js@3.0.6:
     dependencies:
       pvtsutils: 1.3.6
-      pvutils: 1.1.3
+      pvutils: 1.1.5
       tslib: 2.8.1
 
   ast-types@0.16.1:
@@ -7759,19 +7760,19 @@ snapshots:
 
   baseline-browser-mapping@2.8.9: {}
 
-  better-auth@1.3.24(next@15.5.4(@babel/core@7.28.4)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  better-auth@1.3.26(next@15.5.4(@babel/core@7.28.4)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      '@better-auth/core': 1.3.24
+      '@better-auth/core': 1.3.26
       '@better-auth/utils': 0.3.0
       '@better-fetch/fetch': 1.1.18
       '@noble/ciphers': 2.0.1
       '@noble/hashes': 2.0.1
-      '@simplewebauthn/browser': 13.2.0
-      '@simplewebauthn/server': 13.2.1
+      '@simplewebauthn/browser': 13.2.2
+      '@simplewebauthn/server': 13.2.2
       better-call: 1.0.19
       defu: 6.1.4
       jose: 6.1.0
-      kysely: 0.28.7
+      kysely: 0.28.8
       nanostores: 1.0.1
       zod: 4.1.12
     optionalDependencies:
@@ -8282,14 +8283,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.41.0(kysely@0.28.7)(pg@8.16.0):
+  drizzle-orm@0.41.0(kysely@0.28.8)(pg@8.16.0):
     optionalDependencies:
-      kysely: 0.28.7
+      kysely: 0.28.8
       pg: 8.16.0
 
-  drizzle-zod@0.8.3(drizzle-orm@0.41.0(kysely@0.28.7)(pg@8.16.0))(zod@4.1.12):
+  drizzle-zod@0.8.3(drizzle-orm@0.41.0(kysely@0.28.8)(pg@8.16.0))(zod@4.1.12):
     dependencies:
-      drizzle-orm: 0.41.0(kysely@0.28.7)(pg@8.16.0)
+      drizzle-orm: 0.41.0(kysely@0.28.8)(pg@8.16.0)
       zod: 4.1.12
 
   dunder-proto@1.0.1:
@@ -9068,7 +9069,7 @@ snapshots:
 
   kolorist@1.8.0: {}
 
-  kysely@0.28.7: {}
+  kysely@0.28.8: {}
 
   langium@3.3.1:
     dependencies:
@@ -10197,7 +10198,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  pvutils@1.1.3: {}
+  pvutils@1.1.5: {}
 
   qs@6.14.0:
     dependencies:
