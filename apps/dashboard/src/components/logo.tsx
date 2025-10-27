@@ -1,4 +1,4 @@
-interface LogoProps extends React.HTMLAttributes<HTMLOrSVGElement> {
+﻿interface LogoProps extends React.HTMLAttributes<HTMLOrSVGElement> {
   width?: number;
   height?: number;
 }

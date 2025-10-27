@@ -1,4 +1,6 @@
-﻿type TurnstileErrorCodes =
+﻿import { betterFetch } from '@better-fetch/fetch';
+
+type TurnstileErrorCodes =
   | 'missing-input-secret'
   | 'invalid-input-secret'
   | 'missing-input-response'
@@ -35,14 +37,18 @@ export const verifyTurnstileToken = async (token: string): Promise<void> => {
   if (!token) throw new Error('Not Completed Verification');
 
   const formData = new FormData();
-  formData.append('secret', process.env.TURNSTILE_SECRETKEY);
+  formData.append('secret', process.env.TURNSTILE_SECRETKEY as string);
   formData.append('response', token);
 
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body: formData,
-  });
+  const res = await betterFetch<TurnstileResult, false>(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      method: 'POST',
+      body: formData,
+      throw: true,
+      timeout: 5000,
+    },
+  );
 
-  const { success }: TurnstileResult = await res.json();
-  if (!success) throw new Error('Invalid Token');
+  if (!res.success) throw new Error('Invalid Token');
 };

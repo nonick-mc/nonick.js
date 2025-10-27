@@ -1,10 +1,2 @@
-﻿export function isUniqueArray(items: unknown[]) {
-  return items.length === new Set(items).size;
-}
-
-export function validateObject(obj: unknown): Record<string, unknown> | undefined {
-  if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
-    return undefined;
-  }
-  return Object.keys(obj).length > 0 ? (obj as Record<string, unknown>) : undefined;
-}
+﻿/** 配列内の要素が重複していないかを確認する */
+export const isUniqueArray = <T>(array: T[]): boolean => array.length === new Set(array).size;

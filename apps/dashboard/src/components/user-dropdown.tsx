@@ -1,90 +1,127 @@
 ﻿'use client';
+
 import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownSection,
-  DropdownTrigger,
-  Skeleton,
-  User,
-} from '@heroui/react';
-import type { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
+  BookOpenIcon,
+  LayoutPanelLeftIcon,
+  LifeBuoyIcon,
+  LogInIcon,
+  PaletteIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { use } from 'react';
-import { Icon } from './icon';
+import { authClient } from '@/lib/auth-client';
+import { Links } from '@/lib/constants';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { Skeleton } from './ui/skeleton';
 
-export function UserDropdown({ sessionPromise }: { sessionPromise: Promise<Session | null> }) {
-  const session = use(sessionPromise);
-  if (!session) return <UserDropdownSkeleton />;
-
-  return (
-    <Dropdown placement='bottom-end'>
-      <DropdownTrigger>
-        <Avatar as='button' size='sm' src={session.user.image} showFallback />
-      </DropdownTrigger>
-      <DropdownMenu variant='flat'>
-        <DropdownSection>
-          <DropdownItem key='profile' textValue='profile' isReadOnly>
-            <User
-              name={session.user.name}
-              description={
-                session.user.discriminator === '0'
-                  ? `@${session.user.username}`
-                  : `${session.user.username} #${session.user.discriminator}`
-              }
-              avatarProps={{
-                size: 'sm',
-                src: `${session.user.image}?size=64`,
-              }}
-            />
-          </DropdownItem>
-        </DropdownSection>
-        <DropdownSection showDivider>
-          <DropdownItem
-            key='dashboard'
-            href='/'
-            endContent={<Icon icon='solar:server-bold' className='text-default-500 text-xl' />}
-          >
-            サーバー選択
-          </DropdownItem>
-        </DropdownSection>
-        <DropdownSection>
-          <DropdownItem key='theme' isReadOnly endContent={<ThemeSelect />}>
-            テーマ
-          </DropdownItem>
-          <DropdownItem
-            key='logout'
-            onPress={() => signOut()}
-            endContent={<Icon icon='solar:logout-2-bold' className='text-default-500 text-xl' />}
-          >
-            ログアウト
-          </DropdownItem>
-        </DropdownSection>
-      </DropdownMenu>
-    </Dropdown>
-  );
-}
-
-export function UserDropdownSkeleton() {
-  return <Skeleton className='w-8 h-8 rounded-full' />;
-}
-
-function ThemeSelect() {
+export function UserDropdown() {
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const { data: session } = authClient.useSession();
+
+  if (!session) {
+    return <Skeleton className='size-8 rounded-full' />;
+  }
 
   return (
-    <select
-      className='text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300
-        dark:border-default-200 text-default-500 z-10 w-20 rounded-md
-        bg-transparent py-0.5 outline-none'
-      onChange={(e) => setTheme(e.target.value)}
-      defaultValue={theme}
-    >
-      <option value='system'>システム</option>
-      <option value='dark'>ダーク</option>
-      <option value='light'>ライト</option>
-    </select>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Avatar className='size-8'>
+          <AvatarImage src={session.user.image ?? undefined} alt={`@${session.user.name}`} />
+          <AvatarFallback>
+            {session.user.globalName?.slice(0, 2) ?? session.user.name.slice(0, 2)}
+          </AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end' className='w-56'>
+        <DropdownMenuLabel>
+          <div className='flex gap-3 items-center'>
+            <Avatar>
+              <AvatarImage
+                className='rounded-lg bg-muted'
+                src={session.user.image ?? undefined}
+                alt={`@${session.user.name}`}
+              />
+              <AvatarFallback>{session.user.globalName ?? session.user.name}</AvatarFallback>
+            </Avatar>
+            <section className='leading-tight text-sm'>
+              <p className='text-foreground'>{session.user.globalName ?? session.user.name}</p>
+              <p className='text-muted-foreground'>@{session.user.name}</p>
+            </section>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href={'/'}>
+              <LayoutPanelLeftIcon />
+              ダッシュボード
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger className='flex gap-2 [&_svg]:size-4'>
+              <PaletteIcon />
+              テーマ
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup value={theme} onValueChange={(v) => setTheme(v)}>
+                <DropdownMenuRadioItem value='system'>システム</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='light'>ライト</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value='dark'>ダーク</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href={Links.Docs} target='_blank'>
+              <BookOpenIcon />
+              ドキュメント
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={Links.SupportServer} target='_blank'>
+              <LifeBuoyIcon />
+              サポートサーバー
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            onClick={async () =>
+              await authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => router.push('/login'),
+                },
+              })
+            }
+            variant='destructive'
+          >
+            <LogInIcon />
+            ログアウト
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

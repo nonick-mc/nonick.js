@@ -1,5 +1,7 @@
-﻿import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
+﻿import { relations } from 'drizzle-orm';
+import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { timestamps } from '../utils';
+import { user } from './auth';
 import { guild } from './guild';
 
 const actionType = ['update_guild_setting'] as const;
@@ -33,10 +35,17 @@ export const auditLog = pgTable('audit_log', {
   guildId: text('guild_id')
     .references(() => guild.id, { onDelete: 'cascade' })
     .notNull(),
-  authorId: text('author_id').notNull(),
+  authorId: text('author_id').references(() => user.id, { onDelete: 'set null' }),
   targetName: targetNameEnum('target_name').notNull(),
   actionType: actionTypeEnum('action_type').notNull(),
-  oldValue: jsonb('old_value').$type<unknown>(),
-  newValue: jsonb('new_value').$type<unknown>(),
+  before: jsonb('before').$type<unknown>(),
+  after: jsonb('after').$type<unknown>(),
   createdAt: timestamps.createdAt,
 });
+
+export const auditLogRelations = relations(auditLog, ({ one }) => ({
+  author: one(user, {
+    fields: [auditLog.authorId],
+    references: [user.id],
+  }),
+}));

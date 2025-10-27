@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
+import type { PropsWithChildren } from 'react';
 import { Provider } from './provider';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
-  variable: '--font-noto-sans',
 });
 
 export const metadata: Metadata = {
@@ -20,17 +20,11 @@ export const viewport: Viewport = {
   themeColor: '#0073f5',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='ja' suppressHydrationWarning>
       <body className={`${notoSansJP.className} antialiased`}>
-        <Provider>
-          <main>{children}</main>
-        </Provider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

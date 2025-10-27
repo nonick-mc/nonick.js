@@ -3,9 +3,9 @@ packages:
   - packages/*
 
 catalog:
-  drizzle-orm: ^0.41.0
-  pg: ^8.14.1
-  discord-api-types: ^0.37.119
+  drizzle-orm: 0.41.0
+  pg: 8.16.0
+  discord-api-types: 0.37.120
 
 onlyBuiltDependencies:
   - '@biomejs/biome'

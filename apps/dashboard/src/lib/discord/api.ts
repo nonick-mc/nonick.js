@@ -3,160 +3,107 @@
 import {
   type APIGuild,
   type APIGuildChannel,
-  type APIGuildMember,
   type APIRole,
-  type APIUser,
   type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
+  type RESTGetCurrentUserGuildMemberResult,
 } from 'discord-api-types/v10';
+import { redirect } from 'next/navigation';
+import { cache } from 'react';
 import { db } from '../drizzle';
-import { DiscordEndPoints } from './constants';
-import { discordBotUserFetch, discordOAuth2UserFetch } from './fetcher';
+import { discordBotUserFetch, discordOAuth2UserFetch } from './fetch';
 import { hasPermission } from './utils';
 
-/** Botの招待URL */
-export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchParams({
-  client_id: process.env.AUTH_DISCORD_ID,
-  scope: 'bot applications.commands',
-  permissions: process.env.DISCORD_INVITE_PERMISSION,
-  response_type: 'code',
-  redirect_uri: process.env.AUTH_URL,
-})}` as const;
-
-/**
- * ユーザーが参加しているDiscordサーバーを取得
- * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
- * @see https://discord.com/developers/docs/resources/user#get-current-user-guilds
- */
-export function getUserGuilds(withCounts = false) {
-  return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[], false>(
+/** https://discord.com/developers/docs/resources/user#get-current-user-guilds */
+export async function getCurrentUserGuilds(withCounts = false) {
+  const res = await discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[]>(
     `/users/@me/guilds?with_counts=${withCounts}`,
+  );
+  if (res.error) {
+    if (res.error.status === 401) redirect('/login');
+    throw new Error(res.error.message);
+  }
+  return res.data;
+}
+
+/** https://discord.com/developers/docs/resources/guild#get-guild */
+export function getGuild(guildId: string, withCounts = false) {
+  return discordBotUserFetch<APIGuild, false>(`/guilds/${guildId}?with_counts=${withCounts}`, {
+    next: { revalidate: 60 },
+    throw: true,
+  });
+}
+
+/** https://discord.com/developers/docs/resources/guild#get-guild-channels */
+export function getChannels(guildId: string) {
+  return discordBotUserFetch<APIGuildChannel<GuildChannelType>[], false>(
+    `/guilds/${guildId}/channels`,
+    { next: { revalidate: 60 }, throw: true },
+  );
+}
+
+/** https://discord.com/developers/docs/resources/guild#get-guild-roles */
+export function getRoles(guildId: string) {
+  return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, {
+    next: { revalidate: 60 },
+    throw: true,
+  });
+}
+
+/** https://discord.com/developers/docs/resources/guild#get-guild-member */
+export function getGuildMember(guildId: string, userId: string) {
+  return discordBotUserFetch<RESTGetCurrentUserGuildMemberResult, false>(
+    `/guilds/${guildId}/members/${userId}`,
     { throw: true },
   );
 }
 
-/**
- * Botとユーザーが参加しているDiscordサーバーを取得
- * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
- * @see {@link getUserGuilds}
- */
-export async function getMutualGuilds(withCounts = false) {
-  const userGuilds = await getUserGuilds(withCounts);
-  const mutualGuilds = await db.query.guild.findMany({
+/** https://discord.com/developers/docs/resources/guild#add-guild-member-role */
+export function addGuildMemberRole(guildId: string, roleId: string, userId: string) {
+  return discordBotUserFetch<Record<string, never>, false>(
+    `/guilds/${guildId}/members/${userId}/roles/${roleId}`,
+    { method: 'PUT', throw: true },
+  );
+}
+
+export const getMutualGuilds = cache(async (withCounts = false) => {
+  const currentUserGuilds = await getCurrentUserGuilds(withCounts);
+  const mutualBotGuilds = await db.query.guild.findMany({
     where: (guild, { inArray }) =>
       inArray(
         guild.id,
-        userGuilds.map((v) => v.id),
+        currentUserGuilds.map((v) => v.id),
       ),
   });
-  const mutualGuildIds = mutualGuilds.map((guild) => guild.id);
-  return userGuilds.filter((guild) => mutualGuildIds.includes(guild.id));
-}
+  return currentUserGuilds.filter((guild) => mutualBotGuilds.some((v) => v.id === guild.id));
+});
 
-/**
- * ユーザーが`MANAGED_GUILD`権限を所有しており、かつBotとユーザーが参加しているDiscordサーバーを取得
- * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
- * @see {@link getMutualGuilds}
- */
-export async function getMutualManagedGuilds(withCounts = false) {
+export const getMutualManagedGuilds = cache(async (withCounts = false) => {
   const mutualGuilds = await getMutualGuilds(withCounts);
   return mutualGuilds.filter((guild) =>
     hasPermission(guild.permissions, PermissionFlagsBits.ManageGuild),
   );
-}
-
-/**
- * ログイン中のユーザーが特定のサーバーに参加しているか確認
- * @param guildId サーバーID
- */
-export async function isUserJoinedGuild(guildId: string) {
-  const userGuilds = await getUserGuilds();
-  return userGuilds.some((guild) => guild.id === guildId);
-}
-
-/**
- * Discordサーバーを取得
- * @param guildId サーバーID
- * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになります
- * @see https://discord.com/developers/docs/resources/guild#get-guild
- */
-export function getGuild(guildId: string, withCounts = false) {
-  return discordBotUserFetch<APIGuild, false>(`/guilds/${guildId}?with_counts=${withCounts}`, {
-    next: { revalidate: 30 },
-    throw: true,
-  });
-}
-
-/**
- * Discordサーバーのチャンネルを取得
- * @param guildId サーバーID
- * @see https://discord.com/developers/docs/resources/guild#get-guild-channels
- */
-export function getChannels(guildId: string) {
-  return discordBotUserFetch<APIGuildChannel<GuildChannelType>[], false>(
-    `/guilds/${guildId}/channels`,
-    { next: { revalidate: 30 }, throw: true },
-  );
-}
-
-/**
- * Discordサーバーのロールを取得
- * @param guildId サーバーID
- * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
- */
-export function getRoles(guildId: string) {
-  return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, {
-    throw: true,
-  });
-}
-
-/**
- * Discordユーザーを取得
- * @param userId ユーザーID
- * @see https://discord.com/developers/docs/resources/user#get-user
- */
-export function getUser(userId: string) {
-  return discordBotUserFetch<APIUser, false>(`/users/${userId}`, {
-    next: { tags: [`user-${userId}`] },
-    throw: true,
-  });
-}
-
-/**
- * Discordサーバーに参加しているメンバーを取得
- * @param guildId サーバーID
- * @param userId ユーザーID
- * @see https://discord.com/developers/docs/resources/guild#get-guild-member
- */
-export function getGuildMember(guildId: string, userId: string) {
-  return discordBotUserFetch<APIGuildMember, false>(`/guilds/${guildId}/members/${userId}`, {
-    throw: true,
-  });
-}
+});
 
 export async function getUserHighestRole(guildId: string, userId: string) {
-  const res = await Promise.all([getRoles(guildId), getGuildMember(guildId, userId)]).catch(
-    () => {},
-  );
-  if (!res) throw new TypeError('failed to get roles and guildmember');
-  const [roles, member] = res;
-
+  const [roles, member] = await Promise.all([getRoles(guildId), getGuildMember(guildId, userId)]);
   const memberRoles = roles.filter((role) => member.roles.includes(role.id));
+  if (!memberRoles.length) return null;
   return memberRoles.sort((a, b) => b.position - a.position)[0];
 }
 
-/**
- * メンバーにロールを追加
- * @param guildId サーバーID
- * @param roleId ロールID
- * @param userId ユーザーID
- * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
- */
-export function addGuildMemberRole(guildId: string, roleId: string, userId: string) {
-  // biome-ignore lint/complexity/noBannedTypes: <explanation>
-  return discordBotUserFetch<{}, false>(`/guilds/${guildId}/members/${userId}/roles/${roleId}`, {
-    method: 'PUT',
-    throw: true,
-  });
-}
+export const getGuildMemberPermissions = cache(async (guildId: string, userId: string) => {
+  const [member, roles] = await Promise.all([getGuildMember(guildId, userId), getRoles(guildId)]);
+
+  const currentMemberRoles = roles.filter(
+    (role) => member.roles.includes(role.id) || role.id === guildId,
+  );
+
+  let permissions = BigInt(0);
+  for (const role of currentMemberRoles) {
+    permissions |= BigInt(role.permissions);
+  }
+
+  return permissions.toString();
+});

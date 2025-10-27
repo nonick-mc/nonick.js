@@ -4,12 +4,13 @@ import { DiscordEndPoints } from '@/lib/discord/constants';
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
-    authInterrupts: true,
+    typedEnv: true,
+    browserDebugInfoInTerminal: true,
   },
+  typedRoutes: true,
   images: {
     remotePatterns: [new URL(`${DiscordEndPoints.CDN}/**`)],
   },
-  typedRoutes: true,
 };
 
 export default nextConfig;

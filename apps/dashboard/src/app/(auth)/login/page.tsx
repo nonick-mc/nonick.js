@@ -1,10 +1,9 @@
-﻿import { Icon } from '@/components/icon';
-import { Logo } from '@/components/logo';
-import { Button } from '@heroui/button';
-import { Card } from '@heroui/card';
-import { Link } from '@heroui/link';
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Suspense } from 'react';
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { LoginButton } from './login-button';
 
 export const metadata: Metadata = {
@@ -13,47 +12,27 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className='container h-dvh flex items-center justify-center'>
-      <Card className='max-w-[400px] flex flex-col gap-6 px-6 py-8'>
-        <Logo width={110} />
-        <div>
-          <p className='text-xl pb-1 font-extrabold'>ログイン</p>
-          <p className='text-sm text-default-500'>Discordアカウントを使用して続行</p>
-        </div>
-        <div className='flex flex-col gap-3'>
-          <Suspense
-            fallback={
-              <Button
-                color='primary'
-                startContent={<Icon icon='ic:baseline-discord' className='text-2xl' />}
-                isDisabled
-                fullWidth
-              >
-                Discordでログイン
-              </Button>
-            }
-          >
+    <div className='min-h-dvh flex items-center justify-center px-6'>
+      <Card className='max-w-[400px] w-full px-6 py-8 items-center'>
+        <Logo height={18} />
+        <p className='text-xl font-bold'>ログインして続行</p>
+        <div className='w-full flex flex-col gap-2'>
+          <Suspense>
             <LoginButton />
           </Suspense>
-          <Button
-            as={Link}
-            href='https://docs.nonick-js.com/tutorial/how-to-setting/'
-            variant='flat'
-            fullWidth
-            disableRipple
-          >
-            ログインについて
+          <Button variant='secondary' asChild>
+            <Link href='https://docs.nonick-js.com/tutorial/introduction'>ログインについて</Link>
           </Button>
         </div>
-        <p className='text-sm leading-none text-default-500'>
+        <p className='text-sm text-muted-foreground'>
           ログインすることで、NoNICK.jsの
-          <Link size='sm' href='https://nonick-js.com/tos' isExternal showAnchorIcon>
-            利用規約
-          </Link>
+          <Button variant='link' className='p-0 px-1 h-auto' asChild>
+            <Link href='https://nonick-js.com/tos'>利用規約</Link>
+          </Button>
           および
-          <Link size='sm' href='https://nonick-js.com/privacy-policy' isExternal showAnchorIcon>
-            プライバシーポリシー
-          </Link>
+          <Button variant='link' className='p-0 px-1 h-auto' asChild>
+            <Link href='https://nonick-js.com/privacy-policy'>プライバシーポリシー</Link>
+          </Button>
           に同意したとみなされます。
         </p>
       </Card>
