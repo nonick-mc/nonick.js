@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className='min-h-dvh flex items-center justify-center'>
-      <Card className='w-[400px] px-6 py-8 items-center'>
+    <div className='min-h-dvh flex items-center justify-center px-6'>
+      <Card className='max-w-[400px] w-full px-6 py-8 items-center'>
         <Logo height={18} />
         <p className='text-xl font-bold'>ログインして続行</p>
         <div className='w-full flex flex-col gap-2'>
