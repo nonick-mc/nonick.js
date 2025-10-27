@@ -41,9 +41,19 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // 認証ページのURLが不正な場合は404を表示
+  if (request.nextUrl.pathname.startsWith('/verify/guilds')) {
+    const urlPattern = new URLPattern({ pathname: '/verify/guilds/:guildId/:segment*' });
+    const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+
+    if (!guildId || !snowflakeRegex.test(guildId)) {
+      return NextResponse.rewrite(new URL('/not-found', request.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/', '/guilds/:path*'],
+  matcher: ['/', '/guilds/:path*', '/verify/guilds/:path*'],
 };

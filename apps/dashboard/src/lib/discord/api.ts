@@ -55,9 +55,16 @@ export function getRoles(guildId: string) {
 export function getGuildMember(guildId: string, userId: string) {
   return discordBotUserFetch<RESTGetCurrentUserGuildMemberResult, false>(
     `/guilds/${guildId}/members/${userId}`,
-    {
-      throw: true,
-    },
+    { throw: true },
+  );
+}
+
+/** https://discord.com/developers/docs/resources/guild#add-guild-member-role */
+export function addGuildMemberRole(guildId: string, roleId: string, userId: string) {
+  console.log(`/guilds/${guildId}/members/${userId}/roles/${roleId}`);
+  return discordBotUserFetch<Record<string, never>, false>(
+    `/guilds/${guildId}/members/${userId}/roles/${roleId}`,
+    { method: 'PUT', throw: true },
   );
 }
 
