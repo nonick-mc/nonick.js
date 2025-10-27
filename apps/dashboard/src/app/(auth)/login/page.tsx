@@ -1,9 +1,14 @@
-﻿import Link from 'next/link';
+﻿import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { LoginButton } from './login-button';
+
+export const metadata: Metadata = {
+  title: 'ログイン',
+};
 
 export default function Page() {
   return (
