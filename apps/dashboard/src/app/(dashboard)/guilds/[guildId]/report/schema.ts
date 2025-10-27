@@ -15,4 +15,14 @@ export const formSchema = createInsertSchema(reportSetting, {
     .array(snowflakeSchema)
     .max(10, 'ロールは最大10個まで設定できます。')
     .refine(isUniqueArray, '重複した値が含まれています。'),
-}).omit({ guildId: true, createdAt: true, updatedAt: true });
+})
+  .omit({ guildId: true, createdAt: true, updatedAt: true })
+  .superRefine((v, ctx) => {
+    if (v.enableMention && !v.mentionRoles.length) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'ロールが設定されていません。',
+        path: ['mentionRoles'],
+      });
+    }
+  });
