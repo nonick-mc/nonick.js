@@ -240,7 +240,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
   const channel = useWatch({ control: form.control, name: 'channel' });
 
   useEffect(() => {
-    // チャンネルが変更された時のみ初期化。初回は初期値を保持する。
+    // チャンネルが変更された際にタグの選択を解除 (初回レンダリングでタグの選択が解除されないように、isDirtyがtrueの場合のみ有効)
     if (form.formState.isDirty) {
       form.setValue('forumCompletedTag', null);
       form.setValue('forumIgnoredTag', null);
