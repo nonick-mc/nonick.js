@@ -4,13 +4,15 @@ import { guild } from './guild';
 
 export const ruleSchema = pgSchema('public_rule');
 
-const guildId = text('guild_id').references(() => guild.id, { onDelete: 'cascade' });
+const guildId = text('guild_id')
+  .notNull()
+  .references(() => guild.id, { onDelete: 'cascade' });
 
 export const autoCreateThreadRule = ruleSchema.table(
   'auto_create_thread',
   {
     guildId,
-    enabled: boolean('enabled').default(true),
+    enabled: boolean('enabled').notNull().default(true),
     channelId: text('channel_id').notNull(),
     threadName: text('thread_name').notNull(),
     autoArchiveDuration: integer('auto_archive_duration').notNull(),

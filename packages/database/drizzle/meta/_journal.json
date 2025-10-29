@@ -120,6 +120,20 @@
       "when": 1761727126027,
       "tag": "0016_black_apocalypse",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1761754137400,
+      "tag": "0017_slow_black_tom",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1761755310180,
+      "tag": "0018_safe_doctor_spectrum",
+      "breakpoints": true
     }
   ]
 }

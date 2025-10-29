@@ -1,0 +1,1 @@
+ALTER TABLE "public_rule"."auto_create_thread" ALTER COLUMN "enabled" SET NOT NULL;
