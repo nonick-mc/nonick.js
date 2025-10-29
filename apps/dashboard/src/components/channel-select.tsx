@@ -49,6 +49,7 @@ type ChannelSelectProps<TValue extends ChannelValue> = Omit<
   emptyText?: string;
   includeChannelTypes?: GuildChannelType[];
   excludeChannelTypes?: GuildChannelType[];
+  disabledItemFilter?: (channel: APIGuildChannel<GuildChannelType>) => boolean;
   required?: boolean;
 };
 
@@ -61,6 +62,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
   searchPlaceholder = 'チャンネルを検索',
   includeChannelTypes,
   excludeChannelTypes,
+  disabledItemFilter,
   required = false,
   ...triggerProps
 }: ChannelSelectProps<TValue>) {
@@ -172,6 +174,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
                     key={channel.id}
                     value={channel.id}
                     onSelect={() => handleSelect(channel.id)}
+                    disabled={disabledItemFilter?.(channel)}
                   >
                     <ChannelTypeIcon
                       className='size-4 shrink-0 text-muted-foreground'
