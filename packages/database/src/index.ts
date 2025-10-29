@@ -2,4 +2,5 @@
 export * from './schema/auth';
 export * from './schema/guild';
 export * from './schema/report';
+export * from './schema/rule';
 export * from './schema/setting';
