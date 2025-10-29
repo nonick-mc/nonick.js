@@ -148,7 +148,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
               </div>
             )
           ) : (
-            placeholder
+            <span className='text-muted-foreground'>{placeholder}</span>
           )}
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
