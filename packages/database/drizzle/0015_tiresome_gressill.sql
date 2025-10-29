@@ -1,0 +1,1 @@
+ALTER TABLE "public_rule"."auto_create_thread" ADD COLUMN "ignore_bot" boolean NOT NULL;

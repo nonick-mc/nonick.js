@@ -15,6 +15,7 @@ export const autoCreateThreadRule = ruleSchema.table(
     threadName: text('thread_name').notNull(),
     autoArchiveDuration: integer('auto_archive_duration').notNull(),
     ignoreRoles: text('ignore_roles').array().notNull(),
+    ignoreBot: boolean('ignore_bot').notNull(),
     ...timestamps,
   },
   (table) => [primaryKey({ columns: [table.guildId, table.channelId] })],

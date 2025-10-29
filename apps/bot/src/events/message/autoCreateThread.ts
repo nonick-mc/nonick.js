@@ -1,4 +1,4 @@
-﻿import { Events } from 'discord.js';
+﻿import { ChannelType, Events } from 'discord.js';
 import { autoCreateThreadHolder } from '@/constants/holder';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
@@ -6,7 +6,7 @@ import { DiscordEventBuilder } from '@/modules/events';
 export default new DiscordEventBuilder({
   type: Events.MessageCreate,
   async execute(message) {
-    if (!message.inGuild()) return;
+    if (!message.inGuild() || message.channel.type !== ChannelType.GuildText) return;
 
     const rule = await db.query.autoCreateThreadRule.findFirst({
       where: (rule, { eq, and }) =>
@@ -14,7 +14,10 @@ export default new DiscordEventBuilder({
     });
 
     if (!rule?.enabled) return;
+
+    // 例外設定の参照
     if (rule.ignoreRoles.some((role) => message.member?.roles.cache.has(role))) return;
+    if (rule.ignoreBot && (message.author.bot || message.author.system)) return;
 
     const threadName = autoCreateThreadHolder.parse(rule.threadName, {
       member: message.member,
