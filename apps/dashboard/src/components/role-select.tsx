@@ -27,6 +27,7 @@ type RoleSelectProps<TValue extends RoleValue> = Omit<React.ComponentProps<'butt
   emptyText?: string;
   disabledItemFilter?: (role: APIRole) => boolean;
   required?: boolean;
+  modal?: boolean;
 };
 
 export function RoleSelect<TValue extends RoleValue>({
@@ -38,6 +39,7 @@ export function RoleSelect<TValue extends RoleValue>({
   searchPlaceholder = 'ロールを検索',
   disabledItemFilter,
   required = false,
+  modal = false,
   ...triggerProps
 }: RoleSelectProps<TValue>) {
   const [open, setOpen] = useState(false);
@@ -78,7 +80,7 @@ export function RoleSelect<TValue extends RoleValue>({
   );
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover modal={modal} open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           {...triggerProps}

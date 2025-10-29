@@ -1,32 +1,96 @@
 ﻿'use server';
 
-import { auditLog, autoCreateThreadSetting } from '@repo/database';
+import { auditLog, autoCreateThreadRule } from '@repo/database';
+import { and, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
+import type { ZodString } from 'zod';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/clients';
-import { formSchema } from './schema';
+import { snowflakeSchema } from '@/lib/zod/discord';
+import { RulesMaxSize } from './constants';
+import { createRuleFormSchema, updateRuleFormSchema } from './schema';
 
-export const updateSettingAction = guildActionClient
-  .inputSchema(formSchema)
+export const createRuleAction = guildActionClient
+  .inputSchema(createRuleFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs: [guildId], ctx: { session } }) => {
-    const beforeSetting = await db.query.autoCreateThreadSetting.findFirst({
-      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    const currentRules = await db.query.autoCreateThreadRule.findMany({
+      where: (rule, { eq }) => eq(rule.guildId, guildId),
     });
 
-    const [afterSetting] = await db
-      .insert(autoCreateThreadSetting)
+    if (currentRules.length >= RulesMaxSize) {
+      throw new Error('The maximum number of rules has been exceeded.');
+    }
+
+    const [newRule] = await db
+      .insert(autoCreateThreadRule)
       .values({ guildId, ...parsedInput })
-      .onConflictDoUpdate({ target: autoCreateThreadSetting.guildId, set: parsedInput })
       .returning();
 
     await db.insert(auditLog).values({
       guildId,
       authorId: session.user.id,
       targetName: 'auto_create_thread',
-      actionType: 'update_guild_setting',
-      before: beforeSetting,
-      after: afterSetting,
+      actionType: 'create_rule',
+      after: newRule,
     });
 
-    revalidatePath('/');
+    revalidatePath(`/guilds/${guildId}/auto-create-thread`);
+  });
+
+export const updateRuleAction = guildActionClient
+  .bindArgsSchemas<[guildId: ZodString, channelId: ZodString]>([snowflakeSchema, snowflakeSchema])
+  .inputSchema(updateRuleFormSchema)
+  .action(async ({ parsedInput, bindArgsParsedInputs: [guildId, channelId], ctx: { session } }) => {
+    const beforeRule = await db.query.autoCreateThreadRule.findFirst({
+      where: (rule, { eq, and }) => and(eq(rule.guildId, guildId), eq(rule.channelId, channelId)),
+    });
+
+    const [afterRule] = await db
+      .update(autoCreateThreadRule)
+      .set(parsedInput)
+      .where(
+        and(
+          eq(autoCreateThreadRule.guildId, guildId),
+          eq(autoCreateThreadRule.channelId, channelId),
+        ),
+      )
+      .returning();
+
+    await db.insert(auditLog).values({
+      guildId,
+      authorId: session.user.id,
+      targetName: 'auto_create_thread',
+      actionType: 'update_rule',
+      before: beforeRule,
+      after: afterRule,
+    });
+
+    revalidatePath(`/guilds/${guildId}/auto-create-thread`);
+  });
+
+export const deleteRuleAction = guildActionClient
+  .bindArgsSchemas<[guildId: ZodString, channelId: ZodString]>([snowflakeSchema, snowflakeSchema])
+  .action(async ({ bindArgsParsedInputs: [guildId, channelId], ctx: { session } }) => {
+    const beforeRule = await db.query.autoCreateThreadRule.findFirst({
+      where: (rule, { eq, and }) => and(eq(rule.guildId, guildId), eq(rule.channelId, channelId)),
+    });
+
+    await db
+      .delete(autoCreateThreadRule)
+      .where(
+        and(
+          eq(autoCreateThreadRule.guildId, guildId),
+          eq(autoCreateThreadRule.channelId, channelId),
+        ),
+      );
+
+    await db.insert(auditLog).values({
+      guildId,
+      authorId: session.user.id,
+      targetName: 'auto_create_thread',
+      actionType: 'delete_rule',
+      before: beforeRule,
+    });
+
+    revalidatePath(`/guilds/${guildId}/auto-create-thread`);
   });
