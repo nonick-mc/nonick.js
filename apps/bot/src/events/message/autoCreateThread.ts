@@ -6,8 +6,13 @@ import { DiscordEventBuilder } from '@/modules/events';
 export default new DiscordEventBuilder({
   type: Events.MessageCreate,
   async execute(message) {
-    if (!message.inGuild()) return;
-    if (message.channel.type !== ChannelType.GuildText || message.system) return;
+    if (
+      !message.inGuild() ||
+      message.channel.type !== ChannelType.GuildText ||
+      message.system ||
+      message.author.id === message.client.user.id
+    )
+      return;
 
     const rule = await db.query.autoCreateThreadRule.findFirst({
       where: (rule, { eq, and }) =>
