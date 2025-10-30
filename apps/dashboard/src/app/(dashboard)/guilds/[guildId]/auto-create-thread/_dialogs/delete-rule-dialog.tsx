@@ -37,6 +37,7 @@ export function DeleteRuleDialog({ targetChannelName, rule }: DeleteRuleDialogPr
       return toast.error('チャンネルの削除に失敗しました。');
     }
     setOpen(false);
+    toast.success('チャンネルを削除しました。');
   }
 
   return (

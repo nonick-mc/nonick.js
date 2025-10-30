@@ -83,6 +83,7 @@ export function CreateRuleDialog({ channels, roles, rules }: CreateRuleDialogPro
       );
     }
     onOpenChange(false);
+    toast.success('チャンネルを追加しました。');
   }
 
   useEffect(() => {
