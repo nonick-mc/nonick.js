@@ -95,15 +95,6 @@ export const autoPublicSetting = settingSchema.table('auto_public', {
 });
 // #endregion
 
-// #region AutoCreateThread
-export const autoCreateThreadSetting = settingSchema.table('auto_create_thread', {
-  guildId,
-  enabled: boolean('enabled').notNull(),
-  channels: text('channels').array().notNull(),
-  ...timestamps,
-});
-// #endregion
-
 // #region AutoMod
 export const autoModSetting = settingSchema.table('auto_mod', {
   guildId,

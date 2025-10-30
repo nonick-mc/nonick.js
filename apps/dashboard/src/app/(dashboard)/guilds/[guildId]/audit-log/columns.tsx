@@ -38,6 +38,9 @@ export const targetNameTexts: Record<InferSelectModel<typeof auditLog>['targetNa
 
 export const actionTypeTexts: Record<InferSelectModel<typeof auditLog>['actionType'], string> = {
   update_guild_setting: '設定に変更を加えました',
+  create_rule: 'ルールを作成しました',
+  update_rule: 'ルールを更新しました',
+  delete_rule: 'ルールを削除しました',
 };
 
 export type CustomizedAuditLog = Omit<InferSelectModel<typeof auditLog>, 'authorId'> & {

@@ -49,7 +49,9 @@ type ChannelSelectProps<TValue extends ChannelValue> = Omit<
   emptyText?: string;
   includeChannelTypes?: GuildChannelType[];
   excludeChannelTypes?: GuildChannelType[];
+  disabledItemFilter?: (channel: APIGuildChannel<GuildChannelType>) => boolean;
   required?: boolean;
+  modal?: boolean;
 };
 
 export function ChannelSelect<TValue extends ChannelValue>({
@@ -61,7 +63,9 @@ export function ChannelSelect<TValue extends ChannelValue>({
   searchPlaceholder = 'チャンネルを検索',
   includeChannelTypes,
   excludeChannelTypes,
+  disabledItemFilter,
   required = false,
+  modal = false,
   ...triggerProps
 }: ChannelSelectProps<TValue>) {
   const [open, setOpen] = useState(false);
@@ -105,7 +109,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover modal={modal} open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           {...triggerProps}
@@ -146,7 +150,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
               </div>
             )
           ) : (
-            placeholder
+            <span className='text-muted-foreground'>{placeholder}</span>
           )}
           <ChevronDownIcon className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
@@ -172,6 +176,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
                     key={channel.id}
                     value={channel.id}
                     onSelect={() => handleSelect(channel.id)}
+                    disabled={disabledItemFilter?.(channel)}
                   >
                     <ChannelTypeIcon
                       className='size-4 shrink-0 text-muted-foreground'

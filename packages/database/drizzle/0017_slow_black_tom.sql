@@ -1,0 +1,1 @@
+ALTER TABLE "public_rule"."auto_create_thread" ALTER COLUMN "guild_id" SET NOT NULL;

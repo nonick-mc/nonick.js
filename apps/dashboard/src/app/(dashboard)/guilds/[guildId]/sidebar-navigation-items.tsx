@@ -130,6 +130,7 @@ export const SidebarNavigationItems: SidebarGroupItem<string>[] = [
         title: '自動スレッド作成',
         url: (guildId) => `/guilds/${guildId}/auto-create-thread`,
         icon: SpoolIcon,
+        badge: <Badge variant='secondary'>Updated</Badge>,
       },
       {
         key: 'automod-plus',
