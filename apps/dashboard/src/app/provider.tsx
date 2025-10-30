@@ -14,6 +14,7 @@ export function Provider({ children }: PropsWithChildren) {
         toastOptions={{
           classNames: {
             error: '!border-destructive !text-destructive',
+            success: '!border-green-600 !text-green-600',
           },
         }}
       />
