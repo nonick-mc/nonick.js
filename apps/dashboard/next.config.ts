@@ -3,6 +3,7 @@ import { DiscordEndPoints } from '@/lib/discord/constants';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: 'standalone',
   experimental: {
     typedEnv: true,
     browserDebugInfoInTerminal: true,
