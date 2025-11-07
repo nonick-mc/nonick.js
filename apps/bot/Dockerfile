@@ -35,11 +35,11 @@ RUN pnpm turbo build
 FROM base AS runner
 # Don't run production as root for security reasons
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-USER nodejs
+RUN adduser --system --uid 1001 discordjs
+USER discordjs
 
 # Copy built application and dependencies
-COPY --from=builder --chown=nodejs:nodejs /app ./
+COPY --from=builder --chown=discordjs:nodejs /app ./
 
 CMD ["node", "apps/bot/dist/index.js"]
 
