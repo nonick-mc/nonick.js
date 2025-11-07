@@ -26,7 +26,7 @@ jobs:
           file: ./apps/bot/Dockerfile
           push: true
           tags: |
-            nonick-js/bot:latest 
+            ${{ vars.DOCKERHUB_USERNAME }}/nonick-js_bot:latest 
           platforms: linux/amd64
           build-args: |
             TURBO_TEAM=${{ vars.TURBO_TEAM }}
