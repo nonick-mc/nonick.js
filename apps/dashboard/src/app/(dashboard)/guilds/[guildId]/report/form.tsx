@@ -245,7 +245,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
       form.setValue('forumCompletedTag', null);
       form.setValue('forumIgnoredTag', null);
     }
-  }, [channel, form.formState.isDirty]);
+  }, [channel]);
 
   return (
     <Watch
@@ -274,7 +274,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
                   <ForumTagSelect
                     id={field.name}
                     aria-invalid={fieldState.invalid}
-                    className='sm:max-w-sm sm:min-w-sm'
+                    className='sm:max-w-xs sm:min-w-xs'
                     tags={tags}
                     value={field.value}
                     onValueChange={field.onChange}
@@ -297,7 +297,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
                   <ForumTagSelect
                     id={field.name}
                     aria-invalid={fieldState.invalid}
-                    className='sm:max-w-sm sm:min-w-sm'
+                    className='sm:max-w-xs sm:min-w-xs'
                     tags={tags}
                     value={field.value}
                     onValueChange={field.onChange}
