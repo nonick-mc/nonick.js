@@ -1,8 +1,8 @@
 ﻿import { getSessionCookie } from 'better-auth/cookies';
-import { type NextRequest, NextResponse, URLPattern } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { snowflakeRegex } from './lib/discord/constants';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
 
   // セッションが存在しない場合はログイン画面にリダイレクト
@@ -33,8 +33,8 @@ export async function middleware(request: NextRequest) {
 
   // 設定ページのURLが不正な場合はサーバー選択ページにリダイレクト
   if (request.nextUrl.pathname.startsWith('/guilds')) {
-    const urlPattern = new URLPattern({ pathname: '/guilds/:guildId/:segment*' });
-    const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+    const match = request.nextUrl.pathname.match(/^\/guilds\/([^/]+)/);
+    const guildId = match?.[1];
 
     if (!guildId || !snowflakeRegex.test(guildId)) {
       return NextResponse.redirect(new URL('/', request.url));
@@ -43,8 +43,8 @@ export async function middleware(request: NextRequest) {
 
   // 認証ページのURLが不正な場合は404を表示
   if (request.nextUrl.pathname.startsWith('/verify/guilds')) {
-    const urlPattern = new URLPattern({ pathname: '/verify/guilds/:guildId/:segment*' });
-    const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+    const match = request.nextUrl.pathname.match(/^\/verify\/guilds\/([^/]+)/);
+    const guildId = match?.[1];
 
     if (!guildId || !snowflakeRegex.test(guildId)) {
       return NextResponse.rewrite(new URL('/not-found', request.url));
