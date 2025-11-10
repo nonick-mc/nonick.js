@@ -1,12 +1,4 @@
-﻿import type { APIGuildForumTag } from 'discord-api-types/v10';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
-import twemoji from 'twemoji';
-import { DiscordEndPoints } from '@/lib/discord/constants';
-import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
+﻿import { Button } from '@repo/ui/components/button';
 import {
   Command,
   CommandEmpty,
@@ -14,14 +6,22 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from './ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+} from '@repo/ui/components/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@repo/ui/components/popover';
+import { useIsMobile } from '@repo/ui/hooks/use-mobile';
+import { cn } from '@repo/ui/lib/utils';
+import type { APIGuildForumTag } from 'discord-api-types/v10';
+import { CheckIcon, ChevronDownIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import twemoji from 'twemoji';
+import { DiscordEndPoints } from '@/lib/discord/constants';
 
 const DEFAULT_PLACEHOLDER = 'タグを選択';
 const DEFAULT_EMPTY_TEXT = 'タグが見つかりません';
 const DEFAULT_SEARCH_PLACEHOLDER = 'タグを検索';
 
-type ForumTagSelectProps = Omit<React.ComponentProps<'button'>, 'value'> & {
+type ForumTagSelectProps = Omit<React.ComponentProps<typeof Button>, 'value'> & {
   value: string | null;
   onValueChange: (value: string | null) => void;
   tags: APIGuildForumTag[];
@@ -92,7 +92,7 @@ export function ForumTagSelect({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[var(--radix-popover-trigger-width)] p-0'
+        className='w-(--radix-popover-trigger-width) p-0'
         onOpenAutoFocus={(e) => {
           if (isMobile) e.preventDefault();
         }}

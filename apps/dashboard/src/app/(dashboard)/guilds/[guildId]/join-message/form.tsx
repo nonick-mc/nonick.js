@@ -1,6 +1,24 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
+import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
+import { Badge } from '@repo/ui/components/badge';
+import { Button } from '@repo/ui/components/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from '@repo/ui/components/field';
+import { Input } from '@repo/ui/components/input';
+import { Switch } from '@repo/ui/components/switch';
+import { Textarea } from '@repo/ui/components/textarea';
+import { cn } from '@repo/ui/lib/utils';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 import { CheckIcon, InfoIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -10,24 +28,6 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
 import { updateSettingAction } from './action';
 import { formSchema } from './schema';
 

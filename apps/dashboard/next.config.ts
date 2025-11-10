@@ -2,7 +2,6 @@ import type { NextConfig } from 'next';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   output: 'standalone',
   experimental: {
     typedEnv: true,
@@ -12,6 +11,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL(`${DiscordEndPoints.CDN}/**`)],
   },
+  transpilePackages: ['@repo/ui'],
 };
 
 export default nextConfig;

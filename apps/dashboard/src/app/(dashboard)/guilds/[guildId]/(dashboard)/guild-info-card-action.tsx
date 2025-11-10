@@ -1,11 +1,11 @@
 ﻿'use client';
 
+import { Button } from '@repo/ui/components/button';
 import { CheckIcon, CopyIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useCopyToClipboard } from 'usehooks-ts';
-import { Button } from '@/components/ui/button';
 
 export function GuildInfoCardAction() {
   const { guildId } = useParams<Awaited<PageProps<'/guilds/[guildId]'>['params']>>();

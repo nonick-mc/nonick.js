@@ -1,18 +1,6 @@
 ﻿'use client';
 
-import {
-  BookOpenIcon,
-  LayoutPanelLeftIcon,
-  LifeBuoyIcon,
-  LogInIcon,
-  PaletteIcon,
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useTheme } from 'next-themes';
-import { authClient } from '@/lib/auth-client';
-import { Links } from '@/lib/constants';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +14,20 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Skeleton } from './ui/skeleton';
+} from '@repo/ui/components/dropdown-menu';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import {
+  BookOpenIcon,
+  LayoutPanelLeftIcon,
+  LifeBuoyIcon,
+  LogInIcon,
+  PaletteIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { authClient } from '@/lib/auth-client';
+import { Links } from '@/lib/constants';
 
 export function UserDropdown() {
   const router = useRouter();

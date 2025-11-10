@@ -1,10 +1,10 @@
 ﻿import type { autoCreateThreadRule } from '@repo/database';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@repo/ui/components/empty';
+import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@repo/ui/components/item';
+import { cn } from '@repo/ui/lib/utils';
 import type { APIGuildChannel, APIRole, GuildChannelType } from 'discord-api-types/v10';
 import type { InferSelectModel } from 'drizzle-orm';
 import { HashIcon, ListIcon } from 'lucide-react';
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
-import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@/components/ui/item';
-import { cn } from '@/lib/utils';
 import { DeleteRuleDialog } from './_dialogs/delete-rule-dialog';
 import { UpdateRuleDialog } from './_dialogs/update-rule-dialog';
 

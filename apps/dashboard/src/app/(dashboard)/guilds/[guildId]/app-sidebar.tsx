@@ -1,8 +1,4 @@
-﻿import { BookOpenIcon, LifeBuoyIcon } from 'lucide-react';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import { Logo } from '@/components/logo';
-import {
+﻿import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -12,8 +8,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
+} from '@repo/ui/components/sidebar';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import { BookOpenIcon, LifeBuoyIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Suspense } from 'react';
+import { Logo } from '@/components/logo';
 import { Links } from '@/lib/constants';
 import { GuildSwitcher } from './guild-switcher';
 import { SidebarNavigation } from './sidebar-navigation';

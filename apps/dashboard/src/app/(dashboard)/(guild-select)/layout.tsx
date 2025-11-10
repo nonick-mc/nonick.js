@@ -1,7 +1,7 @@
-﻿import { PlusIcon } from 'lucide-react';
+﻿import { Button } from '@repo/ui/components/button';
+import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { Button } from '@/components/ui/button';
 import { inviteBotUrl } from '@/lib/discord/constants';
 import { Navbar } from './navbar';
 import { SearchInput } from './search-input';

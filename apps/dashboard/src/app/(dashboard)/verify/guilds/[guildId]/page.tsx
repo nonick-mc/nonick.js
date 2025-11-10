@@ -1,7 +1,7 @@
-﻿import type { Metadata } from 'next';
+﻿import { CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/card';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Logo } from '@/components/logo';
-import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { canAccessVerifyPage, getCachedSession, isAvailableVerifyPage } from '@/lib/dal';
 import { getGuild, getGuildMember } from '@/lib/discord/api';
 import { getVerificationSetting } from '@/lib/dto';

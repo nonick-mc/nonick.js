@@ -1,10 +1,10 @@
 ﻿'use client';
 
 import { SiDiscord } from '@icons-pack/react-simple-icons';
+import { Button } from '@repo/ui/components/button';
+import { Spinner } from '@repo/ui/components/spinner';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
 import { authClient } from '@/lib/auth-client';
 
 export function LoginButton() {

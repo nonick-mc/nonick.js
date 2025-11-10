@@ -1,5 +1,5 @@
-﻿import { cookies } from 'next/headers';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+﻿import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
+import { cookies } from 'next/headers';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { AppSidebar } from './app-sidebar';
 import { Navbar } from './navbar';

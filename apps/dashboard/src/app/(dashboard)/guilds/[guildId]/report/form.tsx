@@ -1,6 +1,17 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from '@repo/ui/components/field';
+import { Switch } from '@repo/ui/components/switch';
 import {
   type APIGuildChannel,
   type APIGuildForumChannel,
@@ -24,17 +35,6 @@ import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { ForumTagSelect } from '@/components/forum-tag-select';
 import { RoleSelect } from '@/components/role-select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '@/components/ui/field';
-import { Switch } from '@/components/ui/switch';
 import { updateSettingAction } from './action';
 import { formSchema } from './schema';
 
@@ -239,8 +239,8 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
   const form = useFormContext<z.infer<typeof formSchema>>();
   const channel = useWatch({ control: form.control, name: 'channel' });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: チャンネルが変更された際にタグの選択を解除 (初回レンダリングでタグの選択が解除されないように、isDirtyがtrueの場合のみ有効)
   useEffect(() => {
-    // チャンネルが変更された際にタグの選択を解除 (初回レンダリングでタグの選択が解除されないように、isDirtyがtrueの場合のみ有効)
     if (form.formState.isDirty) {
       form.setValue('forumCompletedTag', null);
       form.setValue('forumIgnoredTag', null);

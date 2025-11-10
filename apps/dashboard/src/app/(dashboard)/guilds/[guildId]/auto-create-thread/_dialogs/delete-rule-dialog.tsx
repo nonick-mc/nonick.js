@@ -1,10 +1,6 @@
 ﻿'use client';
 
 import type { autoCreateThreadRule } from '@repo/database';
-import type { InferSelectModel } from 'drizzle-orm';
-import { Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,9 +10,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+} from '@repo/ui/components/alert-dialog';
+import { Button } from '@repo/ui/components/button';
+import { Spinner } from '@repo/ui/components/spinner';
+import type { InferSelectModel } from 'drizzle-orm';
+import { Trash2Icon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { deleteRuleAction } from '../action';
 
 type DeleteRuleDialogProps = {

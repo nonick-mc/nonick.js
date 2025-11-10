@@ -1,5 +1,18 @@
 ﻿'use client';
 
+import { Badge } from '@repo/ui/components/badge';
+import { Button } from '@repo/ui/components/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@repo/ui/components/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@repo/ui/components/popover';
+import { useIsMobile } from '@repo/ui/hooks/use-mobile';
+import { cn } from '@repo/ui/lib/utils';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 import {
   CheckIcon,
@@ -13,19 +26,6 @@ import {
   Volume2Icon,
 } from 'lucide-react';
 import { createElement, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
 
 const ChannelTypeIcons = new Map<GuildChannelType, LucideIcon>([
   [ChannelType.GuildText, HashIcon],
@@ -38,7 +38,7 @@ const ChannelTypeIcons = new Map<GuildChannelType, LucideIcon>([
 
 type ChannelValue = string | string[] | null;
 type ChannelSelectProps<TValue extends ChannelValue> = Omit<
-  React.ComponentProps<'button'>,
+  React.ComponentProps<typeof Button>,
   'value'
 > & {
   value: TValue;
@@ -102,12 +102,6 @@ export function ChannelSelect<TValue extends ChannelValue>({
     }
   };
 
-  const ChannelTypeIcon = ({ className, type }: { className: string; type: GuildChannelType }) => {
-    const Icon = ChannelTypeIcons.get(type);
-    if (!Icon) return null;
-    return createElement(Icon, { className });
-  };
-
   return (
     <Popover modal={modal} open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -144,7 +138,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
               <div className='flex items-center gap-2 min-w-0 flex-1'>
                 <ChannelTypeIcon
                   className='size-4 shrink-0 text-muted-foreground'
-                  type={selectedChannels[0].type}
+                  type={selectedChannels[0].type ?? ChannelType.GuildText}
                 />
                 <span className='truncate min-w-0'>{selectedChannels[0].name}</span>
               </div>
@@ -156,7 +150,7 @@ export function ChannelSelect<TValue extends ChannelValue>({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'
+        className='w-(--radix-popover-trigger-width) min-w-[300px] p-0'
         onOpenAutoFocus={(e) => {
           if (isMobile) e.preventDefault();
         }}
@@ -195,4 +189,10 @@ export function ChannelSelect<TValue extends ChannelValue>({
       </PopoverContent>
     </Popover>
   );
+}
+
+function ChannelTypeIcon({ className, type }: { className: string; type: GuildChannelType }) {
+  const Icon = ChannelTypeIcons.get(type);
+  if (!Icon) return null;
+  return createElement(Icon, { className });
 }

@@ -1,7 +1,7 @@
-﻿import { InfoIcon } from 'lucide-react';
+﻿import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
+import { InfoIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { db } from '@/lib/drizzle';
 import { colums } from './columns';

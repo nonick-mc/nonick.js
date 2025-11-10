@@ -1,8 +1,8 @@
-﻿import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
+﻿import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
+import { Card } from '@repo/ui/components/card';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 import Link from 'next/link';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 
 type GuildCardProps = {

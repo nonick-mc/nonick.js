@@ -1,7 +1,7 @@
 ﻿'use client';
 
+import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
 import { AlertCircleIcon } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function ErrorPage() {
   return (

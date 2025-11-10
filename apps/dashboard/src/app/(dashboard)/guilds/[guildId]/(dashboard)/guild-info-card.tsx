@@ -1,6 +1,4 @@
-﻿import { GuildFeature } from 'discord-api-types/v10';
-import { BadgeCheckIcon } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+﻿import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
 import {
   Item,
   ItemActions,
@@ -8,8 +6,10 @@ import {
   ItemDescription,
   ItemMedia,
   ItemTitle,
-} from '@/components/ui/item';
-import { Skeleton } from '@/components/ui/skeleton';
+} from '@repo/ui/components/item';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import { GuildFeature } from 'discord-api-types/v10';
+import { BadgeCheckIcon } from 'lucide-react';
 import { getGuild } from '@/lib/discord/api';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import { GuildInfoCardAction } from './guild-info-card-action';

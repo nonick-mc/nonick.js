@@ -1,7 +1,5 @@
 ﻿'use client';
 
-import { useSelectedLayoutSegments } from 'next/navigation';
-import { Fragment } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +7,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '@repo/ui/components/breadcrumb';
+import { useSelectedLayoutSegments } from 'next/navigation';
+import { Fragment } from 'react';
 import { SidebarNavigationItems } from './sidebar-navigation-items';
 
 export function NavbarBreadcrumb() {
@@ -39,9 +39,9 @@ export function NavbarBreadcrumb() {
     // キーがない場合はグループ名のみ追加
     if (segments.length === 0) {
       const firstGroup = SidebarNavigationItems[0];
-      items.push(firstGroup.title);
-      const firstItem = firstGroup.items[0];
-      items.push(firstItem.title);
+      items.push(firstGroup?.title ?? '');
+      const firstItem = firstGroup?.items[0];
+      items.push(firstItem?.title ?? '');
     }
 
     return items;

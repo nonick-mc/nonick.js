@@ -1,20 +1,21 @@
-﻿import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+﻿import { Badge } from '@repo/ui/components/badge';
+import { Button } from '@repo/ui/components/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+} from '@repo/ui/components/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@repo/ui/components/popover';
+import { useIsMobile } from '@repo/ui/hooks/use-mobile';
+import { cn } from '@repo/ui/lib/utils';
+import { CheckIcon, ChevronDownIcon } from 'lucide-react';
+import { useState } from 'react';
 import { ignorePrefixes } from './schema';
 
-interface PrefixSelectProps extends Omit<React.ComponentProps<'button'>, 'value' | 'onChange'> {
+interface PrefixSelectProps
+  extends Omit<React.ComponentProps<typeof Button>, 'value' | 'onChange'> {
   value: string[];
   onValueChange: (value: string[]) => void;
 }
@@ -60,7 +61,7 @@ export function PrefixSelect({ value, onValueChange, ...props }: PrefixSelectPro
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'
+        className='w-(--radix-popover-trigger-width) min-w-[300px] p-0'
         onOpenAutoFocus={(e) => {
           if (isMobile) e.preventDefault();
         }}
