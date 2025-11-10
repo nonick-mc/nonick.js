@@ -97,15 +97,15 @@ export function RoleSelect<TValue extends RoleValue>({
                     variant='secondary'
                     className='border border-muted-foreground/20'
                   >
-                    <RoleColorIcon role={role} />
+                    <RoleColorIcon color={role.color} />
                     <span className='truncate'>{role.name}</span>
                   </Badge>
                 ))}
               </div>
             ) : (
               <div className='flex items-center gap-2 min-w-0 flex-1'>
-                <RoleColorIcon role={selectedRoles[0]} />
-                <span className='truncate min-w-0'>{selectedRoles[0].name}</span>
+                <RoleColorIcon color={selectedRoles[0]?.color} />
+                <span className='truncate min-w-0'>{selectedRoles[0]?.name}</span>
               </div>
             )
           ) : (
@@ -137,7 +137,7 @@ export function RoleSelect<TValue extends RoleValue>({
                     onSelect={() => handleSelect(role.id)}
                     disabled={disabledItemFilter?.(role)}
                   >
-                    <RoleColorIcon role={role} />
+                    <RoleColorIcon color={role.color} />
                     <span className='truncate'>{role.name}</span>
                     <CheckIcon
                       className={cn('ml-auto size-4', selected ? 'opacity-100' : 'opacity-0')}
@@ -153,12 +153,12 @@ export function RoleSelect<TValue extends RoleValue>({
   );
 }
 
-function RoleColorIcon({ role }: { role: APIRole }) {
+function RoleColorIcon({ color }: { color?: number }) {
   return (
     <span
       className='size-2 rounded-full shrink-0'
       style={{
-        backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#808080',
+        backgroundColor: color ? `#${color.toString(16).padStart(6, '0')}` : '#808080',
       }}
     />
   );
