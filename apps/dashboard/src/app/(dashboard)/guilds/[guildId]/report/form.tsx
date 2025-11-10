@@ -245,7 +245,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
       form.setValue('forumCompletedTag', null);
       form.setValue('forumIgnoredTag', null);
     }
-  }, [channel, form.formState.isDirty]);
+  }, [channel]);
 
   return (
     <Watch
@@ -264,7 +264,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
               control={form.control}
               name='forumCompletedTag'
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} orientation='horizontal'>
+                <Field data-invalid={fieldState.invalid} orientation='responsive'>
                   <FieldContent>
                     <FieldLabel htmlFor={field.name}>
                       「対応済み」ボタンを押した時に付与するタグ
@@ -287,7 +287,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
               control={form.control}
               name='forumIgnoredTag'
               render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} orientation='horizontal'>
+                <Field data-invalid={fieldState.invalid} orientation='responsive'>
                   <FieldContent>
                     <FieldLabel htmlFor={field.name}>
                       「対応なし」ボタンを押した時に付与するタグ

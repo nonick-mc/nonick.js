@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
     <>
       <Navbar />
       <div className='px-6 lg:px-12 py-6 flex flex-col gap-6'>
-        <div className='flex items-stretch justify-between gap-3'>
+        <div className='flex max-sm:flex-col items-stretch justify-between gap-3'>
           <Suspense>
             <SearchInput />
           </Suspense>
