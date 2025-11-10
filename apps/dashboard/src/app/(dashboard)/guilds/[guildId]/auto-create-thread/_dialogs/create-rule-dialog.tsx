@@ -2,6 +2,35 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { autoCreateThreadRule } from '@repo/database';
+import { Button } from '@repo/ui/components/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@repo/ui/components/dialog';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from '@repo/ui/components/field';
+import { Input } from '@repo/ui/components/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@repo/ui/components/select';
+import { Spinner } from '@repo/ui/components/spinner';
+import { Switch } from '@repo/ui/components/switch';
 import {
   type APIGuildChannel,
   type APIRole,
@@ -20,35 +49,6 @@ import type z from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormDevTool } from '@/components/form';
 import { RoleSelect } from '@/components/role-select';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Spinner } from '@/components/ui/spinner';
-import { Switch } from '@/components/ui/switch';
 import { createRuleAction } from '../action';
 import { ArchiveDurationOptions, RulesMaxSize } from '../constants';
 import { createRuleFormSchema } from '../schema';

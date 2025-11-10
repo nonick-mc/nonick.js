@@ -1,15 +1,15 @@
 ﻿'use client';
 
 import type { auditLog, user } from '@repo/database';
+import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
 import type { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import 'dayjs/locale/ja';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@repo/ui/components/tooltip';
 import type { InferSelectModel } from 'drizzle-orm';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 dayjs.locale('ja');
 dayjs.extend(relativeTime);

@@ -1,14 +1,14 @@
 ﻿'use client';
 
-import { SearchIcon, XIcon } from 'lucide-react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from '@/components/ui/input-group';
+} from '@repo/ui/components/input-group';
+import { SearchIcon, XIcon } from 'lucide-react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 export function SearchInput() {
   const pathname = usePathname();

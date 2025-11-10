@@ -1,14 +1,7 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { APIRole } from 'discord-api-types/v10';
-import { useParams } from 'next/navigation';
-import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
-import { toast } from 'sonner';
-import type { z } from 'zod';
-import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { RoleSelect } from '@/components/role-select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
 import {
   Field,
   FieldContent,
@@ -18,9 +11,16 @@ import {
   FieldLabel,
   FieldSeparator,
   FieldTitle,
-} from '@/components/ui/field';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Switch } from '@/components/ui/switch';
+} from '@repo/ui/components/field';
+import { RadioGroup, RadioGroupItem } from '@repo/ui/components/radio-group';
+import { Switch } from '@repo/ui/components/switch';
+import type { APIRole } from 'discord-api-types/v10';
+import { useParams } from 'next/navigation';
+import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
+import { toast } from 'sonner';
+import type { z } from 'zod';
+import { FormChangePublisher, FormDevTool } from '@/components/form';
+import { RoleSelect } from '@/components/role-select';
 import { updateSettingAction } from './action';
 import { formSchema } from './schema';
 

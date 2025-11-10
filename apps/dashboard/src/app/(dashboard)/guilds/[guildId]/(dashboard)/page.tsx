@@ -1,13 +1,13 @@
-﻿import { ChartLineIcon } from 'lucide-react';
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import {
+﻿import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from '@/components/ui/empty';
+} from '@repo/ui/components/empty';
+import { ChartLineIcon } from 'lucide-react';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { GuildInfoCard, GuildInfoCardSkeleton } from './guild-info-card';
 

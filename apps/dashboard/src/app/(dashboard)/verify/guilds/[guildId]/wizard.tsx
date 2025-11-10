@@ -2,6 +2,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
+import { Button } from '@repo/ui/components/button';
+import { Spinner } from '@repo/ui/components/spinner';
 import type { APIGuild } from 'discord-api-types/v10';
 import { ArrowRightIcon, CheckCircle2Icon } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
@@ -10,9 +13,6 @@ import { useForm, Watch } from 'react-hook-form';
 import { useWizard, Wizard } from 'react-use-wizard';
 import { toast } from 'sonner';
 import type z from 'zod';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
 import { authClient } from '@/lib/auth-client';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import { verifyAction } from './action';

@@ -1,6 +1,6 @@
-﻿import { Logo } from '@/components/logo';
-import { CardContent, CardHeader } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+﻿import { CardContent, CardHeader } from '@repo/ui/components/card';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import { Logo } from '@/components/logo';
 
 export default function Loading() {
   return (

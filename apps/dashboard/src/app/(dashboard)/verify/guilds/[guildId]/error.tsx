@@ -1,15 +1,15 @@
 ﻿'use client';
 
-import { CircleAlertIcon } from 'lucide-react';
-import { Logo } from '@/components/logo';
-import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/card';
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from '@/components/ui/empty';
+} from '@repo/ui/components/empty';
+import { CircleAlertIcon } from 'lucide-react';
+import { Logo } from '@/components/logo';
 
 export default function ErrorPage() {
   return (

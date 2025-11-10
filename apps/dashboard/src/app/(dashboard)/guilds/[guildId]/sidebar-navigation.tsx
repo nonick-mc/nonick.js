@@ -1,10 +1,10 @@
 ﻿'use client';
 
-import { ChevronRightIcon } from 'lucide-react';
-import type { Route } from 'next';
-import Link from 'next/link';
-import { useParams, useSelectedLayoutSegments } from 'next/navigation';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@repo/ui/components/collapsible';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -16,7 +16,11 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@/components/ui/sidebar';
+} from '@repo/ui/components/sidebar';
+import { ChevronRightIcon } from 'lucide-react';
+import type { Route } from 'next';
+import Link from 'next/link';
+import { useParams, useSelectedLayoutSegments } from 'next/navigation';
 import { SidebarNavigationItems } from './sidebar-navigation-items';
 
 export function SidebarNavigation() {

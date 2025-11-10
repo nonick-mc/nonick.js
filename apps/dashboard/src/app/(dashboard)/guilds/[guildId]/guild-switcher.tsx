@@ -1,7 +1,4 @@
-﻿import { ChevronsUpDown, PlusIcon } from 'lucide-react';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+﻿import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,9 +8,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
+} from '@repo/ui/components/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@repo/ui/components/sidebar';
+import { Skeleton } from '@repo/ui/components/skeleton';
+import { ChevronsUpDown, PlusIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Suspense } from 'react';
 import { getGuild, getMutualManagedGuilds } from '@/lib/discord/api';
 import { DiscordEndPoints, inviteBotUrl } from '@/lib/discord/constants';
 

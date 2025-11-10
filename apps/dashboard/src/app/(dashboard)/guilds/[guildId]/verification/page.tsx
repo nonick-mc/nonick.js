@@ -1,7 +1,7 @@
-﻿import { CheckCircle2Icon } from 'lucide-react';
+﻿import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
+import { CheckCircle2Icon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Header } from '@/components/header';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { getRoles, getUserHighestRole } from '@/lib/discord/api';
 import { sortRoles } from '@/lib/discord/utils';

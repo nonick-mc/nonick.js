@@ -1,4 +1,5 @@
-﻿import {
+﻿import { Badge } from '@repo/ui/components/badge';
+import {
   ClipboardListIcon,
   FlagIcon,
   HammerIcon,
@@ -14,7 +15,6 @@
   SpoolIcon,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { Badge } from '@/components/ui/badge';
 
 type SidebarGroupItem<T> = {
   title: string;

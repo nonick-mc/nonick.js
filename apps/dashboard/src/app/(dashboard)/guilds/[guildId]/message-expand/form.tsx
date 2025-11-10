@@ -1,16 +1,8 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
-import { MegaphoneIcon, SpoolIcon, Volume2Icon } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
-import { toast } from 'sonner';
-import type { z } from 'zod';
-import { ChannelSelect } from '@/components/channel-select';
-import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
+import { Checkbox } from '@repo/ui/components/checkbox';
 import {
   Field,
   FieldContent,
@@ -19,8 +11,16 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from '@/components/ui/field';
-import { Switch } from '@/components/ui/switch';
+} from '@repo/ui/components/field';
+import { Switch } from '@repo/ui/components/switch';
+import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
+import { MegaphoneIcon, SpoolIcon, Volume2Icon } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { Controller, FormProvider, useForm, Watch } from 'react-hook-form';
+import { toast } from 'sonner';
+import type { z } from 'zod';
+import { ChannelSelect } from '@/components/channel-select';
+import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { updateSettingAction } from './action';
 import { PrefixSelect } from './prefix-select';
 import { formSchema } from './schema';

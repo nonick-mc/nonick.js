@@ -1,6 +1,24 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Alert, AlertDescription } from '@repo/ui/components/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from '@repo/ui/components/field';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea,
+} from '@repo/ui/components/input-group';
+import { Switch } from '@repo/ui/components/switch';
 import {
   type APIGuildChannel,
   type APIRole,
@@ -15,24 +33,6 @@ import type { z } from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
 import { RoleSelect } from '@/components/role-select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '@/components/ui/field';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from '@/components/ui/input-group';
-import { Switch } from '@/components/ui/switch';
 import { updateSettingAction } from './action';
 import { formSchema, parseDomainList } from './schema';
 

@@ -1,6 +1,12 @@
-﻿import type { Metadata } from 'next';
+﻿import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@repo/ui/components/card';
+import type { Metadata } from 'next';
 import { Header } from '@/components/header';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';

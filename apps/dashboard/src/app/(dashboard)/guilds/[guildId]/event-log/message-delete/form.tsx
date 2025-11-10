@@ -1,6 +1,9 @@
 ﻿'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/card';
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@repo/ui/components/field';
+import { Switch } from '@repo/ui/components/switch';
 import type { APIGuildChannel, GuildChannelType } from 'discord-api-types/v10';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
@@ -9,9 +12,6 @@ import { toast } from 'sonner';
 import type { z } from 'zod';
 import { ChannelSelect } from '@/components/channel-select';
 import { FormChangePublisher, FormDevTool } from '@/components/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Switch } from '@/components/ui/switch';
 import { updateSettingAction } from './action';
 import { formSchema } from './schema';
 

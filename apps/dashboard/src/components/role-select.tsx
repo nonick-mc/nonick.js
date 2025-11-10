@@ -1,9 +1,7 @@
 ﻿'use client';
 
-import type { APIRole } from 'discord-api-types/v10';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@repo/ui/components/badge';
+import { Button } from '@repo/ui/components/button';
 import {
   Command,
   CommandEmpty,
@@ -11,14 +9,19 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useIsMobile } from '@/lib/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
+} from '@repo/ui/components/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@repo/ui/components/popover';
+import { useIsMobile } from '@repo/ui/hooks/use-mobile';
+import { cn } from '@repo/ui/lib/utils';
+import type { APIRole } from 'discord-api-types/v10';
+import { CheckIcon, ChevronDownIcon } from 'lucide-react';
+import { useState } from 'react';
 
 type RoleValue = string | string[] | null;
-type RoleSelectProps<TValue extends RoleValue> = Omit<React.ComponentProps<'button'>, 'value'> & {
+type RoleSelectProps<TValue extends RoleValue> = Omit<
+  React.ComponentProps<typeof Button>,
+  'value'
+> & {
   value: TValue;
   onValueChange: (value: TValue) => void;
   roles: APIRole[];
@@ -70,15 +73,6 @@ export function RoleSelect<TValue extends RoleValue>({
     }
   };
 
-  const RoleColorIcon = ({ role }: { role: APIRole }) => (
-    <span
-      className='size-2 rounded-full shrink-0'
-      style={{
-        backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#808080',
-      }}
-    />
-  );
-
   return (
     <Popover modal={modal} open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -121,7 +115,7 @@ export function RoleSelect<TValue extends RoleValue>({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className='w-[var(--radix-popover-trigger-width)] min-w-[300px] p-0'
+        className='w-(--radix-popover-trigger-width) min-w-[300px] p-0'
         onOpenAutoFocus={(e) => {
           if (isMobile) e.preventDefault();
         }}
@@ -156,5 +150,16 @@ export function RoleSelect<TValue extends RoleValue>({
         </Command>
       </PopoverContent>
     </Popover>
+  );
+}
+
+function RoleColorIcon({ role }: { role: APIRole }) {
+  return (
+    <span
+      className='size-2 rounded-full shrink-0'
+      style={{
+        backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#808080',
+      }}
+    />
   );
 }
