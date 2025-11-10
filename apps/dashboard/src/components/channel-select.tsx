@@ -138,9 +138,9 @@ export function ChannelSelect<TValue extends ChannelValue>({
               <div className='flex items-center gap-2 min-w-0 flex-1'>
                 <ChannelTypeIcon
                   className='size-4 shrink-0 text-muted-foreground'
-                  type={selectedChannels[0].type}
+                  type={selectedChannels[0]?.type ?? ChannelType.GuildText}
                 />
-                <span className='truncate min-w-0'>{selectedChannels[0].name}</span>
+                <span className='truncate min-w-0'>{selectedChannels[0]?.name}</span>
               </div>
             )
           ) : (
