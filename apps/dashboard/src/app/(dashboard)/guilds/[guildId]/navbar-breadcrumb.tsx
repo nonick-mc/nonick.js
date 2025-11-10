@@ -39,9 +39,9 @@ export function NavbarBreadcrumb() {
     // キーがない場合はグループ名のみ追加
     if (segments.length === 0) {
       const firstGroup = SidebarNavigationItems[0];
-      items.push(firstGroup.title);
-      const firstItem = firstGroup.items[0];
-      items.push(firstItem.title);
+      items.push(firstGroup?.title ?? '');
+      const firstItem = firstGroup?.items[0];
+      items.push(firstItem?.title ?? '');
     }
 
     return items;
