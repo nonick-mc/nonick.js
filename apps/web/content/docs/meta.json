@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "pages": [
+    "index",
+
+    "---チュートリアル---",
+    "...tutorial",
+
+    "---機能---",
+    "...features"
+  ]
+}
