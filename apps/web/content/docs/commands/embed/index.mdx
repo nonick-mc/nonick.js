@@ -1,0 +1,174 @@
+﻿---
+title: /embed
+---
+
+<Callout>
+このページでは、複数のコマンドの使い方を説明しています。  
+・`/embed create` ... [埋め込みを作成する](#新規作成)  
+・`/embed import` ... [埋め込みをインポートする](#インポート)  
+・`/embed profile` ... [送信者のプロフィールを変更する](#送信者のプロフィールを変更する)
+</Callout>
+
+<Callout type="info">
+このコマンドを実行するには`メッセージを管理`権限を保有している必要があります。
+</Callout>
+
+## 概要
+
+このコマンドを使用すると、通常ユーザーでは送信することのできない「埋め込み」と呼ばれる特別なメッセージを送信することができます。
+埋め込みは、タイトルや説明文、色や画像など、さまざまな要素を使用することができ、他のメッセージより目立つメッセージを作成することができます。  
+
+![概要](https://cdn.nonick-js.com/docs/commands/embed/overview.png)
+
+## 埋め込みを作成する
+### 新規作成
+埋め込みを新規作成する場合は、埋め込みを送信したいチャンネルで`/embed create`コマンドを使用します。
+引数を使用すると、埋め込みの基本的な要素を素早く含めることが可能です。
+
+![/embed create](https://cdn.nonick-js.com/docs/commands/embed/create_command.png)
+
+引数          | 説明
+:---          | :---:
+`title`       | 埋め込みのタイトル
+`description` | 埋め込みの説明欄 (半角スペース2つで改行)
+`color`       | 埋め込みの色(8色から選択)
+`image`       | 埋め込みの下部に表示する画像
+
+### インポート
+インポートに対応したjsonファイルを持っている場合は、`/embed import`コマンドを使用して、jsonファイルをもとにした埋め込みを作成することができます。
+
+![/embed import](https://cdn.nonick-js.com/docs/commands/embed/import_command.png)
+
+引数                                         | 説明
+:---                                         | :---:
+`json` | インポートするjsonファイル
+
+---
+
+## 埋め込みをカスタマイズする
+[/embed create](#新規作成)または[/embed import](#インポート)コマンドを実行すると、コマンドを元に生成された埋め込みがプレビューモードで表示されます。
+このモードでは、実際に埋め込みを送信する前に、設定した埋め込みの確認や、埋め込みに新しい要素を追加・削除することが可能です。
+カスタマイズは、メッセージ下部にあるボタンを使用して行います。
+
+![/embed create (カスタマイズ)](https://cdn.nonick-js.com/docs/commands/embed/create_panel.png)
+
+<br/>
+
+#### 基本
+埋め込みの基本的な要素を変更します。
+
+項目                                     | 説明
+:---                                     | :---:
+タイトル                                 | 埋め込みのタイトル
+タイトルURL                              | 埋め込みのタイトルに紐づけるURL
+説明                                     | 埋め込みの説明欄
+色 [!badge variant="danger" text="必須"] | 埋め込みの色 (カラーコード)
+
+<Callout>
+  埋め込みの色は、カラーコードの代わりにこれらの色の名前を入れることもできます。 
+  `Default` `White` `Aqua` `Green` `Blue` `Yellow` `Purple` `LuminousVividPink` `Fuchsia` `Gold` `Orange` `Red` `Grey` `Navy` `DarkAqua` `DarkGreen` `DarkBlue` `DarkPurple` `DarkVividPink` `DarkGold` `DarkOrange` `DarkRed` `DarkGrey` `DarkerGrey` `LightGrey` `DarkNavy` `Blurple` `Greyple` `DarkButNotBlack` `NotQuiteBlack` `Random`
+</Callout>
+
+#### 画像
+埋め込みに含むことができる画像を変更します。
+
+![/embed create (画像)](https://cdn.nonick-js.com/docs/commands/embed/embed_image.png)
+
+項目                   | 説明
+:---                   | :---:
+サムネイル (URL)       | 埋め込みのサムネイル(①)のURL
+埋め込み内画像 (URL) | 埋め込み内画像(②)のURL
+
+#### ヘッダー
+埋め込みの上部に配置される「ヘッダー」の情報を変更します。
+
+![/embed create(ヘッダー)](https://cdn.nonick-js.com/docs/commands/embed/author.png)
+
+項目                | 説明
+:---                | :---:
+名前                | 表示する名前(文章)
+名前につけるURL     | `名前`に紐づけるURL
+アイコンのURL       | アイコンに設定するURL
+
+<Callout>
+  `名前`は投稿者情報を作成するために必須の項目です。
+  (投稿者情報を削除したい場合は、全ての要素を空白に設定してください。)
+</Callout>
+
+#### フッター
+埋め込みの下部に配置される「フッター」の情報を変更します。
+
+![/embed create (フッター)](https://cdn.nonick-js.com/docs/commands/embed/footer.png)
+
+項目           | 説明
+:---           | :---:
+テキスト       | 表示する文章
+アイコンのURL  | アイコンに設定するURL
+
+<Callout>
+  `テキスト`はフッターを作成するために必須の項目です。  
+  （フッターを削除したい場合は、全ての要素を空白に設定してください。）
+</Callout>
+
+#### フィールド
+埋め込みにフィールドを追加したり、削除したりします。
+
+項目                                                         | 説明
+:---                                                         | :---:
+フィールドの名前       | -
+フィールドの値         | -
+インライン表示にするか | 他のフィールド同士を横並べにするか設定できます。<br/>`true`で有効、`false`で無効に設定します
+
+#### タイムスタンプ
+埋め込みの下部に表示されるタイムスタンプを設定します。
+
+項目                                                 | 説明
+:---                                                 | :---:
+タイムスタンプ | ISO 8601形式のタイムスタンプ (または「now」)
+
+<Callout type="info">
+  入力するタイムスタンプは[ISO 8601](https://ja.wikipedia.org/wiki/ISO_8601)形式を採用しています。  
+  ISO 8601は、`YYYY-MM-DDThh:mm:ss+時差(GMT)`で日付や時刻を表示できるフォーマットです。  
+  例えば、日本時間(時差`+09:00`)の`2022年10月17日午前12時00分00秒`をISO 8601で表記する際は、`2022-10-17T12:00:00+09:00`となります。  
+  また、「now」と入力した場合、NoNICK.jsが現在時刻を補完します。
+</Callout>
+
+#### ダウンロード
+現在の埋め込みをjsonファイルに書き込みます。書き込んだファイルは`/embed import`コマンドで読み込ませることができ、テンプレートとして使用することができます。
+
+項目           | 説明
+:---           | :---:
+ファイルの名前 | -
+
+<Callout>
+ファイル名に日本語を使用することはできません。
+</Callout>
+
+---
+
+## 埋め込みを編集・拡張する
+送信した埋め込みは、後から編集したり、ロール付与ボタンなどのコンポーネントを追加することができます！
+編集・拡張を行いたい場合は、該当するメッセージを右クリックして、`アプリ`から`埋め込みを編集`を選択します。
+
+![埋め込みを編集 コンテキストメニュー](https://cdn.nonick-js.com/docs/commands/embed/extend_embed_panel.png)
+
+<Callout>
+  このコンテキストメニューには多くの機能が搭載されており、煩雑化防止のために別ページに記載しています。  
+  [/embed (拡張) に移動する](/docs/commands/embed/extend)
+</Callout>
+
+---
+
+## 送信者のプロフィールを変更する
+`/embed profile`コマンドを使用すると、埋め込みの送信者のユーザー名やアバターを変更することができます。
+
+<Callout>
+  既に送信した埋め込みの送信者の情報を変更することはできません。
+</Callout>
+
+![/embed profile](https://cdn.nonick-js.com/docs/commands/embed/profile_command.png)
+
+項目                                         | 説明
+:---                                         | :---:
+`name` | 名前
+`avatar`                                     | アイコン (未指定の場合は、Discordの標準アイコンになります)
