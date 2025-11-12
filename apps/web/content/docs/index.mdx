@@ -1,13 +1,46 @@
 ---
-title: Hello World
-description: Your first document
+title: ようこそ
+icon: Album
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { LogIn, Flag, Hammer, SquareSlash, ClipboardList, Sparkles } from 'lucide-react';
 
-## What is Next?
+**NoNICK.js**の公式ドキュメントへようこそ！
+このドキュメントは、BOTの導入方法から各機能の詳しい使い方まで、BOTのほぼ全てを網羅しています。
+使用していく上でわからないことができた場合は、まずはこれを見るようにしましょう！
+
+<Callout>
+  ドキュメントに書かれていないことで質問がある場合は、お気軽に[サポートサーバー](https://discord.gg/q4FcBm2P42)まで連絡してください！
+</Callout>
+
+<Callout type="error">
+  **NoNICK.jsおよびNoNICK.statsを使用する前に、必ず[利用規約](/tos)と[プライバシーポリシー](/privacy-policy)を確認してください**。
+  BOTのいずれかの機能やコマンドを使用した場合、これらに同意したとみなされます。
+</Callout>
+
+### NoNICK.jsとは
+NoNICK.jsは、Discordサーバー運営のサポートに特化したモダンなDiscordBotです。
+NoNICK.jsは当初、開発者の運営しているDiscordサーバー、[NoNICK SERVER](https://discord.gg/nonick-mc)での専属BOTに搭載していた独自機能を、他のサーバーでも使用可能にすることを目的として開発されました。
+現在では、独自機能の移植に限らず、サーバー運営に役に立つ様々な機能を積極的に搭載しています。
+
+### できること
+NoNICK.jsは、サーバー運営に関する便利な機能を幅広く搭載しています。
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card title="入退室メッセージ" href="/docs/features/welcome-message" icon={<LogIn/>}>
+    新たに参加したメンバーを歓迎したり、サーバーでやっておくべきことを事前に伝えたりすることができます。
+  </Card>
+  <Card title="サーバー内通報" href="/docs/features/report" icon={<Flag/>}>
+    サーバーのメンバーが悪意のあるメッセージやユーザーを通報できるようにし、モデレーターがサーバーを確認する負担を大幅に減らすことができます。
+  </Card>
+  <Card title="AutoMod Plus" href="/docs/features/automod-plus" icon={<Hammer/>}>
+    DiscordのAutoModでは設定が難しい高度なワードフィルターを有効にして、サーバーのセキュリティを更に高めることができます。
+  </Card>
+  <Card title="/embed" href="/docs/commands/embed" icon={<SquareSlash/>}>
+    サーバー内に埋め込みメッセージを送信できます。送信した埋め込みにはロール付与が可能なボタン・セレクトメニューやURLボタンを追加することができます。
+  </Card>
+  <Card title="イベントログ" href="/docs/features/log" icon={<ClipboardList/>}>
+    サーバー内で起こったKickやBanなどのアクションを**イベントログ**一つで記録することができます。
+  </Card>
 </Cards>
+
