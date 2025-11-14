@@ -8,6 +8,7 @@ const config = {
   images: {
     remotePatterns: [new URL('https://cdn.nonick-js.com/**')],
   },
+  transpilePackages: ['@repo/ui'],
 };
 
 export default withMDX(config);
