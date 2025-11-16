@@ -7,7 +7,7 @@ import { Links } from '@/lib/constants';
 
 export function HeroSection() {
   return (
-    <section className='pt-32'>
+    <section className='container max-w-6xl py-32'>
       <div className='container text-center'>
         <div className='flex flex-col gap-5'>
           <div className='flex flex-col gap-5'>
