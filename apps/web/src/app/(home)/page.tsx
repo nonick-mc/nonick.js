@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { FaqSection } from './_section/faq';
 import { HeroSection } from './_section/hero';
 
 export default function HomePage() {
@@ -6,6 +6,7 @@ export default function HomePage() {
     <main className='overflow-hidden'>
       <section className='relative'>
         <HeroSection />
+        <FaqSection />
       </section>
     </main>
   );

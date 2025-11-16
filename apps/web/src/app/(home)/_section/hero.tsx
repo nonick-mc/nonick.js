@@ -1,6 +1,7 @@
 ﻿import { Button } from '@repo/ui/components/button';
 import { Safari } from '@repo/ui/components/shadcn-io/safari';
 import { ArrowRightIcon, LayoutDashboardIcon } from 'lucide-react';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { Links } from '@/lib/constants';
 
@@ -22,7 +23,7 @@ export function HeroSection() {
             </div>
             <div className='pt-2 pb-12 flex justify-center gap-3'>
               <Button asChild size='lg'>
-                <Link href='/docs'>
+                <Link href={'/docs' as Route}>
                   <ArrowRightIcon className='relative size-4' />
                   <span className='text-nowrap'>はじめる</span>
                 </Link>
