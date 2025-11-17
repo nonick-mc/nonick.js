@@ -5,6 +5,7 @@ import type { CarouselApi } from '@repo/ui/components/carousel';
 import { Carousel, CarouselContent, CarouselItem } from '@repo/ui/components/carousel';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import type { Route } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -130,9 +131,11 @@ export function GallerySection() {
                     <div className='aspect-3/2 flex overflow-clip rounded-xl'>
                       <div className='flex-1'>
                         <div className='relative h-full w-full origin-bottom transition duration-300 group-hover:scale-105'>
-                          <img
+                          <Image
                             src={item.image}
                             alt={item.title}
+                            width={1080}
+                            height={720}
                             className='h-full w-full object-cover object-center'
                           />
                         </div>
