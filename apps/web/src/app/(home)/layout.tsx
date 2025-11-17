@@ -1,3 +1,4 @@
+import { Separator } from '@repo/ui/components/separator';
 import { HomeLayout } from 'fumadocs-ui/layouts/home';
 import { baseOptions } from '@/lib/layout.shared';
 import { Footer } from './footer';
@@ -11,6 +12,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       >
         {children}
       </HomeLayout>
+      <Separator />
       <Footer />
     </>
   );
