@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "welcome-message",
+    "report",
+    "log",
+    "message-expand",
+    "auto-change-verification-level",
+    "auto-public",
+    "auto-create-thread",
+    "automod-plus",
+    "verification"
+  ]
+}

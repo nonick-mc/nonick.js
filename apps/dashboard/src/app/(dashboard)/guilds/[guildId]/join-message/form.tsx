@@ -104,7 +104,7 @@ export function SettingForm({ setting, channels }: FormProps) {
               <Watch
                 control={form.control}
                 names={['enabled']}
-                render={([enabled]: [boolean]) => (
+                render={([enabled]) => (
                   <>
                     <Controller
                       control={form.control}
@@ -201,7 +201,7 @@ export function SettingForm({ setting, channels }: FormProps) {
               <Watch
                 control={form.control}
                 names={['enabled']}
-                render={([enabled]: [boolean]) => (
+                render={([enabled]) => (
                   <Card className={cn({ 'opacity-50': !enabled })}>
                     <CardContent>
                       <div className='flex gap-3'>
@@ -221,7 +221,7 @@ export function SettingForm({ setting, channels }: FormProps) {
                             <Watch
                               control={form.control}
                               names={['message.embeds.0.color']}
-                              render={([color]: [number]) => (
+                              render={([color]) => (
                                 <div
                                   className='h-full w-1.5'
                                   style={{

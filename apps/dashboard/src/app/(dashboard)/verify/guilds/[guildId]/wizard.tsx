@@ -122,7 +122,7 @@ function Step2() {
       <Watch
         control={form.control}
         names={['turnstileToken']}
-        render={([turnstileToken]: [string]) => (
+        render={([turnstileToken]) => (
           <Button
             className='w-full'
             type='submit'

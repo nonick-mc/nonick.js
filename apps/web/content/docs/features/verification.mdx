@@ -1,0 +1,46 @@
+﻿---
+title: メンバー認証
+icon: ScanQrCode
+---
+
+<Callout type="error">
+NoNICK.jsは、認証にDiscordアカウントのパスワードやトークンを直接入力させたり、QRコードの読み取りを要求したりすることは**決してありません**。
+NoNICK.jsを装った不審なBOTを見つけた際は、`@nonick_mc`までご連絡ください。
+</Callout>
+
+## 概要
+特定のステップを行うことでロールを付与することができる**認証パネル**を作成します。
+チャンネルの閲覧・発言権を持ったロールを設定することで、セルフボットを使用したサーバーへの攻撃を抑止することができます。
+
+## 認証方式
+### ボタン
+認証パネルのボタンをクリックすることでロールを付与します。他の認証方法と比べて安全性は低いものの、認証にかかる手間を削減することができます。
+
+<video src="https://cdn.nonick-js.com/docs/verification/button_verification.mp4" controls={true}/>
+
+### 画像
+ボタンをクリックし、DMに送信された画像認証をクリアすることでロールを付与します。
+
+<video src="https://cdn.nonick-js.com/docs/verification/image_verification.mp4" controls={true}/>
+
+### Web
+認証用のWebサイトにアクセスし、アクセスしたユーザーが人間であるか検証した後にロールを付与します。
+
+<br/>
+
+<video src="https://cdn.nonick-js.com/docs/verification/web_verification.mp4" controls={true}/>
+
+---
+
+## /create verify-panel
+認証パネルを作成します。
+
+![認証パネル](https://cdn.nonick-js.com/docs/verification/verify_panel.png)
+
+### 引数
+
+引数                                         | 説明
+:---                                         | :---:
+`description`                                | 埋め込みの説明欄 (半角スペース2つで改行)
+`color`                                      | 埋め込みの色(8色から選択)
+`image`                                      | 埋め込みの下部に表示する画像

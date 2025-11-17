@@ -127,7 +127,7 @@ export function UpdateRuleDialog({
               <Watch
                 control={form.control}
                 names={['enabled']}
-                render={([enabled]: [boolean]) => (
+                render={([enabled]) => (
                   <>
                     <Controller
                       control={form.control}
