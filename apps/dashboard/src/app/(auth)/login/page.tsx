@@ -21,7 +21,7 @@ export default function Page() {
             <LoginButton />
           </Suspense>
           <Button variant='secondary' asChild>
-            <Link href='https://docs.nonick-js.com/tutorial/introduction'>ログインについて</Link>
+            <Link href='https://nonick-js.com/docs/tutorial/introduction'>ログインについて</Link>
           </Button>
         </div>
         <p className='text-sm text-muted-foreground'>

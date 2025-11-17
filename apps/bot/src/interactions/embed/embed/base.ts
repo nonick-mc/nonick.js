@@ -1,15 +1,15 @@
-import { document } from '@/constants/links';
-import { isURL } from '@/modules/util';
 import { Button, Modal } from '@akki256/discord-interaction';
 import {
   ActionRowBuilder,
   type ColorResolvable,
   EmbedBuilder,
   ModalBuilder,
+  resolveColor,
   TextInputBuilder,
   TextInputStyle,
-  resolveColor,
 } from 'discord.js';
+import { document } from '@/constants/links';
+import { isURL } from '@/modules/util';
 import { reloadEmbedMaker } from './_function';
 
 const button = new Button({ customId: 'nonick-js:embedMaker-base' }, (interaction) => {
@@ -78,7 +78,7 @@ const modal = new Modal({ customId: 'nonick-js:embedMaker-baseModal' }, (interac
   } catch {
     return interaction.reply({
       content:
-        '`❌` 無効なカラーコード、または色の名前が入力されました。[このページ](https://docs.nonick-js.com/nonick.js/features/embed/)を参考に正しい値を入力してください。',
+        '`❌` 無効なカラーコード、または色の名前が入力されました。[このページ](https://nonick-js.com/docs/nonick.js/features/embed/)を参考に正しい値を入力してください。',
       ephemeral: true,
     });
   }
