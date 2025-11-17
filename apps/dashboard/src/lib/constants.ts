@@ -1,4 +1,4 @@
 ﻿export enum Links {
-  Docs = 'https://docs.nonick-js.com',
+  Docs = 'https://nonick-js.com/docs',
   SupportServer = 'https://discord.gg/q4FcBm2P42',
 }
