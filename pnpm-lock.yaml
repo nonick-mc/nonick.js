@@ -214,6 +214,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@orama/orama':
+        specifier: ^3.1.16
+        version: 3.1.16
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
