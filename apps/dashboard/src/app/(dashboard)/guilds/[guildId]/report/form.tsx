@@ -195,7 +195,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
               <Watch
                 control={form.control}
                 names={['enableMention']}
-                render={([enableMention]: [boolean]) => (
+                render={([enableMention]) => (
                   <Controller
                     control={form.control}
                     name='mentionRoles'
@@ -251,7 +251,7 @@ function ForumTagSettingField({ channels }: { channels: APIGuildChannel<GuildCha
     <Watch
       control={form.control}
       names={['channel']}
-      render={([channelId]: [string]) => {
+      render={([channelId]) => {
         const channel = channels.find((channel) => channel.id === channelId);
         if (channel?.type !== ChannelType.GuildForum) return null;
 

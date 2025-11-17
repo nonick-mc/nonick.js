@@ -109,7 +109,7 @@ export function SettingForm({ roles, botHighestRolePosition, setting }: FormProp
               <Watch
                 control={form.control}
                 names={['enabled']}
-                render={([enabled]: [boolean]) => (
+                render={([enabled]) => (
                   <>
                     <Controller
                       control={form.control}

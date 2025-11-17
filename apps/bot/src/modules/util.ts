@@ -1,6 +1,5 @@
 import AdmZip from 'adm-zip';
 import axios from 'axios';
-import { AttachmentBuilder, PermissionFlagsBits } from 'discord.js';
 import type {
   Attachment,
   Collection,
@@ -9,41 +8,28 @@ import type {
   PermissionFlags,
   Snowflake,
 } from 'discord.js';
+import { AttachmentBuilder, PermissionFlagsBits } from 'discord.js';
 import { client } from '../index';
 
 export async function getMessage(
   ...id: [guildId: string, channelId: string, messageId: string]
 ): Promise<Message>;
-export async function getMessage(
-  ...id: [channelId: string, messageId: string]
-): Promise<Message>;
+export async function getMessage(...id: [channelId: string, messageId: string]): Promise<Message>;
 export async function getMessage(...id: string[]): Promise<Message> {
   const [messageId, channelId, guildId = null] = id.slice(0, 3).reverse();
-  const guild = guildId
-    ? await client.guilds.fetch(guildId).catch(() => null)
-    : client;
+  const guild = guildId ? await client.guilds.fetch(guildId).catch(() => null) : client;
   if (!guild) throw new URIError(`サーバーID:\`${guildId}\`に入っていません`);
   const channel = await guild.channels.fetch(channelId).catch(() => null);
   if (!channel?.isTextBased())
-    throw new URIError(
-      `チャンネルID:\`${channelId}\`が存在しないもしくはアクセスできません`,
-    );
+    throw new URIError(`チャンネルID:\`${channelId}\`が存在しないもしくはアクセスできません`);
   const message = await channel.messages.fetch(messageId).catch(() => {});
   if (!message)
-    throw new URIError(
-      `メッセージID:\`${messageId}\`が存在しないもしくはアクセスできません`,
-    );
+    throw new URIError(`メッセージID:\`${messageId}\`が存在しないもしくはアクセスできません`);
   return message;
 }
 
-export function formatEmoji<C extends Snowflake>(
-  emojiId: C,
-  animated?: false,
-): `<:x:${C}>`;
-export function formatEmoji<C extends Snowflake>(
-  emojiId: C,
-  animated?: true,
-): `<a:x:${C}>`;
+export function formatEmoji<C extends Snowflake>(emojiId: C, animated?: false): `<:x:${C}>`;
+export function formatEmoji<C extends Snowflake>(emojiId: C, animated?: true): `<a:x:${C}>`;
 export function formatEmoji<C extends Snowflake>(
   emojiId: C,
   animated?: boolean,
@@ -59,15 +45,11 @@ export function* range(_min: number, _max = 0) {
   for (let i = min; i < max; i++) yield i;
 }
 
-export async function createAttachment(
-  attachments: Collection<string, Attachment>,
-) {
+export async function createAttachment(attachments: Collection<string, Attachment>) {
   if (!attachments.size) return;
   const zip = new AdmZip();
   for await (const attachment of attachments.values()) {
-    const res = await axios
-      .get(attachment.url, { responseType: 'arraybuffer' })
-      .catch(() => null);
+    const res = await axios.get(attachment.url, { responseType: 'arraybuffer' }).catch(() => null);
     if (!res) continue;
     zip.addFile(attachment.name, res.data);
   }
@@ -118,11 +100,13 @@ export const permissionTexts: Record<keyof PermissionFlags, string> = {
   UseExternalStickers: '外部のスタンプを使用する',
   MentionEveryone: '@everyone、@here、全てのロールにメンション',
   ManageMessages: 'メッセージの管理',
+  PinMessages: 'メッセージをピン留め',
   ManageThreads: 'スレッドの管理',
   ReadMessageHistory: 'メッセージ履歴を読む',
   SendTTSMessages: 'テキスト読み上げメッセージを送信する',
   SendVoiceMessages: 'ボイスメッセージを送信',
   SendPolls: '投票を作成',
+  BypassSlowmode: '低速モードをバイパス',
 
   Connect: '接続',
   Speak: '発言',

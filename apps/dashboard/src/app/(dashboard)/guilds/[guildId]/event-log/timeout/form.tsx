@@ -78,7 +78,7 @@ export function SettingForm({ channels, setting }: FormProps) {
               <Watch
                 control={form.control}
                 names={['enabled']}
-                render={([enabled]: [boolean]) => (
+                render={([enabled]) => (
                   <Controller
                     control={form.control}
                     name='channel'
