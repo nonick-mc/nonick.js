@@ -25,8 +25,4 @@ const start = async () => {
   client.login();
 };
 
-process.on('uncaughtException', (err) => {
-  console.error(err);
-});
-
 start();
