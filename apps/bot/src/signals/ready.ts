@@ -5,12 +5,14 @@ import { registerCommands, registerGuildCommands } from 'sunar/registry';
 export const signal = new Signal(Signals.ClientReady, { once: true });
 
 execute(signal, async (client) => {
-  if (process.env.DEV_GUILD_ID) {
-    console.log('[INFO] Registering guild commands for development guild...');
-    await registerGuildCommands(client.application, [process.env.DEV_GUILD_ID]);
-  } else {
-    console.log('[INFO] Registering global commands...');
-    await registerCommands(client.application);
+  if (process.argv.includes('--register')) {
+    if (process.env.DEV_GUILD_ID) {
+      console.log('[INFO] Registering guild commands for development guild...');
+      await registerGuildCommands(client.application, [process.env.DEV_GUILD_ID]);
+    } else {
+      console.log('[INFO] Registering global commands...');
+      await registerCommands(client.application);
+    }
   }
 
   client.user?.setActivity({
