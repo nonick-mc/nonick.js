@@ -1,13 +1,32 @@
 ﻿{
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "module": "node16",
-    "moduleResolution": "node16",
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": "src",
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    /* Strictness */
     "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    /* If transpiling with TypeScript: */
+    "module": "NodeNext",
+    "sourceMap": true,
+    /* AND if you're building for a library: */
     "declaration": true,
-    "skipLibCheck": true
+    /* AND if you're building for a library in a monorepo: */
+    "composite": true,
+    "declarationMap": true,
+    /* If your code doesn't run in the DOM: */
+    "lib": ["es2022"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

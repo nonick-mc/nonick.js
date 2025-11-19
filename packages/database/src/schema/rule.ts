@@ -1,6 +1,6 @@
 ﻿import { boolean, integer, pgSchema, primaryKey, text } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
-import { guild } from './guild';
+import { timestamps } from '../utils.js';
+import { guild } from './guild.js';
 
 export const ruleSchema = pgSchema('public_rule');
 

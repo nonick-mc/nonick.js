@@ -1,8 +1,8 @@
 ﻿import { relations } from 'drizzle-orm';
 import { jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
-import { user } from './auth';
-import { guild } from './guild';
+import { timestamps } from '../utils.js';
+import { user } from './auth.js';
+import { guild } from './guild.js';
 
 const actionType = ['update_guild_setting', 'create_rule', 'update_rule', 'delete_rule'] as const;
 
