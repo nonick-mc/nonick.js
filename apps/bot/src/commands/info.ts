@@ -1,7 +1,7 @@
 ﻿import { stripIndents } from 'common-tags';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder } from 'discord.js';
 import { execute, Slash } from 'sunar';
-import { Links } from '../lib/constants.js';
+import { Links } from '@/lib/constants.js';
 
 export const slash = new Slash({
   name: 'help',

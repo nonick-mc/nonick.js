@@ -1,28 +1,28 @@
 {
   "name": "bot",
   "version": "0.0.0",
-  "description": "An awesome Discord bot created with Sunar.",
-  "main": "dist/index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
     "start": "node dist/index.js",
     "dev": "tsx watch src",
-    "build": "tsc",
-    "lint": "tsc --noEmit"
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
   "dependencies": {
+    "@repo/database": "workspace:*",
     "common-tags": "^1.8.2",
     "discord.js": "^14.24.2",
     "dotenv": "^17.2.3",
+    "drizzle-orm": "catalog:",
+    "pg": "catalog:",
     "sunar": "^0.7.3"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.4",
     "@types/node": "^24.10.0",
+    "ts-patch": "^3.3.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-transform-paths": "^3.5.5"
   }
 }

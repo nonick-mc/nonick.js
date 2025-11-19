@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
+    "baseUrl": "src",
     /* Base Options: */
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -20,7 +21,11 @@
     "module": "NodeNext",
     "sourceMap": false,
     /* If your code doesn't run in the DOM: */
-    "lib": ["es2022"]
+    "lib": ["es2022"],
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "plugins": [{ "transform": "typescript-transform-paths" }]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
