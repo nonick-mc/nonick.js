@@ -27,6 +27,6 @@
     },
     "plugins": [{ "transform": "typescript-transform-paths" }]
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
