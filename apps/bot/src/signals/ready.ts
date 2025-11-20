@@ -19,8 +19,8 @@ execute(signal, async (client) => {
   await client.application.emojis.fetch();
 
   client.user?.setActivity({
-    name: `/help | ${(await client.application?.fetch())?.approximateGuildCount} servers`,
-    type: ActivityType.Competing,
+    name: `/help | ${await client.application.fetch().then((app) => app.approximateGuildCount)} サーバー`,
+    type: ActivityType.Custom,
   });
 
   console.log('[INFO] BOT ready!');
@@ -28,7 +28,7 @@ execute(signal, async (client) => {
     'Bot User': client.user?.tag,
     Guilds: `${client.guilds.cache.size} Servers`,
     Watching: `${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Members`,
-Emojis: `${client.application?.emojis.cache.size} Emojis`,
+    Emojis: `${client.application?.emojis.cache.size} Emojis`,
     'Discord.js': `v${version}`,
     'Node.js': process.version,
   });
