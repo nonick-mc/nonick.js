@@ -1,5 +1,12 @@
 ﻿import { stripIndents } from 'common-tags';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  Colors,
+  EmbedBuilder,
+  MessageFlags,
+} from 'discord.js';
 import { execute, Slash } from 'sunar';
 import { Links } from '@/lib/constants.js';
 
@@ -41,6 +48,6 @@ execute(slash, async (interaction) => {
           .setURL(Links.Dashboard),
       ),
     ],
-    ephemeral: true,
+    flags: [MessageFlags.Ephemeral],
   });
 });

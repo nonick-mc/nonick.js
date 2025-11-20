@@ -13,7 +13,7 @@ import { Duration } from '@/lib/format.js';
 
 export const slash = new Slash({
   name: 'timeout',
-  description: 'ユーザーをタイムアウト',
+  description: 'ユーザーをタイムアウトします',
   options: [
     {
       name: 'user',
