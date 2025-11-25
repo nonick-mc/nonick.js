@@ -19,7 +19,10 @@ export const client = new Client({
   },
 });
 
-const base = dirname(import.meta.url);
-await load(`${base.split('/').at(-1)}/app/{commands,signals}/**/*.{js,ts}`);
+const start = async () => {
+  const base = dirname(import.meta.url);
+  await load(`${base.split('/').at(-1)}/app/{commands,signals}/**/*.{js,ts}`);
+  client.login();
+};
 
-client.login();
+start();

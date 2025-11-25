@@ -10,10 +10,14 @@ execute(signal, async (client) => {
     console.log('[INFO] Commands registered');
   }
 
+  /** Bot内の絵文字を使用できるようにするために一度絵文字をfetch */
+  await client.application.emojis.fetch();
+
   console.log('[INFO] BOT ready!');
   console.table({
     'Bot User': client.user?.tag,
     Guilds: `${client.guilds.cache.size} Servers`,
+    Emojis: `${client.application.emojis.cache.size} Emojis`,
     Watching: `${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0)} Members`,
     'Discord.js': `v${version}`,
     'Node.js': process.version,
