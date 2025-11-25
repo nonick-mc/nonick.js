@@ -1,4 +1,4 @@
-﻿FROM node:22-alpine AS base
+FROM node:22-alpine AS base
 RUN apk update
 RUN apk add --no-cache libc6-compat
 
@@ -25,7 +25,7 @@ COPY --from=prepare /app/out/full/ .
 
 ARG TURBO_TEAM
 ENV TURBO_TEAM=$TURBO_TEAM
- 
+
 ARG TURBO_TOKEN
 ENV TURBO_TOKEN=$TURBO_TOKEN
 
@@ -42,4 +42,3 @@ USER discordjs
 COPY --from=builder --chown=discordjs:nodejs /app ./
 
 CMD ["node", "apps/bot/dist/index.js"]
-
