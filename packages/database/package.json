@@ -2,6 +2,7 @@
   "name": "@repo/database",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -19,9 +20,9 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:generate": "NODE_OPTIONS='--import tsx' drizzle-kit generate",
+    "db:migrate": "NODE_OPTIONS='--import tsx' drizzle-kit migrate",
+    "db:studio": "NODE_OPTIONS='--import tsx' drizzle-kit studio"
   },
   "dependencies": {
     "drizzle-kit": "^0.31.1",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "discord-api-types": "catalog:",
     "dotenv": "^16.5.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3"
   }
 }
