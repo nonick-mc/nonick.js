@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { AllowedMentionsTypes, GatewayIntentBits, Partials } from 'discord.js';
 import { Client, dirname, load } from 'sunar';
 
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildModeration,

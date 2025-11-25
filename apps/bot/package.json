@@ -11,12 +11,17 @@
   },
   "type": "module",
   "dependencies": {
+    "adm-zip": "^0.5.16",
+    "axios": "^1.13.2",
     "discord.js": "^14.24.2",
     "dotenv": "^17.2.3",
+    "node-cron": "^3.0.3",
     "sunar": "^0.7.3"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^24.10.0",
+    "@types/node-cron": "^3.0.11",
     "ts-patch": "^3.3.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
