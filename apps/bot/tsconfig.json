@@ -1,8 +1,9 @@
 {
   /* from https://github.com/total-typescript/tsconfig - bundler/no-dom/app */
   "compilerOptions": {
-    "outDir": "./dist",
     /* Base Options: */
+    "outDir": "./dist",
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
@@ -19,7 +20,13 @@
     "module": "NodeNext",
     "sourceMap": true,
     /* If your code doesn't run in the DOM: */
-    "lib": ["es2022"]
+    "lib": ["es2022"],
+    /* Path Alias */
+    "paths": {
+      "@/*": ["./*"]
+    },
+    /* Plugins */
+    "plugins": [{ "transform": "typescript-transform-paths" }]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
