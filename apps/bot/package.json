@@ -11,11 +11,14 @@
   },
   "type": "module",
   "dependencies": {
+    "@repo/database": "workspace:*",
     "adm-zip": "^0.5.16",
     "axios": "^1.13.2",
     "discord.js": "^14.24.2",
     "dotenv": "^17.2.3",
+    "drizzle-orm": "catalog:",
     "node-cron": "^3.0.3",
+    "pg": "catalog:",
     "sunar": "^0.7.3"
   },
   "devDependencies": {

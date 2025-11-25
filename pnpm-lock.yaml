@@ -35,6 +35,9 @@ importers:
 
   apps/bot:
     dependencies:
+      '@repo/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       adm-zip:
         specifier: ^0.5.16
         version: 0.5.16
@@ -47,9 +50,15 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
+      drizzle-orm:
+        specifier: 'catalog:'
+        version: 0.41.0(kysely@0.28.8)(pg@8.16.0)
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
+      pg:
+        specifier: 'catalog:'
+        version: 8.16.0
       sunar:
         specifier: ^0.7.3
         version: 0.7.3(discord.js@14.25.1)
