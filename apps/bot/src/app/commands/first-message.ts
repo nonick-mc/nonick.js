@@ -5,7 +5,6 @@ import {
   ButtonStyle,
   MessageFlags,
   PermissionFlagsBits,
-  PermissionsBitField,
 } from 'discord.js';
 import { execute, Slash } from 'sunar';
 import { danger, getBotEmoji } from '@/constants/emojis.js';
@@ -38,11 +37,9 @@ export const slash = new Slash({
 execute(slash, async (interaction) => {
   if (!interaction.inGuild() || !interaction.channel?.isSendable()) return;
 
-  const requirePermission = new PermissionsBitField([
-    PermissionFlagsBits.ViewChannel,
-    PermissionFlagsBits.ReadMessageHistory,
-  ]);
-  if (interaction.channel.isVoiceBased()) requirePermission.add(PermissionFlagsBits.Connect);
+  let requirePermission = PermissionFlagsBits.ViewChannel | PermissionFlagsBits.ReadMessageHistory;
+  if (interaction.channel.isVoiceBased())
+    requirePermission = requirePermission | PermissionFlagsBits.Connect;
 
   if (!interaction.appPermissions.has(requirePermission)) {
     return interaction.reply({
