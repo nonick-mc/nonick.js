@@ -4,9 +4,10 @@ import {
   MessageFlags,
   PermissionFlagsBits,
 } from 'discord.js';
-import { config, execute, Slash } from 'sunar';
+import { CooldownScope, config, execute, Slash } from 'sunar';
+import { clearCooldownsForInteraction } from 'sunar/handlers';
 import { danger, getBotEmoji, success } from '@/constants/emojis.js';
-import { permissionTexts } from '@/lib/util.js';
+import { missingPermissionMessage } from '@/lib/messages.js';
 
 export const slash = new Slash({
   name: 'bulkdelete',
@@ -27,15 +28,19 @@ export const slash = new Slash({
 });
 
 config(slash, {
-  cooldown: 10_000,
+  cooldown: {
+    time: 10_000,
+    scope: CooldownScope.Channel,
+  },
 });
 
 execute(slash, async (interaction) => {
-  if (!interaction.inCachedGuild() || !interaction.channel?.isTextBased()) return;
+  if (!interaction.inGuild() || !interaction.channel?.isSendable()) return;
 
   if (!interaction.appPermissions.has(PermissionFlagsBits.ManageMessages)) {
+    clearCooldownsForInteraction(interaction);
     return interaction.reply({
-      content: `${getBotEmoji(danger.circleX)} このコマンドを使用するには、Botに${inlineCode(permissionTexts.ManageMessages)}権限を付与する必要があります。`,
+      content: missingPermissionMessage(['ManageMessages']),
       flags: [MessageFlags.Ephemeral],
     });
   }

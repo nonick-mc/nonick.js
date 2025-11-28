@@ -5,7 +5,7 @@ import type {
   Collection,
   Guild,
   Message,
-  PermissionFlags,
+  PermissionsString,
   Snowflake,
 } from 'discord.js';
 import { AttachmentBuilder, PermissionFlagsBits } from 'discord.js';
@@ -70,7 +70,7 @@ export async function getSendableChannel(guild: Guild, channelId: string) {
   return channel;
 }
 
-export const permissionTexts: Record<keyof PermissionFlags, string> = {
+export const permissionTexts: Record<PermissionsString, string> = {
   ViewChannel: 'チャンネルを見る',
   ManageChannels: 'チャンネルの管理',
   ManageRoles: 'ロールの管理',
@@ -133,7 +133,7 @@ export const permissionTexts: Record<keyof PermissionFlags, string> = {
   ViewCreatorMonetizationAnalytics: '収益情報を表示',
 };
 
-export function permToText(...perms: (keyof PermissionFlags)[]) {
+export function permToText(...perms: PermissionsString[]) {
   return perms.map((v) => permissionTexts[v]);
 }
 
