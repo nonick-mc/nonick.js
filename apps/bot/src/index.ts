@@ -22,7 +22,9 @@ export const client = new Client({
 const start = async () => {
   const base = dirname(import.meta.url);
   await load(`${base.split('/').at(-1)}/app/{commands,signals,events}/**/*.{js,ts}`);
-  client.login();
+
+  await client.login();
+  client.application?.emojis.fetch();
 };
 
 start();
