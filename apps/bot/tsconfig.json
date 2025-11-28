@@ -28,6 +28,6 @@
     /* Plugins */
     "plugins": [{ "transform": "typescript-transform-paths" }]
   },
-  "include": ["src"],
+  "include": ["src", "env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
