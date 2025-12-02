@@ -1,4 +1,4 @@
-﻿name: Deploy Docs to GitHub Pages
+﻿name: Deploy Web to GitHub Pages
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
- 
+
       - uses: pnpm/action-setup@v4
 
       - name: Setup Node.js environment
@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
- 
+
       - name: Install dependencies
         run: pnpm install
 
