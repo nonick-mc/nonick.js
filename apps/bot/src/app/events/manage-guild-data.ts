@@ -5,12 +5,12 @@ import { db } from '@/lib/drizzle.js';
 
 export const guildCreateSignal = new Signal(Signals.GuildCreate);
 
-execute(guildCreateSignal, (guild) => {
-  db.insert(guildTable).values({ id: guild.id }).onConflictDoNothing();
+execute(guildCreateSignal, async (guild) => {
+  await db.insert(guildTable).values({ id: guild.id }).onConflictDoNothing();
 });
 
 export const guildDeleteSignal = new Signal(Signals.GuildDelete);
 
-execute(guildDeleteSignal, (guild) => {
-  db.delete(guildTable).where(eq(guildTable.id, guild.id));
+execute(guildDeleteSignal, async (guild) => {
+  await db.delete(guildTable).where(eq(guildTable.id, guild.id));
 });
