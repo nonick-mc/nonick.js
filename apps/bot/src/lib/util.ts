@@ -1,3 +1,5 @@
+// created by @akki0256
+
 import AdmZip from 'adm-zip';
 import axios from 'axios';
 import type {
@@ -139,4 +141,8 @@ export function permToText(...perms: PermissionsString[]) {
 
 export function isURL(url: string) {
   return /^https?:\/\//.test(url);
+}
+
+export function legacyCustomId(id: string): `nonick-js:${string}` {
+  return `nonick-js:${id}`;
 }

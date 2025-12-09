@@ -1,3 +1,5 @@
+// created by @akki0256
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { getTasks, type ScheduleOptions, schedule, validate } from 'node-cron';
