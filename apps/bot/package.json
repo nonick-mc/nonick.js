@@ -10,6 +10,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.83",
     "@repo/database": "workspace:*",
     "adm-zip": "^0.5.16",
     "axios": "^1.13.2",
