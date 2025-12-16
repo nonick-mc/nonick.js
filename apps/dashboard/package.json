@@ -16,7 +16,7 @@
     "@repo/database": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
-    "better-auth": "^1.4.2",
+    "better-auth": "^1.4.5",
     "dayjs": "^1.11.13",
     "discord-api-types": "catalog:",
     "drizzle-orm": "catalog:",
