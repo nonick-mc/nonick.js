@@ -2,7 +2,6 @@ import type { NextConfig } from 'next';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
   experimental: {
     typedEnv: true,
     browserDebugInfoInTerminal: true,
