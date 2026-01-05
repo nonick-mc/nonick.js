@@ -71,7 +71,7 @@ export function SettingForm({ channels, setting }: FormProps) {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid} orientation='horizontal'>
                     <FieldContent>
-                      <FieldLabel htmlFor={field.name}>入室メッセージを有効にする</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>退室メッセージを有効にする</FieldLabel>
                       {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                     </FieldContent>
                     <Switch
@@ -140,10 +140,10 @@ export function SettingForm({ channels, setting }: FormProps) {
                         >
                           <FieldContent>
                             <FieldLabel htmlFor={field.name}>
-                              BOT入室時にメッセージを送信しない
+                              BOT退室時にメッセージを送信しない
                             </FieldLabel>
                             <FieldDescription>
-                              有効にすると、BOTがサーバーに追加された際にメッセージが送信されないようになります。
+                              有効にすると、BOTがサーバーから退室された際にメッセージが送信されないようになります。
                             </FieldDescription>
                             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                           </FieldContent>
