@@ -1,4 +1,6 @@
-﻿import type { Metadata } from 'next';
+﻿import { Alert, AlertDescription, AlertTitle } from '@repo/ui/components/alert';
+import { InfoIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import { Header } from '@/components/header';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { getChannels } from '@/lib/discord/api';
@@ -30,6 +32,13 @@ export default async function Page({
         title='メッセージ編集ログ'
         description='メッセージが編集された際にログを送信します。'
       />
+      <Alert variant='primary'>
+        <InfoIcon />
+        <AlertTitle>BotやWebhookが送信したメッセージは除外されます</AlertTitle>
+        <AlertDescription>
+          これらのメッセージは、メッセージが編集された場合でもログは送信されません。
+        </AlertDescription>
+      </Alert>
       <SettingForm channels={sortChannels(channels)} setting={formSchema.safeParse(setting).data} />
     </>
   );
