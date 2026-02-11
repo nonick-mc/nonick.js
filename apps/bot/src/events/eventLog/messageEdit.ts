@@ -7,7 +7,7 @@ import { createAttachment, getSendableChannel } from '@/modules/util';
 export default new DiscordEventBuilder({
   type: Events.MessageUpdate,
   async execute(oldMessage, { content, attachments }) {
-    if (!oldMessage.inGuild() || oldMessage.author?.bot) return;
+    if (!oldMessage.inGuild() || oldMessage.author?.bot || oldMessage.webhookId) return;
     const setting = await db.query.msgEditLogSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, oldMessage.guild.id),
     });
