@@ -1,4 +1,4 @@
-﻿import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
+import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
 import { cookies } from 'next/headers';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { AppSidebar } from './app-sidebar';
@@ -12,14 +12,7 @@ export default async function Layout({ params, children }: LayoutProps<'/guilds/
   const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
 
   return (
-    <SidebarProvider
-      defaultOpen={defaultOpen}
-      style={
-        {
-          '--sidebar-width': 'calc(var(--spacing) * 68)',
-        } as React.CSSProperties
-      }
-    >
+    <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar guildId={guildId} />
       <SidebarInset className='w-full'>
         <Navbar />
