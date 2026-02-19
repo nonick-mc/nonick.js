@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
+﻿import { SidebarInset, SidebarProvider } from '@repo/ui/components/sidebar';
 import { cookies } from 'next/headers';
 import { verifyDashboardAccessPermission } from '@/lib/dal';
 import { AppSidebar } from './app-sidebar';
@@ -9,7 +9,7 @@ export default async function Layout({ params, children }: LayoutProps<'/guilds/
   await verifyDashboardAccessPermission(guildId);
 
   const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+  const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false';
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
