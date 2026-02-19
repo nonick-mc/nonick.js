@@ -9,17 +9,10 @@ export default async function Layout({ params, children }: LayoutProps<'/guilds/
   await verifyDashboardAccessPermission(guildId);
 
   const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+  const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false';
 
   return (
-    <SidebarProvider
-      defaultOpen={defaultOpen}
-      style={
-        {
-          '--sidebar-width': 'calc(var(--spacing) * 68)',
-        } as React.CSSProperties
-      }
-    >
+    <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar guildId={guildId} />
       <SidebarInset className='w-full'>
         <Navbar />
