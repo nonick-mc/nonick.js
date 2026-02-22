@@ -17,15 +17,13 @@ export function verifyForButtonCaptcha(interaction: ButtonInteraction<'cached'>,
     .then(() =>
       interaction.reply({
         content: `${inlineCode('✅')} 認証に成功しました！`,
-        ephemeral: true,
+        flags: [MessageFlags.Ephemeral],
       }),
     )
     .catch(() =>
       interaction.reply({
-        content: `${inlineCode(
-          '❌',
-        )} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
-        ephemeral: true,
+        content: `${inlineCode('❌')} 認証に問題が発生しました。サーバーの管理者にご連絡ください。`,
+        flags: [MessageFlags.Ephemeral],
       }),
     );
 }
@@ -43,7 +41,7 @@ export async function verifyForImageCaptcha(
     });
   }
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const { image, text } = Captcha.create(
     { color: '#4b9d6e' },
@@ -106,7 +104,7 @@ export async function verifyForImageCaptcha(
           .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
-              `${inlineCode('❌')} ロールを付与できませんでした。サーバーの管理者にご連絡ください`,
+              `${inlineCode('❌')} 認証に問題が発生しました。サーバーの管理者にご連絡ください。`,
             ),
           )
           .finally(() => {
@@ -120,7 +118,7 @@ export async function verifyForImageCaptcha(
         content: `${inlineCode(
           '❌',
         )} この認証を行うにはBOTからDMを受け取れるように設定する必要があります。`,
-        ephemeral: true,
+        flags: [MessageFlags.Ephemeral],
       });
     });
 }
