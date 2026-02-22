@@ -1,19 +1,30 @@
-﻿import {
+﻿import type { verificationSetting } from '@repo/database';
+import {
+  ActionRowBuilder,
   AttachmentBuilder,
+  ButtonBuilder,
   type ButtonInteraction,
+  ButtonStyle,
   Colors,
+  ContainerBuilder,
   EmbedBuilder,
+  GuildMemberFlags,
   inlineCode,
   MessageFlags,
+  TextDisplayBuilder,
 } from 'discord.js';
+import type { InferSelectModel } from 'drizzle-orm';
+import { dashboard } from '@/constants/links';
 import { Captcha } from '@/modules/captcha';
 import { Duration } from '@/modules/format';
 
 const duringAuthentication = new Set<string>();
 
-export function verifyForButtonCaptcha(interaction: ButtonInteraction<'cached'>, roleId: string) {
-  interaction.member.roles
-    .add(roleId, '認証')
+export function verifyForButtonCaptcha(
+  interaction: ButtonInteraction<'cached'>,
+  setting: InferSelectModel<typeof verificationSetting>,
+) {
+  applyVerification(interaction, setting)
     .then(() =>
       interaction.reply({
         content: `${inlineCode('✅')} 認証に成功しました！`,
@@ -30,7 +41,7 @@ export function verifyForButtonCaptcha(interaction: ButtonInteraction<'cached'>,
 
 export async function verifyForImageCaptcha(
   interaction: ButtonInteraction<'cached'>,
-  roleId: string,
+  setting: InferSelectModel<typeof verificationSetting>,
 ) {
   if (duringAuthentication.has(interaction.user.id)) {
     return interaction.reply({
@@ -99,8 +110,7 @@ export async function verifyForImageCaptcha(
           return interaction.user.send('`❌️` 認証コードが間違っています。');
         }
 
-        interaction.member.roles
-          .add(roleId, '認証')
+        applyVerification(interaction, setting)
           .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
@@ -121,4 +131,43 @@ export async function verifyForImageCaptcha(
         flags: [MessageFlags.Ephemeral],
       });
     });
+}
+
+export function verifyForWebCaptcha(interaction: ButtonInteraction<'cached'>) {
+  return interaction.reply({
+    components: [
+      new ContainerBuilder()
+        .addTextDisplayComponents([
+          new TextDisplayBuilder().setContent(
+            [
+              '### 下のボタンから認証ページにアクセスしてください',
+              '-# ⚠️ NoNICK.jsはパスワードの入力やQRコードの読み取りを要求することは決してありません。',
+            ].join('\n'),
+          ),
+        ])
+        .addActionRowComponents([
+          new ActionRowBuilder<ButtonBuilder>().setComponents([
+            new ButtonBuilder()
+              .setLabel('クリックして認証を続行')
+              .setURL(`${dashboard}/verify/guilds/${interaction.guildId}`)
+              .setStyle(ButtonStyle.Link),
+          ]),
+        ]),
+    ],
+    flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
+  });
+}
+
+export function applyVerification(
+  interaction: ButtonInteraction<'cached'>,
+  setting: InferSelectModel<typeof verificationSetting>,
+) {
+  switch (setting.mode) {
+    case 'role':
+      return interaction.member.roles.add(setting.role as string, '認証');
+    case 'bypass_verification': {
+      const flags = interaction.member.flags.add(GuildMemberFlags.BypassesVerification);
+      return interaction.member.setFlags(flags, '認証');
+    }
+  }
 }
