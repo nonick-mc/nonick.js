@@ -141,6 +141,13 @@
       "when": 1761791787001,
       "tag": "0019_volatile_madripoor",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1771772950710,
+      "tag": "0020_nappy_avengers",
+      "breakpoints": true
     }
   ]
 }

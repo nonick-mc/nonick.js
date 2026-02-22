@@ -112,10 +112,13 @@ export const autoModSetting = settingSchema.table('auto_mod', {
 // #endregion
 
 // #region Verification
+export const verificationModeEnum = pgEnum('verification_mode', ['role', 'bypass_verification']);
 export const captchaTypeEnum = pgEnum('captcha_type', ['button', 'image', 'web']);
+
 export const verificationSetting = settingSchema.table('verification', {
   guildId,
   enabled: boolean('enabled').notNull(),
+  mode: verificationModeEnum('mode').notNull(),
   role: text('role'),
   captchaType: captchaTypeEnum('captcha_type').notNull(),
   ...timestamps,
