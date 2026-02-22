@@ -36,9 +36,9 @@ const verifyButton = new Button(
 
     switch (setting.captchaType) {
       case 'button':
-        return verifyForButtonCaptcha(interaction, setting);
+        return verifyForButtonCaptcha(interaction, setting.role, setting.mode);
       case 'image':
-        return verifyForImageCaptcha(interaction, setting);
+        return verifyForImageCaptcha(interaction, setting.role, setting.mode);
       case 'web':
         return verifyForWebCaptcha(interaction);
     }

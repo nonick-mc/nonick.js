@@ -22,9 +22,10 @@ const duringAuthentication = new Set<string>();
 
 export function verifyForButtonCaptcha(
   interaction: ButtonInteraction<'cached'>,
-  setting: InferSelectModel<typeof verificationSetting>,
+  roleId: string | null,
+  verificationMode: InferSelectModel<typeof verificationSetting>['mode'],
 ) {
-  applyVerification(interaction, setting)
+  applyVerification(interaction, roleId, verificationMode)
     .then(() =>
       interaction.reply({
         content: `${inlineCode('✅')} 認証に成功しました！`,
@@ -41,7 +42,8 @@ export function verifyForButtonCaptcha(
 
 export async function verifyForImageCaptcha(
   interaction: ButtonInteraction<'cached'>,
-  setting: InferSelectModel<typeof verificationSetting>,
+  roleId: string | null,
+  verificationMode: InferSelectModel<typeof verificationSetting>['mode'],
 ) {
   if (duringAuthentication.has(interaction.user.id)) {
     return interaction.reply({
@@ -110,7 +112,7 @@ export async function verifyForImageCaptcha(
           return interaction.user.send('`❌️` 認証コードが間違っています。');
         }
 
-        applyVerification(interaction, setting)
+        applyVerification(interaction, roleId, verificationMode)
           .then(() => interaction.user.send(`${inlineCode('✅')} 認証に成功しました！`))
           .catch(() =>
             interaction.user.send(
@@ -160,11 +162,12 @@ export function verifyForWebCaptcha(interaction: ButtonInteraction<'cached'>) {
 
 export function applyVerification(
   interaction: ButtonInteraction<'cached'>,
-  setting: InferSelectModel<typeof verificationSetting>,
+  roleId: string | null,
+  verificationMode: InferSelectModel<typeof verificationSetting>['mode'],
 ) {
-  switch (setting.mode) {
+  switch (verificationMode) {
     case 'role':
-      return interaction.member.roles.add(setting.role as string, '認証');
+      return interaction.member.roles.add(roleId as string, '認証');
     case 'bypass_verification': {
       const flags = interaction.member.flags.add(GuildMemberFlags.BypassesVerification);
       return interaction.member.setFlags(flags, '認証');

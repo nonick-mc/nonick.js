@@ -9,10 +9,7 @@ const verifyButton = new Button(
   async (interaction) => {
     if (!interaction.inCachedGuild()) return;
 
-    const roleId =
-      interaction.message.embeds[0]?.fields[0]?.value?.match(
-        /(?<=<@&)\d+(?=>)/,
-      )?.[0];
+    const roleId = interaction.message.embeds[0]?.fields[0]?.value?.match(/(?<=<@&)\d+(?=>)/)?.[0];
     const roles = interaction.member.roles;
 
     if (!roleId || !(roles instanceof GuildMemberRoleManager))
@@ -27,11 +24,11 @@ const verifyButton = new Button(
       });
 
     if (interaction.customId === 'nonick-js:verify-button') {
-      return verifyForButtonCaptcha(interaction, roleId);
+      return verifyForButtonCaptcha(interaction, roleId, 'role');
     }
 
     if (interaction.customId === 'nonick-js:verify-image') {
-      return verifyForImageCaptcha(interaction, roleId);
+      return verifyForImageCaptcha(interaction, roleId, 'role');
     }
   },
 );
