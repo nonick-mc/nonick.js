@@ -1,9 +1,8 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import path from 'node:path';
-import { Cron } from '@/modules/cron';
-import { DiscordEvents } from '@/modules/events';
 import { DiscordInteractions, ErrorCodes, InteractionsError } from '@akki256/discord-interaction';
 import {
   ActivityType,
@@ -14,6 +13,8 @@ import {
   Partials,
   version,
 } from 'discord.js';
+import { Cron } from '@/modules/cron';
+import { DiscordEvents } from '@/modules/events';
 
 export const client = new Client({
   intents: [
@@ -55,7 +56,7 @@ client.once(Events.ClientReady, async () => {
 
   client.user?.setActivity({
     name: `/help | ${(await client.application?.fetch())?.approximateGuildCount} servers`,
-    type: ActivityType.Competing,
+    type: ActivityType.Custom,
   });
 
   interactions.registerCommands({
