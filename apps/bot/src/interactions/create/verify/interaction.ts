@@ -21,13 +21,12 @@ const verifyButton = new Button(
       });
     }
 
-    const hasRole = interaction.member.roles.cache.has(setting.role as string);
-    const hasBypassFlag = interaction.member.flags.has(GuildMemberFlags.BypassesVerification);
+    const isVerified =
+      (setting.mode === 'role' && interaction.member.roles.cache.has(setting.role as string)) ||
+      (setting.mode === 'bypass_verification' &&
+        interaction.member.flags.has(GuildMemberFlags.BypassesVerification));
 
-    if (
-      (setting.mode === 'role' && hasRole) ||
-      (setting.mode === 'bypass_verification' && hasBypassFlag)
-    ) {
+    if (isVerified) {
       return interaction.reply({
         content: `${inlineCode('✅')} 既に認証されています。`,
         flags: MessageFlags.Ephemeral,
