@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   experimental: {
     typedEnv: true,
     browserDebugInfoInTerminal: true,
+    authInterrupts: true,
   },
   typedRoutes: true,
   images: {

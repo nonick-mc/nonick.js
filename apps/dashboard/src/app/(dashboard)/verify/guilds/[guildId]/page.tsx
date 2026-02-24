@@ -1,6 +1,6 @@
-﻿import { CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/card';
+import { CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/card';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, unauthorized } from 'next/navigation';
 import { Logo } from '@/components/logo';
 import { canAccessVerifyPage, getCachedSession, isAvailableVerifyPage } from '@/lib/dal';
 import { getGuild, getGuildMember } from '@/lib/discord/api';
@@ -17,7 +17,7 @@ export default async function Page({ params }: PageProps<'/verify/guilds/[guildI
   const isAvailable = await isAvailableVerifyPage(guildId);
   if (!isAvailable) notFound();
   const canAccess = await canAccessVerifyPage(guildId);
-  if (!canAccess) notFound();
+  if (!canAccess) unauthorized();
 
   const [guild, member, setting] = await Promise.all([
     getGuild(guildId),
