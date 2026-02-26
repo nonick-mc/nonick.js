@@ -24,14 +24,14 @@
     "framer-motion": "^12.23.24",
     "lru-cache": "^11.2.2",
     "lucide-react": "^0.544.0",
-    "next": "16.1.5",
+    "next": "16.1.6",
     "next-safe-action": "^8.0.11",
     "next-themes": "^0.4.6",
     "nextjs-toploader": "^3.9.17",
     "pg": "catalog:",
     "picocolors": "^1.1.1",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "react-hook-form": "^7.65.0",
     "react-use-wizard": "^2.3.0",
     "sonner": "^2.0.7",
@@ -42,14 +42,14 @@
   "devDependencies": {
     "@hookform/devtools": "^4.4.0",
     "@types/node": "^20",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "typescript": "^5"
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "19.2.2",
-      "@types/react-dom": "19.2.2"
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3"
     }
   }
 }
