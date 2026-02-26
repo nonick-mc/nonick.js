@@ -9,7 +9,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@orama/orama": "^3.1.16",
+    "@orama/orama": "^3.1.18",
     "@repo/ui": "workspace:*",
     "fumadocs-core": "16.0.8",
     "fumadocs-mdx": "13.0.5",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/mdx": "^2.0.13",
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.14",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "typescript": "^5.9.3"
