@@ -17,9 +17,9 @@
   },
   "packageManager": "pnpm@10.20.0",
   "devDependencies": {
-    "@biomejs/biome": "^2.0.0",
-    "@types/node": "^22.15.30",
-    "shadcn": "^3.3.1",
-    "turbo": "^2.5.4"
+    "@biomejs/biome": "^2.4.4",
+    "@types/node": "^22.19.12",
+    "shadcn": "^3.8.5",
+    "turbo": "^2.8.11"
   }
 }
