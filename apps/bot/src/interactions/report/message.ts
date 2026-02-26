@@ -1,8 +1,3 @@
-import { blurple, red } from '@/constants/emojis';
-import { dashboard } from '@/constants/links';
-import { db } from '@/modules/drizzle';
-import { channelField, scheduleField, userField } from '@/modules/fields';
-import { formatEmoji } from '@/modules/util';
 import { MessageContext, Modal } from '@akki256/discord-interaction';
 import { report } from '@repo/database';
 import {
@@ -10,14 +5,18 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChannelType,
+  ComponentType,
   ContainerBuilder,
+  escapeMarkdown,
   type ForumThreadChannel,
+  hyperlink,
   Message,
   type MessageCreateOptions,
   MessageFlags,
   ModalBuilder,
   PermissionFlagsBits,
   type PublicThreadChannel,
+  roleMention,
   SectionBuilder,
   SeparatorBuilder,
   SeparatorSpacingSize,
@@ -25,11 +24,13 @@ import {
   TextInputBuilder,
   TextInputStyle,
   ThumbnailBuilder,
-  escapeMarkdown,
-  hyperlink,
-  roleMention,
 } from 'discord.js';
 import { eq } from 'drizzle-orm';
+import { blurple, red } from '@/constants/emojis';
+import { dashboard } from '@/constants/links';
+import { db } from '@/modules/drizzle';
+import { channelField, scheduleField, userField } from '@/modules/fields';
+import { formatEmoji } from '@/modules/util';
 
 const messageContext = new MessageContext(
   {
@@ -113,6 +114,7 @@ const messageReportModal = new Modal(
   },
   async (interaction) => {
     if (!(interaction.inCachedGuild() && interaction.channel)) return;
+    if (interaction.components[0].type !== ComponentType.ActionRow) return;
 
     const setting = await db.query.reportSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, interaction.guildId),
