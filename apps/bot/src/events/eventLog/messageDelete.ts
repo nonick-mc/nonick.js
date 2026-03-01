@@ -1,10 +1,10 @@
+import type { GuildAuditLogsEntry, Message } from 'discord.js';
+import { AuditLogEvent, Collection, Colors, EmbedBuilder, Events, MessageFlags } from 'discord.js';
 import { red } from '@/constants/emojis';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
 import { channelField, scheduleField, userField } from '@/modules/fields';
 import { createAttachment, formatEmoji, getSendableChannel } from '@/modules/util';
-import { AuditLogEvent, Collection, Colors, EmbedBuilder, Events } from 'discord.js';
-import type { GuildAuditLogsEntry, Message } from 'discord.js';
 import { sendLogToRelatedReport } from './_function';
 
 const lastLogs = new Collection<string, GuildAuditLogsEntry<AuditLogEvent.MessageDelete>>();
@@ -12,7 +12,7 @@ const lastLogs = new Collection<string, GuildAuditLogsEntry<AuditLogEvent.Messag
 export default new DiscordEventBuilder({
   type: Events.MessageDelete,
   async execute(message) {
-    if (!message.inGuild()) return;
+    if (!message.inGuild() || message.flags.has(MessageFlags.Ephemeral)) return;
     const log = await getAuditLog(message);
     const executor = await log?.executor?.fetch().catch(() => null);
     const beforeMsg = await message.channel.messages

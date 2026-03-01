@@ -1,13 +1,13 @@
+import { Colors, EmbedBuilder, Events } from 'discord.js';
 import { db } from '@/modules/drizzle';
 import { DiscordEventBuilder } from '@/modules/events';
 import { channelField, scheduleField, userField } from '@/modules/fields';
 import { createAttachment, getSendableChannel } from '@/modules/util';
-import { Colors, EmbedBuilder, Events } from 'discord.js';
 
 export default new DiscordEventBuilder({
   type: Events.MessageUpdate,
   async execute(oldMessage, { content, attachments }) {
-    if (!oldMessage.inGuild()) return;
+    if (!oldMessage.inGuild() || oldMessage.author?.bot || oldMessage.webhookId) return;
     const setting = await db.query.msgEditLogSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, oldMessage.guild.id),
     });
