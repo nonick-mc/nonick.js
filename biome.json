@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
   "files": {
     "ignoreUnknown": true
   },
@@ -57,6 +57,11 @@
       "quoteStyle": "single",
       "jsxQuoteStyle": "single",
       "lineWidth": 100
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   }
 }
