@@ -12,11 +12,11 @@
     "@napi-rs/canvas": "0.1.59",
     "adm-zip": "^0.5.16",
     "axios": "^1.13.5",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.19",
     "discord-api-types": "catalog:",
-    "discord.js": "^14.19.3",
-    "dotenv": "^16.4.5",
-    "drizzle-kit": "^0.31.0",
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.6.1",
+    "drizzle-kit": "^0.31.9",
     "drizzle-orm": "catalog:",
     "node-cron": "^3.0.3",
     "pg": "catalog:"
@@ -24,13 +24,13 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@repo/database": "workspace:*",
-    "@types/adm-zip": "^0.5.6",
-    "@types/node": "^22.8.6",
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^22.19.12",
     "@types/node-cron": "^3.0.11",
-    "shx": "^0.3.4",
+    "shx": "^0.4.0",
     "ts-patch": "^3.3.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.5.4",
-    "typescript-transform-paths": "^3.5.5"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-transform-paths": "^3.5.6"
   }
 }
