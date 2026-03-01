@@ -1,5 +1,6 @@
 ﻿import 'server-only';
 
+import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@/lib/drizzle';
@@ -37,4 +38,5 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [dash()],
 });
