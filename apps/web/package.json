@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "biome check",
-    "format": "biome format --write"
+    "start": "next start"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
