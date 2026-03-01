@@ -58,5 +58,10 @@
       "jsxQuoteStyle": "single",
       "lineWidth": 100
     }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
   }
 }
