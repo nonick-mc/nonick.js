@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-beta.4",
+    "@better-auth/infra": "^0.1.8",
     "@better-fetch/fetch": "^1.1.21",
     "@hookform/resolvers": "^5.2.2",
     "@icons-pack/react-simple-icons": "^13.11.2",
@@ -16,7 +17,7 @@
     "@repo/database": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",
-    "better-auth": "^1.4.19",
+    "better-auth": "^1.5.0",
     "dayjs": "^1.11.19",
     "discord-api-types": "catalog:",
     "drizzle-orm": "catalog:",
