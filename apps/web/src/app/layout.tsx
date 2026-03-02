@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Noto_Sans } from 'next/font/google';
+import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 
-const notoSans = Noto_Sans({ variable: '--font-sans' });
+const notoSansJP = Noto_Sans_JP({ variable: '--font-sans' });
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={notoSans.variable}>
+    <html lang='en' className={notoSansJP.variable}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );
