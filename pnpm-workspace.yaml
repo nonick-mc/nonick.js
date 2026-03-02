@@ -11,4 +11,5 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@heroui/shared-utils'
   - esbuild
+  - msw
   - sharp
