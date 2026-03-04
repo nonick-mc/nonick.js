@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';
@@ -44,6 +44,9 @@ export const auth = betterAuth({
       // For Cloudflare
       ipAddressHeaders: ['cf-connecting-ip', 'x-forwarded-for'],
     },
+  },
+  experimental: {
+    joins: true,
   },
   plugins: [dash()],
 });
