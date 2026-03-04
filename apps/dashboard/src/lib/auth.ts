@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';
@@ -37,6 +37,12 @@ export const auth = betterAuth({
           discordUserId: profile.id,
         };
       },
+    },
+  },
+  advanced: {
+    ipAddress: {
+      // For Cloudflare
+      ipAddressHeaders: ['cf-connecting-ip', 'x-forwarded-for'],
     },
   },
   plugins: [dash()],
