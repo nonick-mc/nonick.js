@@ -1,4 +1,4 @@
-﻿import 'server-only';
+import 'server-only';
 
 import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';
@@ -6,6 +6,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@/lib/drizzle';
 
 export const auth = betterAuth({
+  appName: 'NoNICK.js',
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL as string,
   database: drizzleAdapter(db, {
     provider: 'pg',
