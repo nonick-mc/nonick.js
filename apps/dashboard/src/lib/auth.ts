@@ -1,4 +1,4 @@
-﻿import 'server-only';
+import 'server-only';
 
 import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';

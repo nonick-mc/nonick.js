@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-beta.4",
+    "@better-auth/drizzle-adapter": "^1.5.3",
     "@better-auth/infra": "^0.1.8",
     "@better-fetch/fetch": "^1.1.21",
     "@hookform/resolvers": "^5.2.2",
