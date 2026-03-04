@@ -6,6 +6,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '@/lib/drizzle';
 
 export const auth = betterAuth({
+  appName: 'NoNICK.js',
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL as string,
   database: drizzleAdapter(db, {
     provider: 'pg',
@@ -37,6 +38,15 @@ export const auth = betterAuth({
         };
       },
     },
+  },
+  advanced: {
+    ipAddress: {
+      // For Cloudflare
+      ipAddressHeaders: ['cf-connecting-ip', 'x-forwarded-for'],
+    },
+  },
+  experimental: {
+    joins: true,
   },
   plugins: [dash()],
 });
