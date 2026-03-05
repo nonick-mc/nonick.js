@@ -1,5 +1,5 @@
 ﻿{
-  "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
     "ignoreUnknown": true
   },
@@ -8,11 +8,10 @@
     "enabled": true,
     "includes": [
       "**",
-      "!**/.next",
       "!**/node_modules",
-      "!**/.github",
-      "!**/.vscode",
-      "!**/dist"
+      "!!**/.next",
+      "!!**/.turbo",
+      "!!**/dist"
     ],
     "rules": {
       "recommended": true,
