@@ -5,7 +5,7 @@ Discordサーバーの運営をサポートする多機能BOTです。
 「基本無料・オープンソース」の理念のもと、開発を続けています。
 
 ## 🔗リンク
-* サポートサーバー: https://discord.gg/q4FcBm2P42
+* サポートサーバー: https://discord.gg/nonick-mc
 * Webダッシュボード: https://dashboard.nonick-js.com
 * ロードマップ: https://github.com/users/nonick-mc/projects/2
 
