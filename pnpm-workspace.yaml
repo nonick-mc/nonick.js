@@ -8,7 +8,11 @@ catalog:
   pg: 8.16.0
 
 onlyBuiltDependencies:
-  - '@biomejs/biome'
-  - '@heroui/shared-utils'
+  - "@biomejs/biome"
+  - "@heroui/shared-utils"
   - esbuild
   - sharp
+
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
