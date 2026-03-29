@@ -1,19 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { cn } from '@/lib/utils';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
+  variable: '--font-sans',
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
   subsets: ['latin'],
+  variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
@@ -27,8 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ja' suppressHydrationWarning>
-      <body className='min-h-full flex flex-col'>
+    <html
+      lang='ja'
+      suppressHydrationWarning
+      className={cn('antialiased', geistMono.variable, 'font-sans', notoSansJP.variable)}
+    >
+      <body>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
