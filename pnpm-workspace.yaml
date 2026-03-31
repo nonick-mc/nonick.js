@@ -7,12 +7,12 @@ catalog:
   drizzle-orm: 0.41.0
   pg: 8.16.0
 
-onlyBuiltDependencies:
-  - "@biomejs/biome"
-  - "@heroui/shared-utils"
-  - esbuild
-  - sharp
-
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@heroui/shared-utils'
+  - esbuild
+  - sharp

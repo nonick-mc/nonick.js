@@ -1,0 +1,52 @@
+import 'server-only';
+
+import { dash } from '@better-auth/infra';
+import { betterAuth } from 'better-auth';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { db } from '@/lib/db';
+
+export const auth = betterAuth({
+  appName: 'NoNICK.js',
+  baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+  database: drizzleAdapter(db, {
+    provider: 'pg',
+  }),
+  user: {
+    additionalFields: {
+      globalName: {
+        type: 'string',
+        required: false,
+        defaultValue: null,
+      },
+      discordUserId: {
+        type: 'string',
+        required: true,
+      },
+    },
+  },
+  socialProviders: {
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      scope: ['guilds'],
+      overrideUserInfoOnSignIn: true,
+      mapProfileToUser: (profile) => {
+        return {
+          name: profile.username,
+          globalName: profile.global_name,
+          discordUserId: profile.id,
+        };
+      },
+    },
+  },
+  advanced: {
+    ipAddress: {
+      // For Cloudflare
+      ipAddressHeaders: ['cf-connecting-ip', 'x-forwarded-for'],
+    },
+  },
+  experimental: {
+    joins: true,
+  },
+  plugins: [dash()],
+});
