@@ -148,8 +148,8 @@ importers:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
       shadcn:
-        specifier: ^4.1.0
-        version: 4.1.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(typescript@5.9.3)
+        specifier: ^4.1.2
+        version: 4.1.2(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(typescript@5.9.3)
       tailwind-merge:
         specifier: ^3.5.0
         version: 3.5.0
@@ -4402,8 +4402,8 @@ packages:
     resolution: {integrity: sha512-jPRx44e+eyeV7xwY3BLJXcfrks00+M0h5BGB9l6DdcBW4BpAj4x3lVmVy0TXPEs2iHEisxejr62sZAAw6B1EVA==}
     hasBin: true
 
-  shadcn@4.1.0:
-    resolution: {integrity: sha512-3zETJ+0Ezj69FS6RL0HOkLKKAR5yXisXx1iISJdfLQfrUqj/VIQlanQi1Ukk+9OE+XHZVj4FQNTBSfbr2CyCYg==}
+  shadcn@4.1.2:
+    resolution: {integrity: sha512-qNQcCavkbYsgBj+X09tF2bTcwRd8abR880bsFkDU2kMqceMCLAm5c+cLg7kWDhfh1H9g08knpQ5ZEf6y/co16g==}
     hasBin: true
 
   sharp@0.34.5:
@@ -8854,7 +8854,7 @@ snapshots:
       - supports-color
       - typescript
 
-  shadcn@4.1.0(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(typescript@5.9.3):
+  shadcn@4.1.2(@types/node@20.19.35)(babel-plugin-macros@3.1.0)(typescript@5.9.3):
     dependencies:
       '@babel/core': 7.29.0
       '@babel/parser': 7.29.0
