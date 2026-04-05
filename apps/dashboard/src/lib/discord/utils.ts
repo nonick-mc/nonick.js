@@ -7,7 +7,7 @@
 
 /** 特定の権限が含まれていれば`true`を返す */
 export function hasPermission(permissions: string, permission: bigint) {
-  return (Number.parseInt(permissions) & Number(permission)) === Number(permission);
+  return (BigInt(permissions) & permission) === permission;
 }
 
 /** チャンネルをDiscord上の配置順に並べ替え */
