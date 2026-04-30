@@ -10,11 +10,17 @@
   },
   "type": "module",
   "dependencies": {
+    "@repo/database": "workspace:*",
+    "common-tags": "^1.8.2",
     "discord.js": "^14.26.3",
     "dotenv": "^17.4.2",
+    "drizzle-orm": "catalog:",
+    "pg": "catalog:",
+    "picocolors": "^1.1.1",
     "sunar": "^0.7.3"
   },
   "devDependencies": {
+    "@types/common-tags": "^1.8.4",
     "@types/node": "^24.12.2",
     "tsdown": "^0.16.8",
     "tsx": "^4.21.0",
