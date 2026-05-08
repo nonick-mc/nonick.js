@@ -1,16 +1,10 @@
 import {
-  type APIGuildCategoryChannel,
   type APIGuildChannel,
-  type APIGuildStageVoiceChannel,
-  type APIGuildVoiceChannel,
   type APIRole,
+  type APISortableChannel,
   ChannelType,
   type GuildChannelType,
 } from 'discord-api-types/v10';
-
-function getChannelPosition(channel: APIGuildChannel<GuildChannelType>) {
-  return 'position' in channel && typeof channel.position === 'number' ? channel.position : 0;
-}
 
 /** 特定の権限が含まれていれば`true`を返す */
 export function hasPermission(permissions: string, permission: bigint) {
@@ -18,10 +12,8 @@ export function hasPermission(permissions: string, permission: bigint) {
 }
 
 /** チャンネルをDiscord上の配置順に並べ替え */
-export function sortChannels(channels: APIGuildChannel[]) {
-  const categories = channels.filter(
-    (channel) => channel.type === ChannelType.GuildCategory,
-  ) as APIGuildCategoryChannel[];
+export function sortChannels(channels: (APIGuildChannel & APISortableChannel)[]) {
+  const categories = channels.filter((channel) => channel.type === ChannelType.GuildCategory);
   const otherChannels = channels.filter((channel) => channel.type !== ChannelType.GuildCategory);
 
   categories.sort((a, b) => a.position - b.position);
@@ -34,13 +26,13 @@ export function sortChannels(channels: APIGuildChannel[]) {
     const childChannels = otherChannels.filter((channel) => channel.parent_id === category.id);
     const voiceChannels = childChannels.filter((channel) =>
       [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(channel.type),
-    ) as APIGuildVoiceChannel[] | APIGuildStageVoiceChannel[];
+    );
     const textChannels = childChannels.filter(
       (channel) => !voiceChannels.some((v) => v.id === channel.id),
     );
 
     voiceChannels.sort((a, b) => a.position - b.position);
-    textChannels.sort((a, b) => getChannelPosition(a) - getChannelPosition(b));
+    textChannels.sort((a, b) => a.position - b.position);
 
     sortedChannels.push(...textChannels, ...voiceChannels);
   }
@@ -53,8 +45,8 @@ export function sortChannels(channels: APIGuildChannel[]) {
     (channel) => !rootVoiceChannels.some((v) => v.id === channel.id),
   );
 
-  rootVoiceChannels.sort((a, b) => getChannelPosition(a) - getChannelPosition(b));
-  rootTextChannels.sort((a, b) => getChannelPosition(a) - getChannelPosition(b));
+  rootVoiceChannels.sort((a, b) => a.position - b.position);
+  rootTextChannels.sort((a, b) => a.position - b.position);
 
   sortedChannels.unshift(...rootTextChannels, ...rootVoiceChannels);
   return sortedChannels;
