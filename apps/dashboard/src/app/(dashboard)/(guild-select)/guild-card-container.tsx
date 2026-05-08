@@ -12,7 +12,7 @@ import {
 import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 import { PlusIcon, SearchIcon, ServerIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useQueryState } from 'nuqs';
 import { useDebounceValue } from 'usehooks-ts';
 import { inviteBotUrl } from '@/lib/discord/constants';
 import { GuildCard } from './guild-card';
@@ -22,9 +22,8 @@ type GuildCardContainerProps = {
 };
 
 export function GuildCardContainer({ guilds }: GuildCardContainerProps) {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q');
-  const [debouncedQuery] = useDebounceValue(query, 500);
+  const [query] = useQueryState('q');
+  const [debouncedQuery] = useDebounceValue(query, 300);
 
   if (!guilds.length) {
     return (
