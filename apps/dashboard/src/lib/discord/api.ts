@@ -4,6 +4,7 @@ import {
   type APIGuild,
   type APIGuildChannel,
   type APIRole,
+  type APISortableChannel,
   type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
@@ -37,7 +38,7 @@ export function getGuild(guildId: string, withCounts = false) {
 
 /** https://discord.com/developers/docs/resources/guild#get-guild-channels */
 export function getChannels(guildId: string) {
-  return discordBotUserFetch<APIGuildChannel<GuildChannelType>[], false>(
+  return discordBotUserFetch<(APIGuildChannel<GuildChannelType> & APISortableChannel)[], false>(
     `/guilds/${guildId}/channels`,
     { next: { revalidate: 60 }, throw: true },
   );

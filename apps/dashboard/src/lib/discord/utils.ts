@@ -1,6 +1,7 @@
-﻿import {
+import {
   type APIGuildChannel,
   type APIRole,
+  type APISortableChannel,
   ChannelType,
   type GuildChannelType,
 } from 'discord-api-types/v10';
@@ -11,13 +12,13 @@ export function hasPermission(permissions: string, permission: bigint) {
 }
 
 /** チャンネルをDiscord上の配置順に並べ替え */
-export function sortChannels(channels: APIGuildChannel<GuildChannelType>[]) {
+export function sortChannels(channels: (APIGuildChannel & APISortableChannel)[]) {
   const categories = channels.filter((channel) => channel.type === ChannelType.GuildCategory);
   const otherChannels = channels.filter((channel) => channel.type !== ChannelType.GuildCategory);
 
   categories.sort((a, b) => a.position - b.position);
 
-  const sortedChannels: APIGuildChannel<GuildChannelType>[] = [];
+  const sortedChannels: APIGuildChannel[] = [];
 
   for (const category of categories) {
     sortedChannels.push(category);
