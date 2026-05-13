@@ -1,6 +1,4 @@
-# Directory
 node_modules
 dist
 
-# File
 .env
