@@ -1,4 +1,4 @@
-import { type ContainerBuilder, type Guild, MessageFlags } from 'discord.js';
+import { type Guild, type MessageCreateOptions, MessageFlags } from 'discord.js';
 import { sendViaWebhook } from '@/src/lib/webhook';
 
 type LogSetting = { enabled: boolean; channel: string | null; ignoreRoles: string[] } | undefined;
@@ -6,7 +6,7 @@ type LogSetting = { enabled: boolean; channel: string | null; ignoreRoles: strin
 export async function sendEventLog(
   guild: Guild,
   setting: LogSetting,
-  components: ContainerBuilder[],
+  messageOptions: Omit<MessageCreateOptions, 'flags' | 'allowedMentions'>,
   executorId?: string | null,
 ) {
   if (!setting?.enabled || !setting.channel) return;
@@ -17,7 +17,7 @@ export async function sendEventLog(
   }
 
   await sendViaWebhook(guild, setting.channel, {
-    components,
+    ...messageOptions,
     flags: MessageFlags.IsComponentsV2,
     allowedMentions: { parse: [] },
   });

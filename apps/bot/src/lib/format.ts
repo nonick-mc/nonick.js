@@ -1,6 +1,6 @@
 import {
-  type GuildTextBasedChannel,
   inlineCode,
+  type TextBasedChannel,
   TimestampStyles,
   time,
   type User,
@@ -25,8 +25,9 @@ export function baseField(emojiName: EmojiName, label: string, value: string) {
 export function userField(emojiName: EmojiName, label: string, user: User) {
   return baseField(emojiName, label, `${user} ${inlineCode(user.username)}`);
 }
-export function channelField(emojiName: EmojiName, label: string, channel: GuildTextBasedChannel) {
-  return baseField(emojiName, label, `${channel} ${inlineCode(channel.name)}`);
+export function channelField(emojiName: EmojiName, label: string, channel: TextBasedChannel) {
+  const name = 'name' in channel && channel.name ? inlineCode(channel.name) : '';
+  return baseField(emojiName, label, name ? `${channel} ${name}` : `${channel}`);
 }
 export function reasonField(emojiName: EmojiName, label: string, value: string | null) {
   return baseField(emojiName, label, value ?? inlineCode('理由が入力されていません'));

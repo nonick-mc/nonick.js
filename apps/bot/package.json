@@ -13,6 +13,8 @@
     "@repo/database": "workspace:*",
     "@repo/placeholders": "workspace:*",
     "@repo/shared": "workspace:*",
+    "adm-zip": "^0.6.0",
+    "axios": "^1.20.0",
     "common-tags": "^1.8.2",
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",

@@ -83,5 +83,5 @@ execute(signal, async (auditLogEntry, guild) => {
               ),
           ),
       ];
-  await sendEventLog(guild, setting, components, auditLogEntry.executorId);
+  await sendEventLog(guild, setting, { components }, auditLogEntry.executorId);
 });
