@@ -16,12 +16,15 @@ import {
   type PublicThreadChannel,
   roleMention,
   SectionBuilder,
+  SeparatorBuilder,
+  SeparatorSpacingSize,
   subtext,
   TextDisplayBuilder,
   ThumbnailBuilder,
   unorderedList,
 } from 'discord.js';
 import { execute, Modal } from 'sunar';
+import { addMessageContent } from '@/src/app/shared/message-content';
 import { Default, Destructive, getAppEmoji, Primary } from '@/src/constants/emoji';
 import { db } from '@/src/lib/db';
 import {
@@ -154,6 +157,30 @@ execute(modal, async (interaction) => {
     );
   }
 
+  const messageContainer = new ContainerBuilder()
+    .addSectionComponents(
+      new SectionBuilder()
+        .addTextDisplayComponents(
+          new TextDisplayBuilder().setContent(
+            [
+              heading('メッセージの情報', HeadingLevel.Three),
+              unorderedList([
+                userField(Default.userRound, '送信者', targetMessage.author),
+                channelField(Default.hash, '送信先', targetMessage.channel),
+                timeField(Default.calendarClock, '送信時刻', targetMessage.createdAt),
+              ]),
+            ].join('\n'),
+          ),
+        )
+        .setThumbnailAccessory(
+          new ThumbnailBuilder().setURL(targetMessage.author.displayAvatarURL()),
+        ),
+    )
+    .addSeparatorComponents(new SeparatorBuilder().setSpacing(SeparatorSpacingSize.Large))
+    .addTextDisplayComponents(new TextDisplayBuilder().setContent(subtext('メッセージの内容')));
+
+  const messageFiles = await addMessageContent(messageContainer, targetMessage);
+
   components.push(
     new ContainerBuilder().addTextDisplayComponents(
       new TextDisplayBuilder().setContent(
@@ -167,28 +194,7 @@ execute(modal, async (interaction) => {
         ]),
       ),
     ),
-    new ContainerBuilder()
-      .addSectionComponents(
-        new SectionBuilder()
-          .addTextDisplayComponents(
-            new TextDisplayBuilder().setContent(
-              [
-                heading('メッセージの情報', HeadingLevel.Three),
-                unorderedList([
-                  userField(Default.userRound, '送信者', targetMessage.author),
-                  channelField(Default.hash, '送信先', targetMessage.channel),
-                  timeField(Default.calendarClock, '送信時刻', targetMessage.createdAt),
-                ]),
-              ].join('\n'),
-            ),
-          )
-          .setThumbnailAccessory(
-            new ThumbnailBuilder().setURL(targetMessage.author.displayAvatarURL()),
-          ),
-      )
-      .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent(subtext('メッセージの内容はスレッドで確認できます。')),
-      ),
+    messageContainer,
     new ActionRowBuilder<ButtonBuilder>().setComponents(
       new ButtonBuilder()
         .setCustomId('report:resolve')
@@ -207,6 +213,7 @@ execute(modal, async (interaction) => {
 
   const messageOption: MessageCreateOptions = {
     components,
+    files: messageFiles,
     flags: [MessageFlags.IsComponentsV2],
     allowedMentions: { parse: ['roles'] },
   };
@@ -229,8 +236,6 @@ execute(modal, async (interaction) => {
         });
         break;
     }
-
-    await createdThread?.send({ forward: { message: targetMessage } });
 
     if (createdThread) {
       await db.insert(report).values({
