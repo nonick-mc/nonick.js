@@ -8,15 +8,20 @@ import {
 import { createAttachment, createJsonAttachment } from '@/src/lib/utils';
 
 // メッセージの内容（本文・添付ファイル・埋め込み・コンポーネント）をcontainerに追加する
-export async function addMessageContent(container: ContainerBuilder, message: Message) {
+export async function addMessageContent(
+  container: ContainerBuilder,
+  message: Message,
+  filePrefix = '',
+) {
   const attachment = message.attachments.size
     ? await createAttachment(message.attachments)
     : undefined;
+  attachment?.setName(`${filePrefix}${attachment.name ?? 'attachments.zip'}`);
   const embedsAttachment = message.embeds.length
-    ? createJsonAttachment(message.embeds, 'embeds.json')
+    ? createJsonAttachment(message.embeds, `${filePrefix}embeds.json`)
     : undefined;
   const componentsAttachment = message.components.length
-    ? createJsonAttachment(message.components, 'components.json')
+    ? createJsonAttachment(message.components, `${filePrefix}components.json`)
     : undefined;
   const files = [attachment, embedsAttachment, componentsAttachment].filter(
     (f): f is AttachmentBuilder => f !== undefined,
