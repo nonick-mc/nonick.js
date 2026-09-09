@@ -6,6 +6,7 @@ import {
   HeadingLevel,
   heading,
   type Message,
+  MessageFlags,
   SectionBuilder,
   SeparatorBuilder,
   SeparatorSpacingSize,
@@ -27,7 +28,7 @@ export const signal = new Signal(Events.MessageDelete);
 execute(signal, async (message) => {
   const guild = message.guild;
   if (!guild) return;
-  if (message.partial) return;
+  if (message.partial || message.flags.has(MessageFlags.Ephemeral)) return;
 
   const setting = await db.query.msgDeleteLogSetting.findFirst({
     where: (setting, { eq }) => eq(setting.guildId, guild.id),
