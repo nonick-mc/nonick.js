@@ -81,6 +81,12 @@ const messageContext = new MessageContext(
         flags: MessageFlags.Ephemeral,
       });
     }
+    if (targetMember?.roles.cache.some((role) => setting.ignoreRoles.includes(role.id))) {
+      return interaction.reply({
+        content: '`❌` このユーザーを通報することはできません。',
+        flags: MessageFlags.Ephemeral,
+      });
+    }
     if (interaction.targetMessage.webhookId) {
       return interaction.reply({
         content: '`❌` Webhookを通報することはできません。',

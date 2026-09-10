@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Logo } from '@/components/logo';
 import { Links } from '@/lib/constants';
+import { BotPermissionWarning } from './bot-permission-warning';
 import { GuildSwitcher } from './guild-switcher';
 import { SidebarNavigation } from './sidebar-navigation';
 
@@ -44,6 +45,9 @@ export function AppSidebar({ guildId }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
+              <Suspense fallback={null}>
+                <BotPermissionWarning guildId={guildId} />
+              </Suspense>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href={Links.Docs} target='_blank'>

@@ -55,6 +55,7 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
       forumCompletedTag: null,
       forumIgnoredTag: null,
       includeModerator: false,
+      ignoreRoles: [],
       showModerateLog: true,
       enableMention: false,
       mentionRoles: [],
@@ -131,6 +132,32 @@ export function SettingForm({ setting, channels, roles }: FormProps) {
                       aria-invalid={fieldState.invalid}
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                    />
+                  </Field>
+                )}
+              />
+              <FieldSeparator />
+              <Controller
+                control={form.control}
+                name='ignoreRoles'
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} orientation='responsive'>
+                    <FieldContent>
+                      <FieldLabel htmlFor={field.name}>通報の対象外にするロール</FieldLabel>
+                      <FieldDescription>
+                        設定したロールを持つユーザーは、メンバーから通報できなくなります。
+                      </FieldDescription>
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </FieldContent>
+                    <RoleSelect
+                      ref={field.ref}
+                      id={field.name}
+                      aria-invalid={fieldState.invalid}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      className='sm:max-w-sm sm:min-w-sm'
+                      roles={roles}
+                      disabledItemFilter={(role) => role.id === guildId}
                     />
                   </Field>
                 )}
