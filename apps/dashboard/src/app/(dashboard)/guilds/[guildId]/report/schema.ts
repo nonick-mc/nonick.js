@@ -11,6 +11,10 @@ export const formSchema = createInsertSchema(reportSetting, {
   channel: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
   forumCompletedTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
   forumIgnoredTag: (schema) => schema.regex(snowflakeRegex, '無効なIDです。'),
+  ignoreRoles: z
+    .array(snowflakeSchema)
+    .max(10, 'ロールは最大10個まで設定できます。')
+    .refine(isUniqueArray, '重複した値が含まれています。'),
   mentionRoles: z
     .array(snowflakeSchema)
     .max(10, 'ロールは最大10個まで設定できます。')
