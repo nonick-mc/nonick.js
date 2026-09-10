@@ -23,7 +23,9 @@ function createEmojiMap<P extends string, T extends readonly string[]>(
 }
 
 // #22c55e
-export const Success = createEmojiMap('success', ['circleCheck'] as const);
+
+// #10b981
+export const Success = createEmojiMap('success', ['circleCheck', 'volume2'] as const);
 // #ef4444
 export const Destructive = createEmojiMap('destructive', [
   'shieldAlert',
@@ -33,6 +35,7 @@ export const Destructive = createEmojiMap('destructive', [
   'clock',
   'ban',
   'logOut',
+  'volumeOff',
 ] as const);
 // #a1a1aa
 export const Default = createEmojiMap('default', [
@@ -44,7 +47,7 @@ export const Default = createEmojiMap('default', [
   'squarePen',
 ] as const);
 // #f39c0b
-export const Warning = createEmojiMap('warning', ['circleAlert'] as const);
+export const Warning = createEmojiMap('warning', ['volume2'] as const);
 // #3b82f6
 export const Primary = createEmojiMap('primary', [
   'userRoundPen',
